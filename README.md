@@ -45,4 +45,4 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ---
 
-node version 12.19.0 LTS
+node version 16.16.0 LTS
