@@ -1,0 +1,249 @@
+import { UncertainIconDrawer } from "./UncertainIconDrawer";
+import { TermType } from "./../DataImporter";
+import { DataStructureSet } from "../DataStructureMaker/DataStructureManager";
+import { DebateDataSet } from "./../../../interfaces/DebateDataInterface";
+/* eslint-disable no-unused-vars */
+import { SimilarityBlocksDrawer } from "./SimilarityBlocksDrawer";
+import { ParticipantBlocksDrawer } from "./ParticipantBlocksDrawer";
+import { UtteranceObjectForDrawing, SimilarityBlock } from "../interfaces";
+import * as d3 from "d3";
+import _ from "lodash";
+import { TopicGroupsDrawer } from "./TopicGroupsDrawer";
+import { D3ZoomEvent, zoomTransform } from "d3";
+import { ParticipantDict } from "../../../common_functions/makeParticipants";
+import { KeytermObject } from "../../../interfaces/DebateDataInterface";
+import { InsistenceMarkersDrawer } from "./InsistenceMarkersDrawer";
+import { RefutationIconDrawer } from "./RefutationIconDrawer";
+import { InsistenceIconDrawer } from "./InsistenceIconDrawer";
+
+export class D3Drawer {
+  private readonly conceptRecurrencePlotDiv!: d3.Selection<
+    HTMLDivElement,
+    any,
+    HTMLElement,
+    any
+  >;
+  private readonly svgSelection!: d3.Selection<
+    SVGSVGElement,
+    MouseEvent,
+    HTMLElement,
+    any
+  >;
+  private readonly svgGSelection!: d3.Selection<
+    SVGGElement,
+    MouseEvent,
+    HTMLElement,
+    any
+  >;
+
+  public readonly participantBlocksDrawer: ParticipantBlocksDrawer;
+  public readonly insistenceMarkersDrawer: InsistenceMarkersDrawer;
+  public readonly refutationIconDrawer: RefutationIconDrawer;
+  public readonly insistenceIconDrawer: InsistenceIconDrawer;
+  public readonly uncertainIconDrawer: UncertainIconDrawer;
+  public readonly similarityBlocksDrawer: SimilarityBlocksDrawer;
+  public readonly topicGroupsDrawer: TopicGroupsDrawer;
+  public readonly manualSmallTGsDrawer: TopicGroupsDrawer;
+  public readonly manualMiddleTGsDrawer: TopicGroupsDrawer;
+  public readonly manualBigTGsDrawer: TopicGroupsDrawer;
+  public readonly manualPeopleTGsDrawer: TopicGroupsDrawer;
+  public readonly lcsegEGsDrawer: TopicGroupsDrawer;
+  private readonly svgWidth: number;
+  private readonly svgHeight: number;
+  // private _svgBackgroundClickListener?: (event: MouseEvent) => void;
+  private _zoomListener: ((transform: d3.ZoomTransform) => void) | null = null;
+
+  public constructor(
+    // private readonly utteranceObjectsForDrawing: UtteranceObjectForDrawing[],
+    // conceptSimilarityBlocks: SimilarityBlock[],
+    // conceptSimilarityGroup: SimilarityBlock[][],
+    // participantDict: ParticipantDict,
+    // conceptMatrixTransposed: number[][],
+    // keytermObjects: KeytermObject[],
+    // termList: string[],
+    // termUtteranceBooleanMatrixTransposed: number[][]
+    private readonly debateDataSet: DebateDataSet,
+    private readonly dataStructureSet: DataStructureSet,
+    private readonly termType: TermType
+  ) {
+    // declare variables
+    this.conceptRecurrencePlotDiv = d3.select(".concept-recurrence-plot");
+    this.svgWidth = this.conceptRecurrencePlotDiv.node()!.clientWidth;
+    this.svgHeight = this.conceptRecurrencePlotDiv.node()!.clientHeight;
+    this.svgSelection = this.conceptRecurrencePlotDiv
+      .select<SVGSVGElement>("svg")
+      .attr("width", this.svgWidth)
+      .attr("height", this.svgHeight)
+      .call(
+        d3
+          .zoom<SVGSVGElement, D3ZoomEvent<SVGSVGElement, any>>()
+          .on("zoom", (event) => {
+            //@ts-ignore
+            this.svgGSelection.attr("transform", () => event.transform);
+            if (this._zoomListener) {
+              this._zoomListener(event.transform);
+            }
+          })
+      );
+
+    this.svgGSelection = this.svgSelection.select(".svgG");
+
+    this.participantBlocksDrawer = new ParticipantBlocksDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      dataStructureSet.participantDict,
+      dataStructureSet.similarityBlockManager.similarityBlocks,
+      debateDataSet.conceptMatrixTransposed,
+      debateDataSet.keytermObjects,
+      this.svgGSelection
+    );
+    this.insistenceMarkersDrawer = new InsistenceMarkersDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      dataStructureSet.similarityBlockManager.similarityBlockGroup,
+      this.svgGSelection
+    );
+    this.refutationIconDrawer = new RefutationIconDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      this.svgGSelection
+    );
+    this.insistenceIconDrawer = new InsistenceIconDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      this.svgGSelection
+    );
+    this.uncertainIconDrawer = new UncertainIconDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      this.svgGSelection
+    );
+    this.similarityBlocksDrawer = new SimilarityBlocksDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      dataStructureSet.similarityBlockManager.similarityBlocks,
+      dataStructureSet.similarityBlockManager.similarityBlockGroup,
+      dataStructureSet.participantDict,
+      this.svgGSelection
+    );
+
+    this.similarityBlocksDrawer.clickListener = (
+      e: MouseEvent,
+      d: SimilarityBlock
+    ) => {
+      this.refutationIconDrawer.similarityBlock = null;
+      this.insistenceIconDrawer.similarityBlock = null;
+      this.uncertainIconDrawer.similarityBlock = null;
+
+      if (d.refutation) {
+        this.refutationIconDrawer.similarityBlock = d;
+
+        const colUtteranceObject = this.dataStructureSet
+          .utteranceObjectsForDrawingManager.utteranceObjectsForDrawing[
+          d.columnUtteranceIndex
+        ];
+        if (colUtteranceObject.insistence) {
+          this.insistenceIconDrawer.similarityBlock = d;
+        } else {
+          // unknown insistence
+          this.uncertainIconDrawer.similarityBlock = d;
+        }
+      }
+
+      this.refutationIconDrawer.update();
+      this.insistenceIconDrawer.update();
+      this.uncertainIconDrawer.update();
+    };
+
+    this.participantBlocksDrawer.clickListener = () => {
+      this.similarityBlocksDrawer.update();
+    };
+    this.topicGroupsDrawer = new TopicGroupsDrawer(
+      this.svgGSelection,
+      debateDataSet,
+      dataStructureSet,
+      termType
+    );
+    this.manualSmallTGsDrawer = new TopicGroupsDrawer(
+      this.svgGSelection,
+      debateDataSet,
+      dataStructureSet,
+      termType
+    );
+    this.manualSmallTGsDrawer.color = "#424242";
+    this.manualMiddleTGsDrawer = new TopicGroupsDrawer(
+      this.svgGSelection,
+      debateDataSet,
+      dataStructureSet,
+      termType
+    );
+    this.manualMiddleTGsDrawer.color = "#939393";
+    this.manualBigTGsDrawer = new TopicGroupsDrawer(
+      this.svgGSelection,
+      debateDataSet,
+      dataStructureSet,
+      termType
+    );
+    this.manualBigTGsDrawer.color = "#939393";
+    this.manualPeopleTGsDrawer = new TopicGroupsDrawer(
+      this.svgGSelection,
+      debateDataSet,
+      dataStructureSet,
+      termType
+    );
+    this.manualPeopleTGsDrawer.color = "#3C3CD3";
+    this.lcsegEGsDrawer = new TopicGroupsDrawer(
+      this.svgGSelection,
+      debateDataSet,
+      dataStructureSet,
+      termType
+    );
+    this.lcsegEGsDrawer.color = "#cc9900";
+
+    this.svgSelection.on("click", (event) => {
+      console.log("svg clicked", event);
+      // show all similarityBlocks
+      _.forEach(
+        dataStructureSet.similarityBlockManager.similarityBlocks,
+        (similarityBlock) => {
+          similarityBlock.visible = true;
+        }
+      );
+      this.similarityBlocksDrawer.update();
+      this.participantBlocksDrawer.emptySelectedParticipants();
+
+      this.insistenceIconDrawer.similarityBlock = null;
+      this.insistenceIconDrawer.update();
+      this.refutationIconDrawer.similarityBlock = null;
+      this.refutationIconDrawer.update();
+      this.uncertainIconDrawer.similarityBlock = null;
+      this.uncertainIconDrawer.update();
+    });
+  }
+
+  public centerConceptualRecurrentPlot() {
+    const utteranceObjectsForDrawing = this.dataStructureSet
+      .utteranceObjectsForDrawingManager.utteranceObjectsForDrawing;
+    if (utteranceObjectsForDrawing.length !== 0) {
+      const lastUtteranceObjectForDrawing =
+        utteranceObjectsForDrawing[utteranceObjectsForDrawing.length - 1];
+
+      const minusWidth =
+        lastUtteranceObjectForDrawing.beginningPointOfXY +
+        lastUtteranceObjectForDrawing.width;
+      const adjustedWidth = (this.svgWidth - minusWidth) / 2;
+
+      const adjustedHeight = (this.svgHeight - minusWidth) / 2;
+
+      this.svgGSelection.attr(
+        "transform",
+        `translate(${adjustedWidth}, ${adjustedHeight})`
+      );
+      if (this._zoomListener) {
+        const element = document.createElement("div");
+        const transform = zoomTransform(element);
+        this._zoomListener(transform.translate(adjustedWidth, adjustedHeight));
+      }
+    } else {
+      console.warn("no utteranceObjectsForDrawing");
+    }
+  }
+
+  public set zoomListener(zoomListener: (transform: d3.ZoomTransform) => void) {
+    this._zoomListener = zoomListener;
+  }
+}
