@@ -72,7 +72,7 @@ export class SimilarityBlockManager {
           beginningPointOfY: rowUtteranceObject.beginningPointOfXY,
           width: colUtteranceObject.width,
           height: rowUtteranceObject.width,
-          similarity: similarityScore,
+          similarity: similarityScore, // 여기서 유사도에 의한 계산이 진행됨.
           // similarityScore: math.dot(utterance1Concept, utterance2Concept),
           // similarityScore: makeCosineSimilarity(
           //   utterance1Concept,

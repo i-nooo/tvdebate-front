@@ -66,11 +66,11 @@ export function makeParticipants(
     });
   } else if (debateName === "기본소득") {
     const colorDictionary: { [index: number]: string } = {
-      0: "#000000",
-      1: "#C941AF",
-      2: "#C98E41",
-      3: "#4161C9",
-      4: "#41C9C9",
+      0: "hsl(10, 0%, 50%)", // 시청자
+      1: "#FF0000",
+      2: "#00FF00",
+      3: "#3CB043",
+      4: "#A020F0",
       5: "#333333",
     };
     participants = _.map(names, (name, index) => {
@@ -105,10 +105,10 @@ export function makeParticipants(
     });
   } else if (debateName === "기본소득clipped") {
     const colorDictionary: { [index: number]: string } = {
-      0: "#C941AF",
-      1: "#C98E41",
-      2: "#4161C9",
-      3: "#41C9C9",
+      0: "#FF0000",
+      1: "#00FF00",
+      2: "#3CB043",
+      3: "#A020F0",
       4: "#333333",
     };
     participants = _.map(names, (name, index) => {
@@ -140,10 +140,10 @@ export function makeParticipants(
     });
   } else if (debateName === "정시확대" || debateName === "정시확대clipped") {
     const colorDictionary: { [index: number]: string } = {
-      0: "#4161C9",
-      1: "#C941AF",
-      2: "#41C9C9",
-      3: "#C98E41",
+      0: "#FF0000",
+      1: "#00FF00",
+      2: "#3CB043",
+      3: "#A020F0",
       4: "#333333",
     };
     participants = _.map(names, (name, index) => {
@@ -175,10 +175,10 @@ export function makeParticipants(
     });
   } else if (debateName === "모병제" || debateName === "모병제clipped") {
     const colorDictionary: { [index: number]: string } = {
-      0: "#41C9C9",
-      1: "#C98E41",
-      2: "#C941AF",
-      3: "#4161C9",
+      0: "#FF0000",
+      1: "#00FF00",
+      2: "#3CB043",
+      3: "#A020F0",
       4: "#333333",
     };
     participants = _.map(names, (name, index) => {

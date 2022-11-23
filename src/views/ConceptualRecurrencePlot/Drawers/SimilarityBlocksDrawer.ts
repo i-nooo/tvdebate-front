@@ -68,6 +68,7 @@ export class SimilarityBlocksDrawer {
             )
           : "none";
       })
+      .style("stroke-width", 3)
       .style("stroke", (d) =>
         this._showEngagementPoint && d.engagementPoint ? "rgb(0, 0, 255)" : null
       );
@@ -92,6 +93,7 @@ export class SimilarityBlocksDrawer {
             )
           : "none";
       })
+      .style("stroke-width", 3)
       .style("stroke", (d) =>
         this._showEngagementPoint && d.engagementPoint ? "rgb(0, 0, 255)" : null
       )
@@ -136,8 +138,8 @@ export class SimilarityBlocksDrawer {
       } else {
         opacity = weightedSimilarity / limitConstant;
       }
-
-      let color = `rgba(79, 198, 66, ${opacity})`;
+      // 1123 투명도 조절하기.
+      let color = `rgba(150, 100, 100, 0.25)`;
       // let color = `rgba(0, 0, 0, ${opacity})`;
 
       const rowUtteranceObject =

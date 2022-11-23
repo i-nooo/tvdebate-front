@@ -66,7 +66,7 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
                 props.debateDataset!.keytermObjects[topValueIndex]
             );
 
-            let mainKeytermsString: string = "";
+            let mainKeytermsString: string = ""; //툴팁 주요 용어
             if (mainKeytermObjects.length <= numOfMainKeyterms) {
               mainKeytermsString = _.reduce(
                 mainKeytermObjects,
@@ -76,7 +76,7 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
                 ""
               );
             }
-
+            console.log(mainKeytermsString);
             return `${props.utteranceObjectForDrawing.name}  [${mainKeytermsString} ]`;
           } else {
             return "";

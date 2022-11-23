@@ -240,6 +240,7 @@ class Timeline extends React.Component {
 
     // draw topic text
     const topicGSelection = svgSelection.append("g");
+    console.log(topicGSelection);
     topicGSelection
       .selectAll("text")
       .data(agendas)

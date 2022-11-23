@@ -20,10 +20,10 @@ function Home(props: ComponentProps) {
   return (
     <div className={styles.home}>
       {/* <div className={styles.serviceTitle}>Conceptual Map of TV Debate</div> */}
-      <div className={styles.serviceTitle}>Topic Segmentation in Debate</div>
-      <div style={{ fontSize: 24 }}>
+      <div className={styles.serviceTitle}>DebateVis</div>
+      {/* <div style={{ fontSize: 24 }}>
         based on Conceptual Recurrence Plot & Debate Properties
-      </div>
+      </div> */}
 
       <Checkbox
         className={styles.checkbox}
@@ -46,45 +46,46 @@ function Home(props: ComponentProps) {
           className={styles.button}
           href={`/conceptual-recurrence-plot?debate_name=기본소득&term_type=${termType}`}
         >
-          &#39;기본소득&#39; 시대 과연 열릴까?
+          기본소득
         </Button>
         <Button
           className={styles.button}
           href={`/conceptual-recurrence-plot?debate_name=정시확대&term_type=${termType}`}
         >
-          &#39;정시 확대&#39; 논란, 무엇이 공정한가
+          정시 확대
         </Button>
-        {/* <Button className={styles.button}>
-            <Link to="/conceptual-recurrence-plot?debate_name=기본소득">
-              기본소득
-            </Link>
-          </Button> */}
+        {/* <Button
+          className={styles.button}
+          href={`/conceptual-recurrence-plot?debate_name=sample&term_type=${termType}`}
+        >
+          기본소득
+        </Button> */}
       </div>
       <div className={styles.links}>
         <Button
           className={styles.button}
           href={`/conceptual-recurrence-plot?debate_name=모병제&term_type=${termType}`}
         >
-          다시 불거진 &#39;모병제&#39; 논란
+          모병제
         </Button>
-        <Button
+        {/* <Button
           className={styles.button}
           href="/conceptual-recurrence-plot?debate_name=?"
         >
           (Not Activated) 집 값, 과연 이번엔 잡힐까?
-        </Button>
+        </Button> */}
       </div>
 
       <div className={styles.links}>
-        <Button
+        {/* <Button
           className={styles.button}
           href={`/conceptual-recurrence-plot?debate_name=sample&term_type=${termType}`}
         >
           sample
-        </Button>
+        </Button> */}
       </div>
 
-      <div className={styles.apiTestTitle}>API Test</div>
+      {/* <div className={styles.apiTestTitle}>API Test</div>
 
       <div className={styles.apiButtons}>
         <Button
@@ -143,14 +144,14 @@ function Home(props: ComponentProps) {
         >
           AI-Open API Test
         </Button>
-      </div>
+      </div> */}
 
-      <div className={styles.evaluationTitle}>Evaluation</div>
-      <Button>
+      {/* <div className={styles.evaluationTitle}>Evaluation</div> */}
+      {/* <Button>
         <Link to="/test-description?debate_name=기본소득clipped">
           Description of Evaluation
         </Link>
-      </Button>
+      </Button> */}
     </div>
   );
 }

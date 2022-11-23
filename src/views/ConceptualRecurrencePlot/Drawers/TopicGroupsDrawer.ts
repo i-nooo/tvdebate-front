@@ -142,7 +142,8 @@ export class TopicGroupsDrawer {
         })
         .style("fill", "none")
         .style("stroke-width", 1)
-        .style("stroke", () => (showEngagementGroup ? guideColor : "none"));
+        // .style("stroke", () => (showEngagementGroup ? guideColor : "none"));
+        .style("stroke", () => (showEngagementGroup ? "none" : "none"));
     }
 
     function setAttributesOfTopicText(
@@ -210,7 +211,8 @@ export class TopicGroupsDrawer {
         })
         .attr("text-anchor", "middle")
         .style("font-size", 8)
-        .style("fill", () => (arg.showTopicGroup ? arg.guideColor : "none"))
+        .style("fill", () => (arg.showTopicGroup ? "none" : "none"))
+        // .style("fill", () => (arg.showTopicGroup ? arg.guideColor : "none"))
         .style("cursor", "pointer")
         .on("click", (e, d) => {
           const mouseEvent = (e as unknown) as MouseEvent;

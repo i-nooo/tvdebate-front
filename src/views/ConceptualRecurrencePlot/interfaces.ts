@@ -9,12 +9,14 @@ export interface UtteranceObjectForDrawing extends UtteranceObject {
 }
 
 export interface SimilarityBlock {
+  // find utterance similarity matrix
   beginningPointOfX: number;
   beginningPointOfY: number;
   width: number;
   height: number;
   similarity: number;
   weight: number;
+  // stroke: number;
   rowUtteranceIndex: number;
   columnUtteranceIndex: number;
   other: boolean;

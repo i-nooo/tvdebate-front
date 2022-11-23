@@ -27,6 +27,8 @@ import { CHANGE_STANDARD_SIMILARITY_SCORE } from "../../redux/actionTypes";
 import CombinedEGsMaker from "./DataStructureMaker/CombinedEGsMaker";
 import { extractKeytermsFromEngagementGroup } from "./DataStructureMaker/extractTermsFromEngagementGroup";
 import ParticipantTooltip from "../../components/ParticipantTooltip/ParticipantTooltip";
+import Header from "./../Header/Header";
+import style from "./rootStyle.module.scss";
 
 function ConceptualRecurrencePlot() {
   const query = new URLSearchParams(useLocation().search);
@@ -266,7 +268,8 @@ function ConceptualRecurrencePlot() {
 
   return (
     <div className="root-div">
-      <Controllers
+      <Header />
+      {/* <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
         maxSimilarityScore={
@@ -282,7 +285,7 @@ function ConceptualRecurrencePlot() {
         dataStructureManager={
           dataStructureManager ? dataStructureManager : null
         }
-      ></Controllers>
+      ></Controllers> */}
       <div className="concept-recurrence-plot">
         <svg>
           <g className="svgG"></g>
