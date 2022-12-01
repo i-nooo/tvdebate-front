@@ -56,7 +56,7 @@ function App() {
           <Route path="/test-description">
             <DescriptionForManualTopicSegmentation />
           </Route>
-          <Route path="/conceptual-recurrence-plot">
+          <Route path="/coocurence_matrix">
             <ConceptualRecurrencePlot></ConceptualRecurrencePlot>
           </Route>
           <Route path="/">

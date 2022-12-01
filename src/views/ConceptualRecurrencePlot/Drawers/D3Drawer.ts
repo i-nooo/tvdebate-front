@@ -185,7 +185,7 @@ export class D3Drawer {
       dataStructureSet,
       termType
     );
-    this.manualPeopleTGsDrawer.color = "#3C3CD3";
+    this.manualPeopleTGsDrawer.color = "#c";
     this.lcsegEGsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,

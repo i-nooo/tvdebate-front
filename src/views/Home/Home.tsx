@@ -19,18 +19,12 @@ function Home(props: ComponentProps) {
 
   return (
     <div className={styles.home}>
-      {/* <div className={styles.serviceTitle}>Conceptual Map of TV Debate</div> */}
       <div className={styles.serviceTitle}>DebateVis</div>
-      {/* <div style={{ fontSize: 24 }}>
-        based on Conceptual Recurrence Plot & Debate Properties
-      </div> */}
-
-      <Checkbox
+      {/* <Checkbox
         className={styles.checkbox}
         defaultChecked
         onChange={(event) => {
           console.log(event.target.checked);
-
           if (event.target.checked) {
             setTermType("compound_term");
           } else {
@@ -39,24 +33,24 @@ function Home(props: ComponentProps) {
         }}
       >
         use compound_term
-      </Checkbox>
+      </Checkbox> */}
 
       <div className={styles.links}>
         <Button
           className={styles.button}
-          href={`/conceptual-recurrence-plot?debate_name=기본소득&term_type=${termType}`}
+          href={`/coocurence_matrix?debate_name=기본소득&term_type=${termType}`}
         >
           기본소득
         </Button>
         <Button
           className={styles.button}
-          href={`/conceptual-recurrence-plot?debate_name=정시확대&term_type=${termType}`}
+          href={`/coocurence_matrix?debate_name=정시확대&term_type=${termType}`}
         >
           정시 확대
         </Button>
         {/* <Button
           className={styles.button}
-          href={`/conceptual-recurrence-plot?debate_name=sample&term_type=${termType}`}
+          href={`/coocurence_matrix?debate_name=sample&term_type=${termType}`}
         >
           기본소득
         </Button> */}
@@ -64,13 +58,13 @@ function Home(props: ComponentProps) {
       <div className={styles.links}>
         <Button
           className={styles.button}
-          href={`/conceptual-recurrence-plot?debate_name=모병제&term_type=${termType}`}
+          href={`/coocurence_matrix?debate_name=모병제&term_type=${termType}`}
         >
           모병제
         </Button>
         {/* <Button
           className={styles.button}
-          href="/conceptual-recurrence-plot?debate_name=?"
+          href="/coocurence_matrix?debate_name=?"
         >
           (Not Activated) 집 값, 과연 이번엔 잡힐까?
         </Button> */}
@@ -79,7 +73,7 @@ function Home(props: ComponentProps) {
       <div className={styles.links}>
         {/* <Button
           className={styles.button}
-          href={`/conceptual-recurrence-plot?debate_name=sample&term_type=${termType}`}
+          href={`/coocurence_matrix?debate_name=sample&term_type=${termType}`}
         >
           sample
         </Button> */}
