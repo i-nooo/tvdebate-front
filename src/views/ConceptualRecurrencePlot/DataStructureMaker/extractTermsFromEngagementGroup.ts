@@ -133,7 +133,7 @@ export function extractTermsFromEngagementGroup(
     });
   });
   // console.log("highScoredKeyTermDict", highScoredKeyTermDict);
-  // console.log("grouptermCountDict", grouptermCountDict);
+  console.log("grouptermCountDict", grouptermCountDict);
   const termsOfGroup: string[] = [];
   _.forEach(grouptermCountDict, (count, term) => {
     if (count > standardHighCount) termsOfGroup.push(term);

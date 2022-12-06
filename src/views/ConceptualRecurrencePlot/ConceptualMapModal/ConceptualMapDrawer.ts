@@ -208,13 +208,13 @@ export class ConceptualMapDrawer {
             // }
             // scaledSentiment = scaledSentiment / 2 + 0.5;
             // return that.gradient.rgbAt(scaledSentiment).toHexString();
-
+            // 감성분석 결과 색상 조절.
             if (d.sentiment > 0.25 * 2) {
-              return "rgb(79, 198, 66)";
+              return "rgb(79, 198, 66)"; // green: 긍정
             } else if (d.sentiment < -0.25 * 2) {
-              return "rgb(196, 67, 67)";
+              return "rgb(196, 67, 67)"; // red: 부정
             } else {
-              return "rgb(100, 100, 100)";
+              return "rgb(100, 100, 100)"; // 중립
             }
           } else {
             return "none";

@@ -77,7 +77,8 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
               );
             }
             console.log(mainKeytermsString);
-            return `${props.utteranceObjectForDrawing.name}  [${mainKeytermsString} ]`;
+            return `${props.utteranceObjectForDrawing.name}`;
+            // return `${props.utteranceObjectForDrawing.name}  [${mainKeytermsString} ]`;
           } else {
             return "";
           }

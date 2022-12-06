@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import "./ConceptualRecurrencePlot.scss";
 import _ from "lodash";
-
 import { SimilarityBlock, UtteranceObjectForDrawing } from "./interfaces";
 import { makeEngagementGroups } from "./DataStructureMaker/makeEngagementGroups";
 import { D3Drawer } from "./Drawers/D3Drawer";
@@ -191,7 +190,7 @@ function ConceptualRecurrencePlot() {
           engagementGroup
         );
       };
-      d3Drawer.topicGroupsDrawer.visible = true;
+      d3Drawer.topicGroupsDrawer.visible = false;
 
       // Manual Small Engagement Group Drawer's Settings
       d3Drawer.manualSmallTGsDrawer.topicGroups = manualSmallEGs;
@@ -221,7 +220,7 @@ function ConceptualRecurrencePlot() {
           engagementGroup
         );
       };
-      d3Drawer.manualMiddleTGsDrawer.visible = false;
+      d3Drawer.manualMiddleTGsDrawer.visible = true;
 
       // Manual Big Engagement Group Drawer's Settings
       d3Drawer.manualBigTGsDrawer.topicGroups = manualBigEGs;
@@ -236,7 +235,7 @@ function ConceptualRecurrencePlot() {
           engagementGroup
         );
       };
-      d3Drawer.manualBigTGsDrawer.visible = false;
+      d3Drawer.manualBigTGsDrawer.visible = true;
 
       d3Drawer.manualPeopleTGsDrawer.onTitleClicked = (
         mouseEvent: MouseEvent,
@@ -252,7 +251,7 @@ function ConceptualRecurrencePlot() {
       d3Drawer.centerConceptualRecurrentPlot();
       d3Drawer.participantBlocksDrawer.update();
       d3Drawer.insistenceMarkersDrawer.update();
-
+      // similarityBlocksDrawer 그리는 곳
       d3Drawer!.similarityBlocksDrawer.standardHighPointOfSimilarityScore = standardSimilarityScore;
       d3Drawer.similarityBlocksDrawer.update();
       d3Drawer.topicGroupsDrawer.update();
@@ -269,7 +268,7 @@ function ConceptualRecurrencePlot() {
   return (
     <div className="root-div">
       <Header />
-      {/* <Controllers
+      <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
         maxSimilarityScore={
@@ -285,7 +284,7 @@ function ConceptualRecurrencePlot() {
         dataStructureManager={
           dataStructureManager ? dataStructureManager : null
         }
-      ></Controllers> */}
+      ></Controllers>
       <div className="concept-recurrence-plot">
         <svg>
           <g className="svgG"></g>

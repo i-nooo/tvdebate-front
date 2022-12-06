@@ -76,10 +76,11 @@ export class Controllers extends React.Component<
   ComponentState
 > {
   constructor(props: ComponentProps) {
+    // default controller state
     super(props);
     this.state = {
       semanticConsistency: 1000,
-      numberOfTopicGroups: 4,
+      numberOfTopicGroups: 7,
       groupSimilaritiesWeight: 1,
       borderSimilaritiesWeight: 0,
       pointSimilaritiesWeight: 0,
@@ -116,7 +117,7 @@ export class Controllers extends React.Component<
                   title: (
                     <Checkbox
                       className={styles.checkbox}
-                      defaultChecked
+                      // defaultChecked
                       onChange={(event) => {
                         console.log(event.target.checked);
                         this.props.d3Drawer!.topicGroupsDrawer.visible =
@@ -150,7 +151,7 @@ export class Controllers extends React.Component<
                   title: (
                     <Checkbox
                       className={styles.checkbox}
-                      // defaultChecked
+                      defaultChecked
                       onChange={(event) => {
                         console.log(event.target.checked);
                         this.props.d3Drawer!.manualMiddleTGsDrawer.visible =
@@ -167,7 +168,7 @@ export class Controllers extends React.Component<
                   title: (
                     <Checkbox
                       className={styles.checkbox}
-                      // defaultChecked
+                      defaultChecked
                       onChange={(event) => {
                         console.log(event.target.checked);
                         this.props.d3Drawer!.manualBigTGsDrawer.visible =
@@ -175,7 +176,7 @@ export class Controllers extends React.Component<
                         this.props.d3Drawer!.manualBigTGsDrawer.update();
                       }}
                     >
-                      Show Manual Big Groups
+                      Manual Big Groups
                     </Checkbox>
                   ),
                 },
@@ -694,6 +695,7 @@ export class Controllers extends React.Component<
 
         <Checkbox
           className={styles.checkbox}
+          defaultChecked
           onChange={(event) => {
             this.props.d3Drawer!.similarityBlocksDrawer.coloringRebuttal =
               event.target.checked;
@@ -710,7 +712,7 @@ export class Controllers extends React.Component<
         <div>Refutation (반박)</div>
         <SliderWithInput
           min={0}
-          max={40}
+          max={5}
           value={this.state.refutationWeight}
           step={0.1}
           onChangeListener={(changedValue) => {

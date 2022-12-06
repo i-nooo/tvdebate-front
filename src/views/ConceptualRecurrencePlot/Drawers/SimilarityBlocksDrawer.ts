@@ -19,7 +19,7 @@ export class SimilarityBlocksDrawer {
   >;
   private _coloringSelfSimilarities: ColoringSelfSimilarities = "none";
   private _showEngagementPoint: boolean = false;
-  private _coloringRebuttal: boolean = false;
+  private _coloringRebuttal: boolean = true; // 토론의 주장과 반박 연쇄 일어나는 구간 색상 부여
   private _standardHighPointOfSimilarityScore!: number;
   private _clickListener:
     | ((e: MouseEvent, d: SimilarityBlock) => void)
@@ -131,6 +131,7 @@ export class SimilarityBlocksDrawer {
       let opacity: number = 0;
 
       // Adjust Opacity
+      // 주장 반박 구간 색칠
       const weightedSimilarity =
         similarityBlock.weight * similarityBlock.similarity;
       if (weightedSimilarity > limitConstant) {
@@ -139,8 +140,8 @@ export class SimilarityBlocksDrawer {
         opacity = weightedSimilarity / limitConstant;
       }
       // 1123 투명도 조절하기.
-      let color = `rgba(150, 100, 100, 0.25)`;
-      // let color = `rgba(0, 0, 0, ${opacity})`;
+      // let color = `rgba(150, 100, 100, 0.25)`;
+      let color = `rgba(79, 198, 66, ${opacity})`;
 
       const rowUtteranceObject =
         utteranceObjectsForDrawing[similarityBlock.rowUtteranceIndex];

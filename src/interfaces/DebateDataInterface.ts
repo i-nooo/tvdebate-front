@@ -21,7 +21,7 @@ export interface TermCountDict {
 export interface KeytermObject {
   name: string;
   frequency: number;
-  index: number; // index of term_list
+  index: number;
 }
 
 export interface StopwordDict {

@@ -50,6 +50,7 @@ export class D3Drawer {
   public readonly lcsegEGsDrawer: TopicGroupsDrawer;
   private readonly svgWidth: number;
   private readonly svgHeight: number;
+  // private readonly svgRotate: number;
   // private _svgBackgroundClickListener?: (event: MouseEvent) => void;
   private _zoomListener: ((transform: d3.ZoomTransform) => void) | null = null;
 
@@ -70,10 +71,17 @@ export class D3Drawer {
     this.conceptRecurrencePlotDiv = d3.select(".concept-recurrence-plot");
     this.svgWidth = this.conceptRecurrencePlotDiv.node()!.clientWidth;
     this.svgHeight = this.conceptRecurrencePlotDiv.node()!.clientHeight;
+    // this.svgRotate = this.conceptRecurrencePlotDiv.node()!;
+    // const rotate = d3.svg.transform().rotate(-45);
     this.svgSelection = this.conceptRecurrencePlotDiv
       .select<SVGSVGElement>("svg")
       .attr("width", this.svgWidth)
       .attr("height", this.svgHeight)
+      .attr("transform", "rotate(-45)")
+
+      // .attr("transform", "reflection")
+      // 임시로 45도 돌려놓음 현재
+      // zoom event 일어나는 곳
       .call(
         d3
           .zoom<SVGSVGElement, D3ZoomEvent<SVGSVGElement, any>>()
@@ -178,7 +186,7 @@ export class D3Drawer {
       dataStructureSet,
       termType
     );
-    this.manualBigTGsDrawer.color = "#939393";
+    this.manualBigTGsDrawer.color = "#ff0000";
     this.manualPeopleTGsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,
