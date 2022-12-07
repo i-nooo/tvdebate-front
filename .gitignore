@@ -24,7 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # custom
-src/data/*
-/src/accessKeyDict.json
+# src/data/*
+# /src/accessKeyDict.json
 debug.log
 .firebase

@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "6055727d99df480ea0da39e3"
+  },
+  "sentenceIndexesOfBasicIncome": [
+    97,
+    181,
+    190,
+    192,
+    242,
+    310,
+    364,
+    478,
+    544,
+    563,
+    583,
+    646,
+    742,
+    812
+  ],
+  "sentenceIndexesOfVolunteerMilitary": [],
+  "sentenceIndexesOfSAT": [],
+  "date": "12:56:45 PM"
+}]
