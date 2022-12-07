@@ -10,6 +10,7 @@ export type ColoringSelfSimilarities =
   | "none"
   | "oneColor"
   | "participantColors";
+
 export class SimilarityBlocksDrawer {
   private readonly conceptSimilarityRectGSelection!: d3.Selection<
     SVGGElement,
@@ -17,7 +18,9 @@ export class SimilarityBlocksDrawer {
     HTMLElement,
     any
   >;
-  private _coloringSelfSimilarities: ColoringSelfSimilarities = "none";
+
+  private _coloringSelfSimilarities: ColoringSelfSimilarities =
+    "participantColors";
   private _showEngagementPoint: boolean = false;
   private _coloringRebuttal: boolean = true; // 토론의 주장과 반박 연쇄 일어나는 구간 색상 부여
   private _standardHighPointOfSimilarityScore!: number;
@@ -159,7 +162,8 @@ export class SimilarityBlocksDrawer {
             const rgb = hexToRgb(
               participantDict[rowUtteranceObject.name].color
             );
-            color = `rgba(${rgb!.r}, ${rgb!.g}, ${rgb!.b}, ${opacity})`;
+            // color = `rgba(${rgb!.r}, ${rgb!.g}, ${rgb!.b}, ${opacity})`;
+            color = `rgba(198, 66, 66, ${opacity})`;
             break;
         }
       }

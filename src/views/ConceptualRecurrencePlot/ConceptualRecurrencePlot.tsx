@@ -268,7 +268,7 @@ function ConceptualRecurrencePlot() {
   return (
     <div className="root-div">
       <Header />
-      <Controllers
+      {/* <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
         maxSimilarityScore={
@@ -284,7 +284,7 @@ function ConceptualRecurrencePlot() {
         dataStructureManager={
           dataStructureManager ? dataStructureManager : null
         }
-      ></Controllers>
+      ></Controllers> */}
       <div className="concept-recurrence-plot">
         <svg>
           <g className="svgG"></g>

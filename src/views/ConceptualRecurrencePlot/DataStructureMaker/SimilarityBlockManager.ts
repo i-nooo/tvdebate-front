@@ -16,8 +16,8 @@ export class SimilarityBlockManager {
   private _similarityBlockGroup: SimilarityBlock[][] = [];
   private _selfConsistencyWeight: number = 1;
   private _otherConsistencyWeight: number = 1;
-  private _refutationWeight: number = 1;
-  private _insistenceWeight: number = 1;
+  private _refutationWeight: number = 1; // 반박가중치
+  private _insistenceWeight: number = 1; // 주장가중치
   private _sentenceSentimentStandard: number = 0.25;
   private _negativeSumStandard: number = 0.5;
   private _positiveSumStandard: number = 0.5;
@@ -78,16 +78,16 @@ export class SimilarityBlockManager {
           //   utterance1Concept,
           //   utterance2Concept
           // ),
-          weight: 1,
+          weight: 1, // 가중치에 의해 색상의 opacity가 부여
           mainKeytermObjects,
           rowUtteranceIndex: utteranceRowIndex,
           columnUtteranceIndex: utteranceColIndex,
           other: rowUtteranceObject.name !== colUtteranceObject.name,
-          refutation: false,
+          refutation: false, // 반박
           engagementPoint: false,
           visible: true,
         };
-
+        // console.log(conceptSimilarityBlock.refutation);
         // Because cosine similairity between [0, 0, ...] and [0, 0, ...]
         // if (isNaN(conceptSimilarityBlock.similarity)) {
         //   conceptSimilarityBlock.similarity = 0;

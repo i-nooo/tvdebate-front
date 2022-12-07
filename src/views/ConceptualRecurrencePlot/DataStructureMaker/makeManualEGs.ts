@@ -67,6 +67,14 @@ export function getBasicIncomeManualBigEGTitles(): string[] {
   ];
 }
 
+export function getSatManualSmallEGTitles(): string[] {
+  return [];
+}
+
+export function getSatManualMiddleEGTitles(): string[] {
+  return [];
+}
+
 export function getSatManualBigEGTitles(): string[] {
   return [
     "정시확대 방침에 대한 참가자들의 의견소개",
@@ -78,6 +86,14 @@ export function getSatManualBigEGTitles(): string[] {
     "모든 고등학교를 일반고 전환에 대한 의견",
     "이번 대입개편안에 대한 필수요소에 대해 각자의 의견",
   ];
+}
+
+export function getMilitaryManualSmallEGTitles(): string[] {
+  return [];
+}
+
+export function getMilitaryManualMiddleEGTitles(): string[] {
+  return [];
 }
 
 export function getMilitaryManualBigEGTitles(): string[] {

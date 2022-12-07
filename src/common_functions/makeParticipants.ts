@@ -29,6 +29,7 @@ export function makeParticipants(
   console.log("names", names);
 
   let participants: Participant[] = [];
+
   if (debateName === "sample") {
     const colorDictionary: { [index: number]: string } = {
       0: "#C941AF",
@@ -58,6 +59,7 @@ export function makeParticipants(
         default:
           team = -3;
       }
+
       return {
         name,
         color: colorDictionary[index],
