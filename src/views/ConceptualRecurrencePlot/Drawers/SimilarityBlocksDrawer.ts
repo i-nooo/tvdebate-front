@@ -19,8 +19,7 @@ export class SimilarityBlocksDrawer {
     any
   >;
 
-  private _coloringSelfSimilarities: ColoringSelfSimilarities =
-    "participantColors";
+  private _coloringSelfSimilarities: ColoringSelfSimilarities = "none";
   private _showEngagementPoint: boolean = false;
   private _coloringRebuttal: boolean = true; // 토론의 주장과 반박 연쇄 일어나는 구간 색상 부여
   private _standardHighPointOfSimilarityScore!: number;
@@ -114,10 +113,13 @@ export class SimilarityBlocksDrawer {
         (d) =>
           `rowUtteranceIndex: ${d.rowUtteranceIndex},\ncolUtteranceIndex: ${
             d.columnUtteranceIndex
-          },\nsimilarity_score: ${d.similarity},\nmain_keyterms: ${_.map(
-            d.mainKeytermObjects,
-            (mainKeytermObject) => `${mainKeytermObject.name}`
-          )}`
+          },\nsimilarity_score: ${d.similarity},\nmain_keyterms: ${
+            (_.map(
+              d.mainKeytermObjects,
+              (mainKeytermObject) => `${mainKeytermObject.name}`
+            ),
+            `${_.map}`)
+          }`
       );
 
     similarityRectGSelectionDataBound.exit().remove();
@@ -162,8 +164,8 @@ export class SimilarityBlocksDrawer {
             const rgb = hexToRgb(
               participantDict[rowUtteranceObject.name].color
             );
-            // color = `rgba(${rgb!.r}, ${rgb!.g}, ${rgb!.b}, ${opacity})`;
-            color = `rgba(198, 66, 66, ${opacity})`;
+            color = `rgba(${rgb!.r}, ${rgb!.g}, ${rgb!.b}, ${opacity})`;
+            // color = `rgba(198, 66, 66, ${opacity})`;
             break;
         }
       }

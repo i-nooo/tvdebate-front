@@ -15,15 +15,15 @@ export class SimilarityBlockManager {
   private _similarityBlocks: SimilarityBlock[] = [];
   private _similarityBlockGroup: SimilarityBlock[][] = [];
   private _selfConsistencyWeight: number = 1;
-  private _otherConsistencyWeight: number = 1;
-  private _refutationWeight: number = 1; // 반박가중치
-  private _insistenceWeight: number = 1; // 주장가중치
+  private _otherConsistencyWeight: number = 3;
+  private _refutationWeight: number = 2; // 반박가중치 default 값은 1
+  private _insistenceWeight: number = 2; // 주장가중치
   private _sentenceSentimentStandard: number = 0.25;
-  private _negativeSumStandard: number = 0.5;
+  private _negativeSumStandard: number = 0; // negative 가중치
   private _positiveSumStandard: number = 0.5;
   private _colUtteranceLongStandard: number = 200;
   private _hostWeight: number = 1;
-  private _hostLongStandard: number = 100;
+  private _hostLongStandard: number = 100; // 문자 수
 
   public constructor(
     conceptMatrixTransposed: number[][],

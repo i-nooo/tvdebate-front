@@ -3,6 +3,10 @@ import { SentenceIndexLexicalChainsDict } from "../classes/LCseg/LCseg";
 export interface UtteranceObject {
   name: string;
   utterance: string;
+  findDisagree: number; // 추후 이름 변경
+  findDisagreeScale: number; // 추후 이름 변경
+  topicStartPoint?: boolean;
+  topicEndPoint?: boolean;
   sentenceObjects: SentenceObject[];
 }
 
@@ -28,7 +32,6 @@ export interface StopwordDict {
   [stopword: string]: boolean;
 }
 
-// API interfaces
 export interface DebateDataSet {
   utteranceObjects: UtteranceObject[];
   conceptMatrixTransposed: number[][];

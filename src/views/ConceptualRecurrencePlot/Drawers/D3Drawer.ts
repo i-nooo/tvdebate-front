@@ -77,7 +77,7 @@ export class D3Drawer {
       .select<SVGSVGElement>("svg")
       .attr("width", this.svgWidth)
       .attr("height", this.svgHeight)
-      .attr("transform", "rotate(-45)")
+      // .attr("transform", "rotate(-45)")
       // .attr("transform", "reflection")
       // 임시로 45도 돌려놓음 현재
       // zoom event 일어나는 곳
