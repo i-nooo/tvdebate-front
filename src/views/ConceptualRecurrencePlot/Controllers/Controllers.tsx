@@ -105,7 +105,7 @@ export class Controllers extends React.Component<
   render() {
     return (
       <div className={styles.controllersZone}>
-        {/* <Tree
+        <Tree
           selectable={false}
           treeData={[
             {
@@ -315,9 +315,8 @@ export class Controllers extends React.Component<
               ],
             },
           ]}
-        ></Tree> */}
-
-        {/* For High Semantic Consistency Standard */}
+        ></Tree>
+        For High Semantic Consistency Standard
         {/* <div>Standard High Semantic Consistency</div>
         <SliderWithInput
           min={10}
@@ -362,8 +361,7 @@ export class Controllers extends React.Component<
             }
           }}
         ></SliderWithInput> */}
-
-        {/* <div>Number of Segments</div>
+        <div>Number of Segments</div>
         <SliderWithInput
           min={0}
           max={16}
@@ -400,9 +398,8 @@ export class Controllers extends React.Component<
               });
             }
           }}
-        ></SliderWithInput> */}
-
-        {/* <div className={styles.classificationTitle}>
+        ></SliderWithInput>
+        <div className={styles.classificationTitle}>
           [ Methods of Sum of Similarities ]
         </div>
         <div>Group Similarities weight</div>
@@ -426,9 +423,7 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput>
-
         <div className={styles.verticalSpace}></div>
-
         <div>Border Line Similarities weight</div>
         <SliderWithInput
           min={0}
@@ -450,9 +445,7 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput>
-
         <div className={styles.verticalSpace}></div>
-
         <div>Point Similarities weight</div>
         <SliderWithInput
           min={0}
@@ -473,8 +466,7 @@ export class Controllers extends React.Component<
               pointSimilaritiesWeight: changedValue,
             });
           }}
-        ></SliderWithInput> */}
-
+        ></SliderWithInput>
         {/* <Checkbox
           className={styles.checkbox}
           onChange={(event) => {
@@ -509,8 +501,7 @@ export class Controllers extends React.Component<
         >
           combined method
         </Checkbox> */}
-
-        {/* <Tree
+        <Tree
           selectable={false}
           // defaultExpandedKeys={["0-0-0"]}
           treeData={[
@@ -634,8 +625,7 @@ export class Controllers extends React.Component<
               ],
             },
           ]}
-        ></Tree> */}
-
+        ></Tree>
         <div className={styles.classificationTitle}>[ Debate Metrics ]</div>
         <div>Other Consistency weight (타인연속성)</div>
         <SliderWithInput
@@ -663,9 +653,7 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput>
-
         <div className={styles.verticalSpace}></div>
-
         <div>Self Consistency weight (자기연속성)</div>
         <SliderWithInput
           min={0}
@@ -690,9 +678,7 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput>
-
         <div className={styles.verticalSpace}></div>
-
         <Checkbox
           className={styles.checkbox}
           defaultChecked
@@ -708,7 +694,6 @@ export class Controllers extends React.Component<
         >
           Coloring Refutation/Insistence
         </Checkbox>
-
         <div>Refutation (반박)</div>
         <SliderWithInput
           min={0}
@@ -734,9 +719,7 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput>
-
         <div className={styles.verticalSpace}></div>
-
         <div>Insistence (주장)</div>
         <SliderWithInput
           min={0}
@@ -762,7 +745,6 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput>
-
         <Tree
           selectable={false}
           // defaultExpandedKeys={["0-0-0", "0-0-1"]}
@@ -937,9 +919,7 @@ export class Controllers extends React.Component<
             },
           ]}
         ></Tree>
-
         <div className={styles.verticalSpace}></div>
-
         {/* <div>Host (사회자)</div>
         <SliderWithInput
           min={0}
@@ -963,7 +943,6 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput> */}
-
         <Tree
           selectable={false}
           // defaultExpandedKeys={["0-0-0", "0-0-1"]}
@@ -1006,7 +985,6 @@ export class Controllers extends React.Component<
             },
           ]}
         ></Tree>
-
         <Checkbox
           className={styles.checkbox}
           onChange={(event) => {
@@ -1053,10 +1031,8 @@ export class Controllers extends React.Component<
         >
           apply 2 multiplied metrics
         </Checkbox>
-
-        {/* <div className={styles.marginBottom}></div> */}
-
-        {/* <div className={styles.classificationTitle}>[ Colorings ]</div>
+        <div className={styles.marginBottom}></div>
+        <div className={styles.classificationTitle}>[ Colorings ]</div>
         <div>Coloring of Similarity Score</div>
         <SliderWithInput
           min={1}
@@ -1076,8 +1052,7 @@ export class Controllers extends React.Component<
             this.props.d3Drawer!.similarityBlocksDrawer.standardHighPointOfSimilarityScore = changedValue;
             this.props.d3Drawer!.similarityBlocksDrawer.update();
           }}
-        ></SliderWithInput> */}
-
+        ></SliderWithInput>
         <div>Coloring Self Similarities</div>
         <Select
           className={styles.select}
@@ -1093,8 +1068,7 @@ export class Controllers extends React.Component<
           <Option value="oneColor">1 Color</Option>
           <Option value="participantColors">Participant Colors</Option>
         </Select>
-
-        {/* <Checkbox
+        <Checkbox
           className={styles.checkbox}
           onChange={(event) => {
             this.props.d3Drawer!.similarityBlocksDrawer.showEngagementPoint =
@@ -1103,12 +1077,10 @@ export class Controllers extends React.Component<
           }}
         >
           Show Engagement Point
-        </Checkbox> */}
-
-        {/* <div className={styles.classificationTitle} style={{ marginBottom: 2 }}>
+        </Checkbox>
+        <div className={styles.classificationTitle} style={{ marginBottom: 2 }}>
           [ Evaluation ]
         </div>
-
         <div>LCseg&#39;s Number of Segments</div>
         <SliderWithInput
           min={1}
@@ -1138,9 +1110,7 @@ export class Controllers extends React.Component<
             }
           }}
         ></SliderWithInput>
-
         <div className={styles.verticalSpace}></div>
-
         <div className={styles.pkwd}>
           <Button
             className={styles.button}
@@ -1247,10 +1217,8 @@ export class Controllers extends React.Component<
             LCseg&#39; Wd
           </Button>
         </div>
-
         <div className={styles.verticalSpace}></div>
         <div className={styles.verticalSpace}></div>
-
         <Button
           className={styles.button}
           size={"small"}
@@ -1302,7 +1270,7 @@ export class Controllers extends React.Component<
           }}
         >
           Get big manual sentence_indexes_of_segments
-        </Button> */}
+        </Button>
       </div>
     );
   }

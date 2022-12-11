@@ -214,6 +214,7 @@ export class TopicGroupsDrawer {
         // .style("fill", () => (arg.showTopicGroup ? "none" : "none"))
         .style("fill", () => (arg.showTopicGroup ? arg.guideColor : "none"))
         .style("cursor", "pointer")
+        .attr("transform", "rotate()")
         .on("click", (e, d) => {
           const mouseEvent = (e as unknown) as MouseEvent;
           const engagementGroup = (d as unknown) as SimilarityBlock[][];

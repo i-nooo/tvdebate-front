@@ -113,13 +113,10 @@ export class SimilarityBlocksDrawer {
         (d) =>
           `rowUtteranceIndex: ${d.rowUtteranceIndex},\ncolUtteranceIndex: ${
             d.columnUtteranceIndex
-          },\nsimilarity_score: ${d.similarity},\nmain_keyterms: ${
-            (_.map(
-              d.mainKeytermObjects,
-              (mainKeytermObject) => `${mainKeytermObject.name}`
-            ),
-            `${_.map}`)
-          }`
+          },\nsimilarity_score: ${d.similarity},\nmain_keyterms: ${_.map(
+            d.mainKeytermObjects,
+            (mainKeytermObject) => `${mainKeytermObject.name}`
+          )}`
       );
 
     similarityRectGSelectionDataBound.exit().remove();
@@ -146,7 +143,9 @@ export class SimilarityBlocksDrawer {
       }
       // 1123 투명도 조절하기.
       // let color = `rgba(150, 100, 100, 0.25)`;
-      let color = `rgba(79, 198, 66, ${opacity})`;
+      // let color = `rgba(79, 198, 66, ${opacity})`;
+      // let color = `rgba(247, 191, 100, ${opacity * 1.5})`; // 피라미드 색상
+      let color = `rgba(247, 191, 100, ${opacity})`; // 피라미드 색상
 
       const rowUtteranceObject =
         utteranceObjectsForDrawing[similarityBlock.rowUtteranceIndex];
@@ -172,7 +171,8 @@ export class SimilarityBlocksDrawer {
 
       // Update Coloring Rebuttal
       if (coloringRebuttal && similarityBlock.refutation) {
-        color = `rgba(198, 66, 66, ${opacity})`;
+        // color = `rgba(198, 66, 66, ${opacity})`;
+        color = `rgba(255, 0, 0, ${opacity})`;
       }
 
       return color;

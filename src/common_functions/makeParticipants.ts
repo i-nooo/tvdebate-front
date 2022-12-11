@@ -68,12 +68,12 @@ export function makeParticipants(
     });
   } else if (debateName === "기본소득") {
     const colorDictionary: { [index: number]: string } = {
-      0: "hsl(10, 0%, 50%)", // 시청자
-      1: "#FF0000",
-      2: "#00FF00",
-      3: "#3CB043",
-      4: "#A020F0",
-      5: "#333333",
+      0: "rgba(128, 128, 128, 1)", // 아나운서
+      1: "rgba(141, 223, 95, 1)", // 박기성
+      2: "rgba(56, 146, 3,1)", // 오세훈
+      3: "rgba(134, 82, 255, 1)", // 이원재
+      4: "rgba(0, 0, 216, 1)", // 이재명
+      5: "rgba(51, 51, 51, 1)", // 사회자
     };
     participants = _.map(names, (name, index) => {
       let team: number;
