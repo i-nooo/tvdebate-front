@@ -36,6 +36,11 @@ export class D3Drawer {
     any
   >;
 
+  // 접근 제한자 public, private, protected
+  // public: 어디에서나 접근할 수 있으며 생략 가능한 default 값
+  // private: 해당 클래스의 인스턴스에서만 접근 가능
+  // protected: 해당 클래스 혹은 서브클래스의 인스턴스에서만 접근이 가능
+  // this는 자신이 속한 객체 또는 자신이 생성할 인스턴스를 가리키는 자기 참조 변수(self-reference variable)
   public readonly participantBlocksDrawer: ParticipantBlocksDrawer;
   public readonly insistenceMarkersDrawer: InsistenceMarkersDrawer;
   public readonly refutationIconDrawer: RefutationIconDrawer;
@@ -77,8 +82,8 @@ export class D3Drawer {
       .select<SVGSVGElement>("svg")
       .attr("width", this.svgWidth)
       .attr("height", this.svgHeight)
-      .attr("transform", "rotate(-45)")
-      // .attr("transform", "reflection")
+      .attr("transform", "rotate(-225)")
+      // .attr("transform", "scaleX(-10)")
       // 임시로 45도 돌려놓음 현재
       // zoom event 일어나는 곳
       .call(
@@ -102,7 +107,7 @@ export class D3Drawer {
       debateDataSet.conceptMatrixTransposed,
       debateDataSet.keytermObjects,
       this.svgGSelection
-    );
+    ); // 참가자 drawer
     this.insistenceMarkersDrawer = new InsistenceMarkersDrawer(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
       dataStructureSet.similarityBlockManager.similarityBlockGroup,
