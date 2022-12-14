@@ -62,11 +62,11 @@ export class ParticipantBlocksDrawer {
       conceptMatrixTransposed: number[][],
       keytermObjects: KeytermObject[]
     ) {
-      selection
+      selection // utterance_objects 데이터 적용
         .attr("x", (d) => d.beginningPointOfXY)
         .attr("y", (d) => d.beginningPointOfXY)
-        .attr("width", (d) => d.width)
-        .attr("height", (d) => d.width)
+        .attr("width", (d) => d.width) // 노드 두께
+        .attr("height", (d) => d.width) // 노드 높이
         .style("fill", (d) => participantDict[d.name].color)
         // .on("click", (e, u) => {
         //   const mouseEvent = (e as unknown) as MouseEvent;

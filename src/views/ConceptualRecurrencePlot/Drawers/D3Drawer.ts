@@ -3,8 +3,8 @@ import { TermType } from "./../DataImporter";
 import { DataStructureSet } from "../DataStructureMaker/DataStructureManager";
 import { DebateDataSet } from "./../../../interfaces/DebateDataInterface";
 /* eslint-disable no-unused-vars */
-import { SimilarityBlocksDrawer } from "./SimilarityBlocksDrawer";
-import { ParticipantBlocksDrawer } from "./ParticipantBlocksDrawer";
+import { SimilarityBlocksDrawer } from "./SimilarityBlocksDrawer"; // 유사도 노드
+import { ParticipantBlocksDrawer } from "./ParticipantBlocksDrawer"; // 참가자 노드
 import { UtteranceObjectForDrawing, SimilarityBlock } from "../interfaces";
 import * as d3 from "d3";
 import _ from "lodash";
@@ -82,7 +82,7 @@ export class D3Drawer {
       .select<SVGSVGElement>("svg")
       .attr("width", this.svgWidth)
       .attr("height", this.svgHeight)
-      .attr("transform", "rotate(-225)")
+      // .attr("transform", "rotate(-225)")
       // .attr("transform", "scaleX(-10)")
       // 임시로 45도 돌려놓음 현재
       // zoom event 일어나는 곳

@@ -16,7 +16,7 @@ export interface ParticipantDict {
  * make participants information inclduing name, color
  * @param debateUtterances
  */
-export function makeParticipants(
+export function makeParticipants( // 참가자 노드 생성 구간
   debateName: DebateName,
   debateUtterances: UtteranceObject[]
 ): Participant[] {
