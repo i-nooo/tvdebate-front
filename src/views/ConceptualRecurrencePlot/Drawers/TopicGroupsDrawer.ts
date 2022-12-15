@@ -29,7 +29,7 @@ export class TopicGroupsDrawer {
   private _topicGroupTitles: string[] | null = null;
   private _showTopicGroupTitle: boolean = true;
   private _showTopicGroup: boolean = true;
-  private _guideColor: string = "#87ceeb";
+  private _guideColor: string = "green";
 
   public onTitleClicked:
     | null
@@ -171,22 +171,31 @@ export class TopicGroupsDrawer {
           const lastHorizontalLine = eg[eg.length - 1];
           const mostRightBottomBlock =
             lastHorizontalLine[lastHorizontalLine.length - 1];
-
+          //   const xPoint =
+          //     (mostRightBottomBlock.beginningPointOfX +
+          //       mostRightBottomBlock.width +
+          //       mostLeftTopBlock.beginningPointOfX) /
+          //     2;
+          //   return xPoint;
           const xPoint =
-            (mostRightBottomBlock.beginningPointOfX +
-              mostRightBottomBlock.width +
-              mostLeftTopBlock.beginningPointOfX) /
-            2;
+            mostLeftTopBlock.beginningPointOfY +
+            mostRightBottomBlock.beginningPointOfY / 2 +
+            10;
           return xPoint;
         })
-        .attr("y", (eg) => {
+        .attr("y", (eg, i) => {
           const mostLeftTopBlock = eg[0][0];
-          const yPoint = mostLeftTopBlock.beginningPointOfY - 5;
+          //TODO 객체의 topicGroup별로 yPoint 다르게 설정해야함.
+          // console.log(arg.topicGroupTitles ? arg.topicGroupTitles : null);
+          // const yPoint = mostLeftTopBlock.beginningPointOfY - 5;
+          const yPoint = 30;
           return yPoint;
         })
         .text((eg, i) => {
           if (arg.showTopicGroupTitle) {
             if (arg.topicGroupTitles) {
+              // console.log(arg.topicGroupTitles[0][0]);
+              // console.log(eg[0]);
               return arg.topicGroupTitles[i];
             } else {
               // const extractedKeytermObjects = extractKeytermsFromEngagementGroup(
@@ -214,7 +223,7 @@ export class TopicGroupsDrawer {
         // .style("fill", () => (arg.showTopicGroup ? "none" : "none"))
         .style("fill", () => (arg.showTopicGroup ? arg.guideColor : "none"))
         .style("cursor", "pointer")
-        .attr("transform", "rotate()")
+        .attr("transform", "rotate(-135) scale(-1, 1)")
         .on("click", (e, d) => {
           const mouseEvent = (e as unknown) as MouseEvent;
           const engagementGroup = (d as unknown) as SimilarityBlock[][];

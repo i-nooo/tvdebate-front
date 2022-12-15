@@ -287,9 +287,11 @@ function ConceptualRecurrencePlot() {
       ></Controllers>
       <div className="concept-recurrence-plot">
         <svg>
-          <g className="test">
-            <g className="svgG"></g>
-          </g>
+          <svg>
+            <g className="test">
+              <g className="svgG"></g>
+            </g>
+          </svg>
         </svg>
         <ParticipantTooltip
           utteranceObjectForDrawing={mouseoveredUtterance}

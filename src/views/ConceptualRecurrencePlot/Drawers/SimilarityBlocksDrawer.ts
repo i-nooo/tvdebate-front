@@ -23,6 +23,7 @@ export class SimilarityBlocksDrawer {
   private _showEngagementPoint: boolean = false;
   private _coloringRebuttal: boolean = true; // 토론의 주장과 반박 연쇄 일어나는 구간 색상 부여
   private _standardHighPointOfSimilarityScore!: number;
+  private _findDisagreeScaleScore!: number;
   private _clickListener:
     | ((e: MouseEvent, d: SimilarityBlock) => void)
     | null = null;
@@ -44,6 +45,10 @@ export class SimilarityBlocksDrawer {
     this._standardHighPointOfSimilarityScore = standardHighPointOfSimilarityScore;
   }
 
+  public set findDisagreeScaleScore(findDisagreeScaleScore: number) {
+    this._findDisagreeScaleScore = findDisagreeScaleScore;
+  }
+
   public applyColorRatioSettingByTopSimilarityBlock() {
     const mostHighSimilarityBlock = _.maxBy(
       this.similarityBlocks,
@@ -52,6 +57,13 @@ export class SimilarityBlocksDrawer {
     this._standardHighPointOfSimilarityScore =
       mostHighSimilarityBlock.weight * mostHighSimilarityBlock.similarity;
   }
+
+  // public applyColorRatioSettingByTopDisagreeBlock() {
+  //   const mostHighDisagreeBlock = _.maxBy(
+  //     this.similarityBlocks
+  //     // (similarityBlock) => similarityBlock.
+  //   );
+  // }
 
   public update() {
     const similarityRectGSelectionDataBound = this.conceptSimilarityRectGSelection
