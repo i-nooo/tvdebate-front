@@ -62,6 +62,9 @@ function App() {
           <Route path="/">
             <Home />
           </Route>
+          <Route path="/sample">
+            <Home />
+          </Route>
         </Switch>
       </div>
     </Router>
