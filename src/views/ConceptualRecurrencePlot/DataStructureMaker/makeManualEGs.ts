@@ -25,34 +25,57 @@ export function makeManualTGs(
   return manualTGs;
 }
 
-export function getBasicIncomeManualSmallEGTitles(): string[] {
-  return [
-    "찬반 of '긴급재난지원금 경제적 효과'",
-    "기본소득 정의 및 평가",
-    "보수진영에서 기본소득이 이슈화된 이유는?",
-    "안심소득 소개 및 이해과정",
-    "찬반(증세 및 조세저항) of '안심소득 vs 기본소득'",
-    "찬반(증세,경제 효과) of '안심소득 vs 기본소득' in '이재명 vs 오세훈'",
-    "현실적 방안인지 찬반 of '안심소득 vs 기본소득'",
-    "기본소득, 안심소득의 '기존 복지 제도 통합'에 대해 서로들 오해하고 있음 => 서로 의견 주고 받음..",
-    "시청자 의견 소개",
-    "기본소득의 실현가능성 찬반",
-    "'미래의 노동공급과 생존'에 대한 서로 다른 복지정책의 접근",
-    "기본소득의 근로의욕 반대 의견 및 팩트체크",
-  ];
+export function makeManualMTGs(
+  totalSimilarityBlockGroup: SimilarityBlock[][],
+  startRowIndexesForSplit: number[]
+): SimilarityBlock[][][] {
+  const manualTGs: SimilarityBlock[][][] = [];
+
+  for (let i = 0; i < startRowIndexesForSplit.length; i++) {
+    const startRowIndex = startRowIndexesForSplit[i];
+    const endRowIndex =
+      i < startRowIndexesForSplit.length - 1
+        ? startRowIndexesForSplit[i + 1]
+        : totalSimilarityBlockGroup.length;
+    const topicGroup = make1TopicGroup(
+      totalSimilarityBlockGroup,
+      startRowIndex,
+      endRowIndex
+    );
+    manualTGs.push(topicGroup);
+  }
+
+  return manualTGs;
 }
+
+// export function getBasicIncomeManualSmallEGTitles(): string[] {
+//   return [
+//     "찬반 of '긴급재난지원금 경제적 효과'",
+//     "기본소득 정의 및 평가",
+//     "보수진영에서 기본소득이 이슈화된 이유는?",
+//     "안심소득 소개 및 이해과정",
+//     "찬반(증세 및 조세저항) of '안심소득 vs 기본소득'",
+//     "찬반(증세,경제 효과) of '안심소득 vs 기본소득' in '이재명 vs 오세훈'",
+//     "현실적 방안인지 찬반 of '안심소득 vs 기본소득'",
+//     "기본소득, 안심소득의 '기존 복지 제도 통합'에 대해 서로들 오해하고 있음 => 서로 의견 주고 받음..",
+//     "시청자 의견 소개",
+//     "기본소득의 실현가능성 찬반",
+//     "'미래의 노동공급과 생존'에 대한 서로 다른 복지정책의 접근",
+//     "기본소득의 근로의욕 반대 의견 및 팩트체크",
+//   ];
+// }
 
 export function getBasicIncomeManualMiddleEGTitles(): string[] {
   return [
-    "찬반 of '긴급재난지원금 경제적 효과'",
-    "기본소득 정의 및 평가",
-    "안심소득 소개 및 이해과정",
-    "찬반(증세, 조세저항, 경제 효과) of '안심소득 vs 기본소득'",
-    "현실적 방안인지 찬반 of '안심소득 vs 기본소득'",
-    "기본소득, 안심소득의 '기존 복지 제도 통합'에 대해 서로들 오해하고 있음 => 서로 의견 주고 받음..",
-    "시청자 의견 소개",
-    "기본소득 실현가능방법 '증세'의 찬반",
-    "기본소득의 노동공급, 근로의욕에 대한 긍정 vs 부정",
+    // "찬반 of '긴급재난지원금 경제적 효과'",
+    // "기본소득 정의 및 평가",
+    // "안심소득 소개 및 이해과정",
+    "안심소득 vs 기본소득의 찬반(증세, 조세저항, 경제 효과)대립",
+    // "안심소득 vs 기본소득의 현실적 방안",
+    "기본소득, 안심소득의 '기존 복지 제도 통합'에 대한 의견 대립",
+    // "시청자 의견 소개",
+    // "기본소득 실현가능방법 '증세'의 찬반",
+    // "기본소득의 노동공급, 근로의욕에 대한 긍정 vs 부정",
   ];
 }
 

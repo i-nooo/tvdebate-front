@@ -13,7 +13,7 @@ import {
 } from "../interfaces";
 import {
   makeManualTGs,
-  getBasicIncomeManualSmallEGTitles,
+  // getBasicIncomeManualSmallEGTitles,
   getBasicIncomeManualMiddleEGTitles,
   getBasicIncomeManualBigEGTitles,
   getSatManualBigEGTitles,
@@ -111,7 +111,7 @@ export class DataStructureManager {
     let manualSmallEGs: SimilarityBlock[][][] = [];
     let manualMiddleEGs: SimilarityBlock[][][] = [];
     let manualBigEGs: SimilarityBlock[][][] = [];
-    let manualSmallEGTitles: string[] = [];
+    // let manualSmallEGTitles: string[] = [];
     let manualMiddleEGTitles: string[] = [];
     let manualBigEGTitles: string[] = [];
     if (debateName === "기본소득") {
@@ -130,14 +130,13 @@ export class DataStructureManager {
         185,
       ]);
       manualMiddleEGs = makeManualTGs(conceptSimilarityMatrix, [
-        0,
-        22,
-        47,
+        // 0,
+        // 22,
+        // 47,
         69,
-        79,
         97,
-        132,
-        134,
+        133,
+        // 134,
         177,
       ]);
       manualBigEGs = makeManualTGs(conceptSimilarityMatrix, [
@@ -148,7 +147,7 @@ export class DataStructureManager {
         133,
         177,
       ]);
-      manualSmallEGTitles = getBasicIncomeManualSmallEGTitles();
+      // manualSmallEGTitles = getBasicIncomeManualSmallEGTitles();
       manualMiddleEGTitles = getBasicIncomeManualMiddleEGTitles();
       manualBigEGTitles = getBasicIncomeManualBigEGTitles();
     } else if (debateName === "기본소득clipped") {
@@ -181,7 +180,7 @@ export class DataStructureManager {
       //   133,
       //   177,
       // ]);
-      manualSmallEGTitles = getBasicIncomeManualSmallEGTitles();
+      // manualSmallEGTitles = getBasicIncomeManualSmallEGTitles();
       // manualMiddleEGTitles = getBasicIncomeManualMiddleEGTitles();
       // manualBigEGTitles = getBasicIncomeManualBigEGTitles();
     } else if (debateName === "정시확대") {
@@ -225,11 +224,12 @@ export class DataStructureManager {
       maxSimilarityScore,
       utteranceIndexSentenceIndexTotalSentenceIndexDict,
     };
+    //@ts-ignore
     this._datasetOfManualEGs = {
       manualSmallEGs,
       manualMiddleEGs,
       manualBigEGs,
-      manualSmallEGTitles,
+      // manualSmallEGTitles,
       manualMiddleEGTitles,
       manualBigEGTitles,
     };

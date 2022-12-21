@@ -5,6 +5,7 @@ import { ParticipantDict } from "../../../common_functions/makeParticipants";
 import { SentenceObject } from "../../../interfaces/DebateDataInterface";
 import { UtteranceObjectForDrawing } from "../interfaces";
 import { SimilarityBlock } from "../interfaces";
+import { Tooltip } from "antd";
 
 export type ColoringSelfSimilarities =
   | "none"
@@ -123,9 +124,11 @@ export class SimilarityBlocksDrawer {
       .append("title")
       .text(
         (d) =>
-          `rowUtteranceIndex: ${d.rowUtteranceIndex},\ncolUtteranceIndex: ${
+          `findArgument: ${d.refutation},\nrowUtteranceIndex: ${
+            d.rowUtteranceIndex
+          },\ncolUtteranceIndex: ${
             d.columnUtteranceIndex
-          },\nsimilarity_score: ${d.similarity},\nmain_keyterms: ${_.map(
+          },\nsimilarity_score: ${d.similarity},\nkeywords: ${_.map(
             d.mainKeytermObjects,
             (mainKeytermObject) => `${mainKeytermObject.name}`
           )}`

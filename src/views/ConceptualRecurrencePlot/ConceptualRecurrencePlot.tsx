@@ -286,7 +286,7 @@ function ConceptualRecurrencePlot() {
         }
       ></Controllers> */}
       <div className="concept-recurrence-plot">
-        <svg>
+        <svg className="fullSvg">
           <svg>
             <g className="test">
               <g className="svgG"></g>
@@ -304,7 +304,6 @@ function ConceptualRecurrencePlot() {
       <TranscriptViewer
         dataStructureMaker={dataStructureManager}
       ></TranscriptViewer>
-
       <ConceptualMapModal
         ref={conceptualMapModalRef}
         participantDict={

@@ -116,12 +116,12 @@ export class TopicGroupsDrawer {
       selection
         .attr("x", (eg) => eg[0][0].beginningPointOfX)
         .attr("y", (eg) => eg[0][0].beginningPointOfY)
+        .style("visibility", "visible")
         .attr("width", (eg) => {
           const mostLeftTopBlock = eg[0][0];
           const lastHorizontalLine = eg[eg.length - 1];
           const mostRightBottomBlock =
             lastHorizontalLine[lastHorizontalLine.length - 1];
-
           const width =
             mostRightBottomBlock.beginningPointOfX +
             mostRightBottomBlock.width -
@@ -133,7 +133,6 @@ export class TopicGroupsDrawer {
           const lastHorizontalLine = eg[eg.length - 1];
           const mostRightBottomBlock =
             lastHorizontalLine[lastHorizontalLine.length - 1];
-
           const height =
             mostRightBottomBlock.beginningPointOfY +
             mostRightBottomBlock.height -
@@ -188,8 +187,15 @@ export class TopicGroupsDrawer {
           //TODO 객체의 topicGroup별로 yPoint 다르게 설정해야함.
           // console.log(arg.topicGroupTitles ? arg.topicGroupTitles : null);
           // const yPoint = mostLeftTopBlock.beginningPointOfY - 5;
-          const yPoint = 30;
-          return yPoint;
+          // const yPoint = 30;
+          if (this._guideColor === "#939393") {
+            const yPoint = 60;
+            return yPoint;
+          } else {
+            const yPoint = 30;
+            return yPoint;
+          }
+          // return yPoint;
         })
         .text((eg, i) => {
           if (arg.showTopicGroupTitle) {
@@ -219,7 +225,8 @@ export class TopicGroupsDrawer {
           }
         })
         .attr("text-anchor", "middle")
-        .style("font-size", 8)
+        .style("font-size", this._guideColor === "#ff0000" ? "8" : "7.5")
+        .style("font-weight", "bold")
         // .style("fill", () => (arg.showTopicGroup ? "none" : "none"))
         .style("fill", () => (arg.showTopicGroup ? arg.guideColor : "none"))
         .style("cursor", "pointer")

@@ -3,27 +3,29 @@ import _ from "lodash";
 import * as math from "mathjs";
 import { findTopValueIndexes } from "../../../common_functions/findTopValueIndexes";
 import { ParticipantDict } from "../../../common_functions/makeParticipants";
-const makeCosineSimilarity = require("compute-cosine-similarity");
 import {
   KeytermObject,
   SentenceObject,
   UtteranceObject,
 } from "../../../interfaces/DebateDataInterface";
 import { SimilarityBlock, UtteranceObjectForDrawing } from "../interfaces";
+const makeCosineSimilarity = require("compute-cosine-similarity");
 
 export class SimilarityBlockManager {
   private _similarityBlocks: SimilarityBlock[] = [];
   private _similarityBlockGroup: SimilarityBlock[][] = [];
   private _selfConsistencyWeight: number = 1;
   private _otherConsistencyWeight: number = 3;
-  private _refutationWeight: number = 2; // 반박가중치 default 값은 1
-  private _insistenceWeight: number = 2; // 주장가중치
+  private _refutationWeight: number = 1; // 반박가중치 default 값은 1
+  private _insistenceWeight: number = 1; // 주장가중치
   private _sentenceSentimentStandard: number = 0.25;
-  private _negativeSumStandard: number = 0; // negative 가중치
+  private _negativeSumStandard: number = 0.1; // negative 가중치
   private _positiveSumStandard: number = 0.5;
-  private _colUtteranceLongStandard: number = 200;
+  private _colUtteranceLongStandard: number = 100;
   private _hostWeight: number = 1;
   private _hostLongStandard: number = 100; // 문자 수
+  private _debaterWeights: number[] = [1, 1, 1, 1];
+  private _debaterIndexDict: { [debaterName: string]: number } = {};
 
   public constructor(
     conceptMatrixTransposed: number[][],
@@ -83,7 +85,7 @@ export class SimilarityBlockManager {
           rowUtteranceIndex: utteranceRowIndex,
           columnUtteranceIndex: utteranceColIndex,
           other: rowUtteranceObject.name !== colUtteranceObject.name,
-          refutation: false, // 반박
+          refutation: false, // 반박 default 값
           engagementPoint: false,
           visible: true,
         };
@@ -117,6 +119,7 @@ export class SimilarityBlockManager {
    * applyWeightedSimilarity
    * @changed_variable : similarityBlock.weight of simialrityBlocks
    */
+  // 가중치를 적용하기 위한 함수.
   private applyWeight() {
     _.forEach(this._similarityBlockGroup, (rowSimilarityBlocks) => {
       _.forEach(rowSimilarityBlocks, (similarityBlock) => {
@@ -182,11 +185,11 @@ export class SimilarityBlockManager {
       const colUtteranceObject =
         p.utteranceObjectsForDrawing[similarityBlock.columnUtteranceIndex];
 
-      const refutationScore = _.reduce<SentenceObject, number>(
+      const refutationScore = _.reduce<SentenceObject, number>( // refutationScore
         rowUtteranceObject.sentenceObjects,
         (reduced, sentenceObject) => {
           return sentenceObject.sentiment <= -p.sentenceSentimentStandard
-            ? reduced + sentenceObject.sentiment
+            ? reduced + sentenceObject.sentiment // 감성분석을 통해 감성값이 포함됨.
             : reduced;
         },
         0
@@ -198,6 +201,7 @@ export class SimilarityBlockManager {
 
         const rowSimilarityBlocks =
           p.similarityBlockGroup[similarityBlock.rowUtteranceIndex - 1];
+        // console.log(rowSimilarityBlocks);
         const filtered = _.filter(
           rowSimilarityBlocks,
           (rowSimilarityBlock, utteranceIndexOfrowSimilarityBlock) => {
@@ -214,6 +218,7 @@ export class SimilarityBlockManager {
                 ];
               const team1 = p.participantDict[utteranceOjbect1.name].team;
               const team2 = p.participantDict[utteranceOjbect2.name].team;
+              // team1과 team2가 다르고 둘 다 양수
               if (team1 !== team2 && team1 > 0 && team2 > 0) {
                 const utteranceObjectOfRebuttalTarget =
                   p.utteranceObjectsForDrawing[
@@ -235,13 +240,14 @@ export class SimilarityBlockManager {
           }
         );
 
-        const team1 = p.participantDict[colUtteranceObject.name].team;
-        const team2 = p.participantDict[rowUtteranceObject.name].team;
+        const team1 = p.participantDict[colUtteranceObject.name].team; // side(i,j)
+        const team2 = p.participantDict[rowUtteranceObject.name].team; // side(i,j)
+
         if (
           // TODO
           // conceptSimilarityBlock.similarityScore > 40000 &&
           colUtteranceObject.utterance.length > p.colUtteranceLongStandard &&
-          filtered.length === 1 &&
+          filtered.length >= 1 &&
           similarityBlock.rowUtteranceIndex -
             similarityBlock.columnUtteranceIndex <
             20 &&
@@ -249,7 +255,7 @@ export class SimilarityBlockManager {
           team1 > 0 &&
           team2 > 0
         ) {
-          similarityBlock.refutation = true;
+          similarityBlock.refutation = true; // 주장과 반박 구간 결정하는 boolean value
         }
       }
     });
