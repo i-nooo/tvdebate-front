@@ -1,11 +1,14 @@
 .controllersZone {
-  min-width: 240px;
+  min-width: 400px;
   margin-top: 35px;
-  width: 240px;
+  width: 400px;
   padding: 8px;
   font-size: 12px;
   overflow-x: hidden;
   overflow-y: auto;
+  // border: 1px solid gray;
+  // background: gray;
+  // opacity: 0.2;
   // scrollbar-width: thin;
 
   &::-webkit-scrollbar {

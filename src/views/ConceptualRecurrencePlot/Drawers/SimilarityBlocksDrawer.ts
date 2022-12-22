@@ -124,11 +124,11 @@ export class SimilarityBlocksDrawer {
       .append("title")
       .text(
         (d) =>
-          `findArgument: ${d.refutation},\nrowUtteranceIndex: ${
+          `findArgument: ${d.refutation},\n주장발화자Index: ${
             d.rowUtteranceIndex
-          },\ncolUtteranceIndex: ${
-            d.columnUtteranceIndex
-          },\nsimilarity_score: ${d.similarity},\nkeywords: ${_.map(
+          },\n반박발화자Index: ${d.columnUtteranceIndex},\nsimilarityScore: ${
+            d.similarity
+          },\nkeywords: ${_.map(
             d.mainKeytermObjects,
             (mainKeytermObject) => `${mainKeytermObject.name}`
           )}`

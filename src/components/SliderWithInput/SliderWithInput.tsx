@@ -35,12 +35,12 @@ class SliderWithInput extends React.Component<ComponentProps, ComponentState> {
           trackStyle={{
             backgroundColor: this.props.trackColor
               ? this.props.trackColor
-              : "#91d5ff",
+              : "brown",
           }}
           handleStyle={{
             border: this.props.trackColor
               ? `${this.props.trackColor} 2px solid`
-              : "#91d5ff 2px solid",
+              : "brown 2px solid",
             width: 10,
             height: 10,
             marginTop: -3,

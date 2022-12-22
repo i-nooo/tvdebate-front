@@ -268,7 +268,7 @@ function ConceptualRecurrencePlot() {
   return (
     <div className="root-div">
       <Header />
-      {/* <Controllers
+      <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
         maxSimilarityScore={
@@ -284,8 +284,16 @@ function ConceptualRecurrencePlot() {
         dataStructureManager={
           dataStructureManager ? dataStructureManager : null
         }
-      ></Controllers> */}
+      ></Controllers>
       <div className="concept-recurrence-plot">
+        <img
+          className="imgPos"
+          // TODO 추후 marginLeft 고치기
+          style={{ marginTop: "35px", position: "fixed", marginLeft: "1340px" }}
+          width="400"
+          height="133"
+          src="https://i.imgur.com/2JQzpJF.jpg"
+        ></img>
         <svg className="fullSvg">
           <svg>
             <g className="test">

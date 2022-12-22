@@ -11,7 +11,7 @@ export default class UtteranceObjectsForDrawingManager {
   private _utteranceObjectsForDrawing: UtteranceObjectForDrawing[];
   private _positiveSumStandard: number = 0.5;
   private _sentenceSentimentStandard: number = 0.25;
-  private _columnLongStandard: number = 200;
+  private _columnLongStandard: number = 100;
 
   public constructor(utteranceObjects: UtteranceObject[]) {
     // make utteranceObjectsForDrawing

@@ -90,9 +90,9 @@ export class Controllers extends React.Component<
       refutationWeight: 2,
       insistenceWeight: 2,
       sentenceSentimentStandard: 0.25,
-      negativeSumStandard: 0,
+      negativeSumStandard: 0.5,
       positiveSumStandard: 0.5,
-      colUtteranceLongStandard: 200,
+      colUtteranceLongStandard: 100,
       hostWeight: 1,
       hostLongStandard: 100,
       evaluation: null,
@@ -104,8 +104,11 @@ export class Controllers extends React.Component<
 
   render() {
     return (
-      <div className={styles.controllersZone}>
-        <Tree
+      <div
+        // style={{ backgroundColor: "gray" }}
+        className={styles.controllersZone}
+      >
+        {/* <Tree
           selectable={false}
           treeData={[
             {
@@ -316,7 +319,7 @@ export class Controllers extends React.Component<
             },
           ]}
         ></Tree>
-        For High Semantic Consistency Standard
+        For High Semantic Consistency Standard */}
         {/* <div>Standard High Semantic Consistency</div>
         <SliderWithInput
           min={10}
@@ -361,7 +364,7 @@ export class Controllers extends React.Component<
             }
           }}
         ></SliderWithInput> */}
-        <div>Number of Segments</div>
+        {/* <div>Number of Segments</div>
         <SliderWithInput
           min={0}
           max={16}
@@ -466,7 +469,7 @@ export class Controllers extends React.Component<
               pointSimilaritiesWeight: changedValue,
             });
           }}
-        ></SliderWithInput>
+        ></SliderWithInput> */}
         {/* <Checkbox
           className={styles.checkbox}
           onChange={(event) => {
@@ -501,7 +504,7 @@ export class Controllers extends React.Component<
         >
           combined method
         </Checkbox> */}
-        <Tree
+        {/* <Tree
           selectable={false}
           // defaultExpandedKeys={["0-0-0"]}
           treeData={[
@@ -625,8 +628,8 @@ export class Controllers extends React.Component<
               ],
             },
           ]}
-        ></Tree>
-        <div className={styles.classificationTitle}>[ Debate Metrics ]</div>
+        ></Tree> */}
+        {/* <div className={styles.classificationTitle}>[ Debate Metrics ]</div>
         <div>Other Consistency weight (타인연속성)</div>
         <SliderWithInput
           min={0}
@@ -677,8 +680,11 @@ export class Controllers extends React.Component<
               selfConsistencyWeight: changedValue,
             });
           }}
-        ></SliderWithInput>
-        <div className={styles.verticalSpace}></div>
+        ></SliderWithInput> */}
+        <div
+          className={styles.verticalSpace}
+          // style={{ marginTop: "100px" }}
+        ></div>
         <Checkbox
           className={styles.checkbox}
           defaultChecked
@@ -691,34 +697,20 @@ export class Controllers extends React.Component<
             this.props.d3Drawer!.similarityBlocksDrawer.update();
             this.props.d3Drawer!.insistenceMarkersDrawer.update();
           }}
+          style={{ fontWeight: "bold" }}
         >
           Coloring Refutation/Insistence
         </Checkbox>
-        <div>Refutation (반박)</div>
-        <SliderWithInput
-          min={0}
-          max={5}
-          value={this.state.refutationWeight}
-          step={0.1}
-          onChangeListener={(changedValue) => {
-            this.props.dataStructureSet!.similarityBlockManager.refutationWeight = changedValue;
-
-            // const engagementGroups = this.props.combinedEGsMaker!.make();
-            const topicGroups = this.props.combinedEGsMaker!.makeByNumOfSegments(
-              this.state.numberOfTopicGroups
-            );
-            this.props.d3Drawer!.topicGroupsDrawer.topicGroups = topicGroups;
-            this.props.d3Drawer!.topicGroupsDrawer.update();
-
-            // find most similarity in similarityBlocks
-            this.props.d3Drawer!.similarityBlocksDrawer.applyColorRatioSettingByTopSimilarityBlock();
-            this.props.d3Drawer!.similarityBlocksDrawer.update();
-
-            this.setState({
-              refutationWeight: changedValue,
-            });
+        <div
+          style={{
+            fontSize: 11,
+            fontWeight: "bold",
+            marginTop: "10px",
+            marginBottom: "5px",
           }}
-        ></SliderWithInput>
+        >
+          Conditions of insistence & refutation Weight
+        </div>
         <div className={styles.verticalSpace}></div>
         <div>Insistence (주장)</div>
         <SliderWithInput
@@ -745,7 +737,134 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput>
-        <Tree
+        <div>Refutation (반박)</div>
+        <SliderWithInput
+          min={0}
+          max={5}
+          value={this.state.refutationWeight}
+          step={0.1}
+          onChangeListener={(changedValue) => {
+            this.props.dataStructureSet!.similarityBlockManager.refutationWeight = changedValue;
+
+            // const engagementGroups = this.props.combinedEGsMaker!.make();
+            const topicGroups = this.props.combinedEGsMaker!.makeByNumOfSegments(
+              this.state.numberOfTopicGroups
+            );
+            this.props.d3Drawer!.topicGroupsDrawer.topicGroups = topicGroups;
+            this.props.d3Drawer!.topicGroupsDrawer.update();
+
+            // find most similarity in similarityBlocks
+            this.props.d3Drawer!.similarityBlocksDrawer.applyColorRatioSettingByTopSimilarityBlock();
+            this.props.d3Drawer!.similarityBlocksDrawer.update();
+
+            this.setState({
+              refutationWeight: changedValue,
+            });
+          }}
+        ></SliderWithInput>
+
+        <div
+          style={{
+            fontSize: 11,
+            fontWeight: "bold",
+            marginTop: "10px",
+            marginBottom: "5px",
+          }}
+        >
+          Conditions of Sentiment & Length of Text Weight
+        </div>
+        <div className={styles.smallControllerTitle}>Positive</div>
+        <SliderWithInput
+          min={0}
+          max={5}
+          value={this.state.positiveSumStandard}
+          step={0.1}
+          sliderWidth={104}
+          onChangeListener={(changedValue) => {
+            // this.props.dataStructureSet?.utteranceObjectsForDrawing[0].
+            this.props.dataStructureSet!.utteranceObjectsForDrawingManager.positiveSumStandard = changedValue;
+            this.props.dataStructureSet!.similarityBlockManager.positiveSumStandard = changedValue;
+
+            // make topic_segments
+            const topicGroups = this.props.combinedEGsMaker!.makeByNumOfSegments(
+              this.state.numberOfTopicGroups
+            );
+
+            // draw topic_segments
+            this.props.d3Drawer!.topicGroupsDrawer.topicGroups = topicGroups;
+            this.props.d3Drawer!.topicGroupsDrawer.update();
+
+            // draw similarity_blocks
+            this.props.d3Drawer!.similarityBlocksDrawer.applyColorRatioSettingByTopSimilarityBlock();
+            this.props.d3Drawer!.similarityBlocksDrawer.update();
+
+            this.props.d3Drawer!.insistenceMarkersDrawer.update();
+
+            this.setState({
+              positiveSumStandard: changedValue,
+            });
+          }}
+        ></SliderWithInput>
+        <div className={styles.smallControllerTitle}>Negative</div>
+        <SliderWithInput
+          min={0}
+          max={5}
+          value={this.state.negativeSumStandard}
+          step={0.1}
+          sliderWidth={104}
+          onChangeListener={(changedValue) => {
+            // adjust weight of similarity_blocks
+            this.props.dataStructureSet!.similarityBlockManager.negativeSumStandard = changedValue;
+
+            // make topic_segments
+            // const engagementGroups = this.props.combinedEGsMaker!.make();
+            const topicGroups = this.props.combinedEGsMaker!.makeByNumOfSegments(
+              this.state.numberOfTopicGroups
+            );
+
+            // draw topic_segments
+            this.props.d3Drawer!.topicGroupsDrawer.topicGroups = topicGroups;
+            this.props.d3Drawer!.topicGroupsDrawer.update();
+
+            // draw similarity_blocks
+            this.props.d3Drawer!.similarityBlocksDrawer.applyColorRatioSettingByTopSimilarityBlock();
+            this.props.d3Drawer!.similarityBlocksDrawer.update();
+
+            this.setState({ negativeSumStandard: changedValue });
+          }}
+        ></SliderWithInput>
+        <div className={styles.smallControllerTitle}>Text Length</div>
+        <SliderWithInput
+          min={0}
+          max={300}
+          value={this.state.colUtteranceLongStandard}
+          sliderWidth={104}
+          onChangeListener={(changedValue) => {
+            // adjust weight of similarity_blocks
+            this.props.dataStructureSet!.similarityBlockManager.colUtteranceLongStandard = changedValue;
+            this.props.dataStructureSet!.utteranceObjectsForDrawingManager.colUtteranceLongStandard = changedValue;
+
+            // make topic_segments
+            // const engagementGroups = this.props.combinedEGsMaker!.make();
+            const topicGroups = this.props.combinedEGsMaker!.makeByNumOfSegments(
+              this.state.numberOfTopicGroups
+            );
+
+            // draw topic_segments
+            this.props.d3Drawer!.topicGroupsDrawer.topicGroups = topicGroups;
+            this.props.d3Drawer!.topicGroupsDrawer.update();
+
+            // draw similarity_blocks
+            this.props.d3Drawer!.similarityBlocksDrawer.applyColorRatioSettingByTopSimilarityBlock();
+            this.props.d3Drawer!.similarityBlocksDrawer.update();
+
+            this.setState({
+              colUtteranceLongStandard: changedValue,
+            });
+          }}
+        ></SliderWithInput>
+
+        {/* <Tree
           selectable={false}
           // defaultExpandedKeys={["0-0-0", "0-0-1"]}
           treeData={[
@@ -918,8 +1037,13 @@ export class Controllers extends React.Component<
               ],
             },
           ]}
-        ></Tree>
+        ></Tree> */}
         <div className={styles.verticalSpace}></div>
+        {/* <img
+          width="200"
+          height="66"
+          src="https://i.imgur.com/2JQzpJF.jpg"
+        ></img> */}
         {/* <div>Host (사회자)</div>
         <SliderWithInput
           min={0}
@@ -943,7 +1067,7 @@ export class Controllers extends React.Component<
             });
           }}
         ></SliderWithInput> */}
-        <Tree
+        {/* <Tree
           selectable={false}
           // defaultExpandedKeys={["0-0-0", "0-0-1"]}
           treeData={[
@@ -1030,8 +1154,8 @@ export class Controllers extends React.Component<
           }}
         >
           apply 2 multiplied metrics
-        </Checkbox>
-        <div className={styles.marginBottom}></div>
+        </Checkbox> */}
+        {/* <div className={styles.marginBottom}></div>
         <div className={styles.classificationTitle}>[ Colorings ]</div>
         <div>Coloring of Similarity Score</div>
         <SliderWithInput
@@ -1052,8 +1176,8 @@ export class Controllers extends React.Component<
             this.props.d3Drawer!.similarityBlocksDrawer.standardHighPointOfSimilarityScore = changedValue;
             this.props.d3Drawer!.similarityBlocksDrawer.update();
           }}
-        ></SliderWithInput>
-        <div>Coloring Self Similarities</div>
+        ></SliderWithInput> */}
+        {/* <div>Coloring Self Similarities</div>
         <Select
           className={styles.select}
           defaultValue="none"
@@ -1109,10 +1233,10 @@ export class Controllers extends React.Component<
               });
             }
           }}
-        ></SliderWithInput>
+        ></SliderWithInput> */}
         <div className={styles.verticalSpace}></div>
         <div className={styles.pkwd}>
-          <Button
+          {/* <Button
             className={styles.button}
             size={"small"}
             onClick={() => {
@@ -1149,8 +1273,8 @@ export class Controllers extends React.Component<
             }}
           >
             CSseg&#39; Pk
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             className={styles.button}
             size={"small"}
             onClick={() => {
@@ -1215,11 +1339,11 @@ export class Controllers extends React.Component<
             }}
           >
             LCseg&#39; Wd
-          </Button>
+          </Button> */}
         </div>
         <div className={styles.verticalSpace}></div>
         <div className={styles.verticalSpace}></div>
-        <Button
+        {/* <Button
           className={styles.button}
           size={"small"}
           onClick={() => {
@@ -1270,7 +1394,7 @@ export class Controllers extends React.Component<
           }}
         >
           Get big manual sentence_indexes_of_segments
-        </Button>
+        </Button> */}
       </div>
     );
   }
