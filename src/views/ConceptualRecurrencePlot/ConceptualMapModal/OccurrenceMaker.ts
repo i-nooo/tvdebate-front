@@ -25,6 +25,7 @@ export class OccurrenceMaker {
 
     const windowSentenceElements: SentenceObject[] = [];
     _.forEach(utteranceOjbectsOfEG, (utteranceOjbect) => {
+      // _.forEach( collection, [iteratee = _.identity] )
       _.forEach(utteranceOjbect.sentenceObjects, (sentenceObject) => {
         // make windowSentences
         if (windowSentenceElements.length === sentenceWindow) {
@@ -93,6 +94,7 @@ export class OccurrenceMaker {
   }
 
   public get occurrenceVector(): number[] {
+    console.log(this._occurrenceVector);
     return this._occurrenceVector;
   }
   public get cooccurrenceMatrix(): number[][] {

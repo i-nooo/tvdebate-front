@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as d3 from "d3";
-import { D3ZoomEvent } from "d3";
+// import { D3ZoomEvent } from "d3";
 import { LinkDatum, NodeDatum } from "./GraphDataStructureMaker";
 import { ParticipantCount } from "./TermCountDictOfEGMaker";
 
@@ -10,13 +10,13 @@ export class SvgGSelectionsMaker {
     any,
     HTMLElement,
     any
-  > = null;
+  > = null; // default
   private svgGSelection: null | d3.Selection<
     SVGGElement,
     DragEvent,
     HTMLElement,
     any
-  > = null;
+  > = null; // default
 
   public constructor(
     private readonly conceptualMapDivSelection: d3.Selection<
@@ -59,7 +59,7 @@ export class SvgGSelectionsMaker {
       return this.svgGSelection
         .append("g")
         .attr("stroke", "#999")
-        .attr("stroke-opacity", 0.6)
+        .attr("stroke-opacity", 0.5) // linkOpacity
         .selectAll<SVGLineElement, LinkDatum>("line");
     } else {
       throw new Error("svgSelection is not appended yet");
@@ -90,7 +90,7 @@ export class SvgGSelectionsMaker {
     if (this.svgGSelection !== null) {
       return this.svgGSelection
         .append("g")
-        .attr("stroke", "#fff")
+        .attr("stroke", "#fff") // white
         .attr("stroke-width", 1)
         .selectAll<SVGCircleElement, NodeDatum>("circle");
     } else {
@@ -113,7 +113,7 @@ export class SvgGSelectionsMaker {
     }
   }
 }
-
+// node에 대한 interaction
 export function makeSimulation(nodes: NodeDatum[], links: LinkDatum[]) {
   return d3
     .forceSimulation<NodeDatum>(nodes)
@@ -124,7 +124,7 @@ export function makeSimulation(nodes: NodeDatum[], links: LinkDatum[]) {
     .force("charge", d3.forceManyBody())
     .force("x", d3.forceX())
     .force("y", d3.forceY());
-}
+} //d3-force
 
 export function makeDrag() {
   return (simulation: d3.Simulation<NodeDatum, undefined>) => {
@@ -153,6 +153,7 @@ export function makeDrag() {
   };
 }
 
+// do Make Compound!!
 export const makePieData = d3
   .pie<ParticipantCount>()
   .sort(null)

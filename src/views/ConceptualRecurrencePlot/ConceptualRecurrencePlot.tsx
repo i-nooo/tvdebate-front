@@ -286,14 +286,14 @@ function ConceptualRecurrencePlot() {
         }
       ></Controllers>
       <div className="concept-recurrence-plot">
-        <img
+        {/* <img
           className="imgPos"
           // TODO 추후 marginLeft 고치기
-          style={{ marginTop: "35px", position: "fixed", marginLeft: "1340px" }}
-          width="400"
-          height="133"
+          style={{ marginTop: "35px", position: "fixed", marginLeft: "-340px" }}
+          width="200"
+          height="67"
           src="https://i.imgur.com/2JQzpJF.jpg"
-        ></img>
+        ></img> */}
         <svg className="fullSvg">
           <svg>
             <g className="test">

@@ -1,6 +1,7 @@
 import { ParticipantDict } from "./../../../common_functions/makeParticipants";
 /* eslint-disable no-unused-vars */
 // import { participantDict } from "./../DataStructureMaker/index";
+// NodeLink Diagram를 그리기 위한 정보가 들어있는 Drawer Data.ts
 import * as d3 from "d3";
 import { LinkDatum, NodeDatum, NodeLinkDict } from "./GraphDataStructureMaker";
 import { ParticipantCount } from "./TermCountDictOfEGMaker";
@@ -139,7 +140,7 @@ export class ConceptualMapDrawer {
         .join("path")
         .attr("fill", (d) => that._participantDict[d.data.name].color)
         .attr("d", (d) => makeArcDAttribute(d, nodeDatum, nodeSizeMultiplier));
-
+      // each  = d3-selection 함수., d3 내장
       arcsSelection.each(function (arcDatum) {
         d3.select(this)
           .selectAll<HTMLTitleElement, d3.PieArcDatum<ParticipantCount>>(
@@ -147,7 +148,10 @@ export class ConceptualMapDrawer {
           )
           .data([arcDatum])
           .join("title")
-          .text((d) => `${d.data.name}, ${d.data.count}`);
+          .text(
+            (d) =>
+              `발화자: ${d.data.name}, 발화 횟수: ${d.data.count}, sentiment: ${d.data.sentiment}`
+          );
       });
     });
 
@@ -227,7 +231,8 @@ export class ConceptualMapDrawer {
       .data(nodes)
       .join("circle")
       .attr("r", (d) => Math.sqrt(d.count * nodeSizeMultiplier))
-      .attr("fill", "rgb(100, 100, 100)")
+      // .attr("fill", "rgb(100, 100, 100)")
+      .attr("fill", "rgb(55, 55, 55)")
       .call(drag(simulation));
 
     this.nodesGSelection.each(function (nodeDatum) {

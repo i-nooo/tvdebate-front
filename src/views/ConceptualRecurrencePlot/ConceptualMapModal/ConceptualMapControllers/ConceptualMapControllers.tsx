@@ -120,6 +120,17 @@ class ConceptualMapControllers extends React.Component<
         >
           Sentiment Marker
         </Checkbox>
+        {/* Delete Minimum Keyword + 세부 인터랙션이 필요한 곳에 대한 컴포넌트 만들 수 있다.*/}
+        <Checkbox
+          className={styles.checkbox}
+          onChange={(event) => {
+            this.props.conceptualMapDrawer!.sentimentMarkerVisible =
+              event.target.checked;
+            this.props.conceptualMapDrawer!.updateGraph();
+          }}
+        >
+          Delete Min Count Keyword
+        </Checkbox>
 
         <div style={{ marginBottom: 12 }}>
           checkbox for &apos;at least 1 link or not&apos;
