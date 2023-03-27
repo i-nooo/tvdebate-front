@@ -262,7 +262,7 @@ function ConceptualRecurrencePlot() {
   }, [dataStructureManager, debateDataset]);
 
   return (
-    <div className="root-div">
+    <div className="root-div" style={{ overflow: "hidden" }}>
       <Header />
       {/* <Controllers
         d3Drawer={d3Drawer}
@@ -281,7 +281,10 @@ function ConceptualRecurrencePlot() {
           dataStructureManager ? dataStructureManager : null
         }
       ></Controllers> */}
-      <div className="concept-recurrence-plot">
+      <div
+        className="concept-recurrence-plot"
+        style={{ marginTop: "35px", overflow: "hidden" }}
+      >
         {/* <img
           className="imgPos"
           // TODO 추후 marginLeft 고치기
@@ -290,13 +293,12 @@ function ConceptualRecurrencePlot() {
           height="67"
           src="https://i.imgur.com/2JQzpJF.jpg"
         ></img> */}
-        <svg className="fullSvg">
-          <svg>
-            <g className="test">
-              <g className="svgG"></g>
-            </g>
-          </svg>
+        <svg className="fullSvg" style={{ overflow: "visible" }}>
+          <g className="test">
+            <g className="svgG"></g>
+          </g>
         </svg>
+
         {/* 참가자의 발화스크립트툴팁 */}
         {/* <ParticipantTooltip
           utteranceObjectForDrawing={mouseoveredUtterance}

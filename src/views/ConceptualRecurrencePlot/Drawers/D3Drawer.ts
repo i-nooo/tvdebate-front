@@ -78,8 +78,10 @@ export class D3Drawer {
   ) {
     // declare variables
     this.conceptRecurrencePlotDiv = d3.select(".concept-recurrence-plot");
-    this.svgWidth = this.conceptRecurrencePlotDiv.node()!.clientWidth;
-    this.svgHeight = this.conceptRecurrencePlotDiv.node()!.clientHeight;
+    // this.svgWidth = this.conceptRecurrencePlotDiv.node()!.clientWidth;
+    // this.svgHeight = this.conceptRecurrencePlotDiv.node()!.clientHeight;
+    this.svgWidth = 2000;
+    this.svgHeight = 2000;
     // this.svgRotate = this.conceptRecurrencePlotDiv.node()!;
     // const rotate = d3.svg.transform().rotate(-45);
     this.svgSelection = this.conceptRecurrencePlotDiv
@@ -180,6 +182,7 @@ export class D3Drawer {
         this.refutationIconDrawerTwo.similarityBlock = d;
         this.insistenceIconDrawer.similarityBlock = d;
       } else if (
+        // eslint-disable-next-line no-dupe-else-if
         d.colUtteranceName === "김종대" ||
         d.colUtteranceName === "장경태"
       ) {
