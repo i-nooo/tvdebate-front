@@ -19,7 +19,7 @@ function Home(props: ComponentProps) {
 
   return (
     <div className={styles.home}>
-      <div className={styles.serviceTitle}>DebateVis</div>
+      <div className={styles.serviceTitle}>MDVis</div>
       {/* <Checkbox
         className={styles.checkbox}
         defaultChecked
@@ -62,12 +62,12 @@ function Home(props: ComponentProps) {
         >
           모병제
         </Button>
-        {/* <Button
+        <Button
           className={styles.button}
-          href="/coocurence_matrix?debate_name=?"
+          href={`/coocurence_matrix?debate_name=기본소득&term_type=${termType}`}
         >
-          (Not Activated) 집 값, 과연 이번엔 잡힐까?
-        </Button> */}
+          Bubble Chart
+        </Button>
       </div>
 
       <div className={styles.links}>

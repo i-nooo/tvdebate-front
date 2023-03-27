@@ -15,6 +15,8 @@ import { KeytermObject } from "../../../interfaces/DebateDataInterface";
 import { InsistenceMarkersDrawer } from "./InsistenceMarkersDrawer";
 import { RefutationIconDrawer } from "./RefutationIconDrawer";
 import { InsistenceIconDrawer } from "./InsistenceIconDrawer";
+import { InsistenceIconDrawerTwo } from "./InsistenceIconDrawerTwo";
+import { RefutationIconDrawerTwo } from "./RefutationIconDrawerTwo";
 
 export class D3Drawer {
   private readonly conceptRecurrencePlotDiv!: d3.Selection<
@@ -35,7 +37,6 @@ export class D3Drawer {
     HTMLElement,
     any
   >;
-
   // 접근 제한자 public, private, protected
   // public: 어디에서나 접근할 수 있으며 생략 가능한 default 값
   // private: 해당 클래스의 인스턴스에서만 접근 가능
@@ -44,8 +45,11 @@ export class D3Drawer {
   public readonly participantBlocksDrawer: ParticipantBlocksDrawer;
   public readonly insistenceMarkersDrawer: InsistenceMarkersDrawer;
   public readonly refutationIconDrawer: RefutationIconDrawer;
+  public readonly refutationIconDrawerTwo: RefutationIconDrawerTwo;
   public readonly insistenceIconDrawer: InsistenceIconDrawer;
-  public readonly uncertainIconDrawer: UncertainIconDrawer;
+  public readonly uncertainIconDrawer: InsistenceIconDrawer;
+  public readonly insistenceIconDrawerTwo: InsistenceIconDrawerTwo;
+  //public readonly uncertainIconDrawer: uncertainIconDrawer;
   public readonly similarityBlocksDrawer: SimilarityBlocksDrawer;
   public readonly topicGroupsDrawer: TopicGroupsDrawer;
   public readonly manualSmallTGsDrawer: TopicGroupsDrawer;
@@ -82,6 +86,7 @@ export class D3Drawer {
       .select<SVGSVGElement>("svg")
       .attr("width", this.svgWidth)
       .attr("height", this.svgHeight)
+      // 전체 svg 영역
       .attr("transform", "scale(1, -1) rotate(-45)")
       // .attr("transform", "rotate(45)")
       // 임시로 45도 돌려놓음 현재
@@ -107,57 +112,108 @@ export class D3Drawer {
       debateDataSet.conceptMatrixTransposed,
       debateDataSet.keytermObjects,
       this.svgGSelection
-    ); // 참가자 drawer
+    ); // 주장 marker drawer
     this.insistenceMarkersDrawer = new InsistenceMarkersDrawer(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
       dataStructureSet.similarityBlockManager.similarityBlockGroup,
       this.svgGSelection
-    );
+    ); // 불확실 아이콘 drawer
     this.refutationIconDrawer = new RefutationIconDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      this.svgGSelection
+    ); // 반박 아이콘 drawer
+    this.refutationIconDrawerTwo = new RefutationIconDrawerTwo(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
       this.svgGSelection
     );
     this.insistenceIconDrawer = new InsistenceIconDrawer(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      debateDataSet.keytermObjects,
       this.svgGSelection
-    );
-    this.uncertainIconDrawer = new UncertainIconDrawer(
+    ); // 불확실 아이콘 drawer
+    this.insistenceIconDrawerTwo = new InsistenceIconDrawerTwo(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
       this.svgGSelection
     );
+    this.uncertainIconDrawer = new InsistenceIconDrawer(
+      dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+      debateDataSet.keytermObjects,
+      this.svgGSelection
+    );
+    // this.uncertainIconDrawer = new UncertainIconDrawer(
+    //   dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
+    //   this.svgGSelection
+    // );
     this.similarityBlocksDrawer = new SimilarityBlocksDrawer(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
       dataStructureSet.similarityBlockManager.similarityBlocks,
       dataStructureSet.similarityBlockManager.similarityBlockGroup,
       dataStructureSet.participantDict,
       this.svgGSelection
-    );
+    ); // 유사도 구간 색지정
 
     this.similarityBlocksDrawer.clickListener = (
       e: MouseEvent,
       d: SimilarityBlock
     ) => {
+      this.insistenceMarkersDrawer.visible = false;
       this.refutationIconDrawer.similarityBlock = null;
+      this.refutationIconDrawerTwo.similarityBlock = null;
       this.insistenceIconDrawer.similarityBlock = null;
+      this.insistenceIconDrawerTwo.similarityBlock = null; // 7
       this.uncertainIconDrawer.similarityBlock = null;
-
-      if (d.refutation) {
+      // 논쟁 판단하는 조건문
+      // col: left, row: right
+      if (d.colUtteranceName === "이준석" || d.colUtteranceName === "박휘락") {
+        this.insistenceIconDrawerTwo.similarityBlock = d;
         this.refutationIconDrawer.similarityBlock = d;
-
-        const colUtteranceObject = this.dataStructureSet
-          .utteranceObjectsForDrawingManager.utteranceObjectsForDrawing[
-          d.columnUtteranceIndex
-        ];
-        if (colUtteranceObject.insistence) {
-          this.insistenceIconDrawer.similarityBlock = d;
-        } else {
-          // unknown insistence
-          this.uncertainIconDrawer.similarityBlock = d;
-        }
-      }
-
+      } else if (
+        d.colUtteranceName === "김종대" ||
+        d.colUtteranceName === "장경태"
+      ) {
+        this.insistenceIconDrawer.similarityBlock = d;
+        this.refutationIconDrawerTwo.similarityBlock = d;
+      } else if (
+        d.rowUtteranceName === "이준석" ||
+        d.rowUtteranceName === "박휘락"
+      ) {
+        this.refutationIconDrawerTwo.similarityBlock = d;
+        this.insistenceIconDrawer.similarityBlock = d;
+      } else if (
+        d.colUtteranceName === "김종대" ||
+        d.colUtteranceName === "장경태"
+      ) {
+        this.refutationIconDrawer.similarityBlock = d;
+        this.insistenceIconDrawerTwo.similarityBlock = d;
+      } else null;
+      //this.uncertainIconDrawer.similarityBlock = d;
+      // if (d.refutation) {
+      //   if (d.refutation) {
+      //     this.refutationIconDrawer.similarityBlock = d;
+      //   } else {
+      //     this.refutationIconDrawerTwo.similarityBlock = d;
+      //   }
+      //   const colUtteranceObject = this.dataStructureSet
+      //     .utteranceObjectsForDrawingManager.utteranceObjectsForDrawing[
+      //     d.columnUtteranceIndex
+      //   ];
+      //   if (
+      //     colUtteranceObject.insistence &&
+      //     (colUtteranceObject.name === "장경태" ||
+      //       colUtteranceObject.name === "김종대")
+      //   ) {
+      //     this.insistenceIconDrawer.similarityBlock = d; // 장경태, 김종대
+      //   } else if (colUtteranceObject.insistence) {
+      //     // unknown insistence
+      //     this.uncertainIconDrawer.similarityBlock = d;
+      //   } else {
+      //     this.insistenceIconDrawerTwo.similarityBlock = d; // 8
+      //   }
+      // }
       this.refutationIconDrawer.update();
+      this.refutationIconDrawerTwo.update();
       this.insistenceIconDrawer.update();
+      this.insistenceIconDrawerTwo.update();
       this.uncertainIconDrawer.update();
     };
 
@@ -183,7 +239,7 @@ export class D3Drawer {
       dataStructureSet,
       termType
     );
-    this.manualMiddleTGsDrawer.color = "#939393";
+    this.manualMiddleTGsDrawer.color = "#1d1d1d";
     this.manualBigTGsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,
@@ -204,10 +260,10 @@ export class D3Drawer {
       dataStructureSet,
       termType
     );
-    this.lcsegEGsDrawer.color = "#cc9900";
-
+    this.lcsegEGsDrawer.color = "#cc9900"; // yellow color
+    // 논쟁 구간 클릭 시 발생하는 이벤트
     this.svgSelection.on("click", (event) => {
-      console.log("svg clicked", event);
+      // console.log("svg clicked", event);
       // show all similarityBlocks
       _.forEach(
         dataStructureSet.similarityBlockManager.similarityBlocks,
@@ -217,13 +273,16 @@ export class D3Drawer {
       );
       this.similarityBlocksDrawer.update();
       this.participantBlocksDrawer.emptySelectedParticipants();
-
       this.insistenceIconDrawer.similarityBlock = null;
       this.insistenceIconDrawer.update();
       this.refutationIconDrawer.similarityBlock = null;
       this.refutationIconDrawer.update();
       this.uncertainIconDrawer.similarityBlock = null;
-      this.uncertainIconDrawer.update();
+      this.uncertainIconDrawer.update(); // 불확실성 icon
+      this.insistenceIconDrawerTwo.similarityBlock = null;
+      this.insistenceIconDrawerTwo.update();
+      this.refutationIconDrawerTwo.similarityBlock = null;
+      this.refutationIconDrawerTwo.update();
     });
   }
 

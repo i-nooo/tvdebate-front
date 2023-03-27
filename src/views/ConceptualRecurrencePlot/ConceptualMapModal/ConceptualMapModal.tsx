@@ -71,6 +71,7 @@ function ConceptualMapModal(
   }, []);
 
   useEffect(() => {
+    // 그려지는 상황인가??
     if (conceptualMapDrawer) {
       conceptualMapDrawer.setParticipantDict(props.participantDict);
     }
@@ -152,6 +153,6 @@ function ConceptualMapModal(
   );
 }
 
-export default forwardRef(ConceptualMapModal);
+export default forwardRef(ConceptualMapModal) || ConceptualMapModal;
 // export default ConceptualMapModal;
 // forwardRef(): React 컴포넌트에 ref prop을 넘겨서 그 내부에 있는 HTML 엘리먼트에 접근을 하게 해주는 함수.

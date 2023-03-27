@@ -17,6 +17,7 @@ import {
   getBasicIncomeManualMiddleEGTitles,
   getBasicIncomeManualBigEGTitles,
   getSatManualBigEGTitles,
+  getMilitaryManualMiddleEGTitles,
   getMilitaryManualBigEGTitles,
 } from "./makeManualEGs";
 import UtteranceObjectsForDrawingManager from "./UtteranceObjectsForDrawingManager";
@@ -196,10 +197,10 @@ export class DataStructureManager {
       ]);
       manualBigEGTitles = getSatManualBigEGTitles();
     } else if (debateName === "모병제") {
+      manualMiddleEGs = makeManualTGs(conceptSimilarityMatrix, [14, 57, 175]);
       manualBigEGs = makeManualTGs(conceptSimilarityMatrix, [
         0,
-        10,
-        15,
+        14,
         36,
         57,
         78,
@@ -208,6 +209,7 @@ export class DataStructureManager {
         138,
         175,
       ]);
+      manualMiddleEGTitles = getMilitaryManualMiddleEGTitles();
       manualBigEGTitles = getMilitaryManualBigEGTitles();
     } else if (debateName === "sample") {
       manualSmallEGs = makeManualTGs(conceptSimilarityMatrix, [0, 5]);

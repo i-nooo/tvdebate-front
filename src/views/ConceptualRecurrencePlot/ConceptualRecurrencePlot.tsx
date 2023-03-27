@@ -174,17 +174,13 @@ function ConceptualRecurrencePlot() {
         engagementGroup: SimilarityBlock[][],
         engagementGroupIndex: number
       ) => {
-        // conceptualMapModalRef.current?.openModal(
-        //   `Engagement Group ${engagementGroupIndex}`,
-        //   engagementGroup
-        // );
         const extractedKeytermObjects = extractKeytermsFromEngagementGroup(
           engagementGroup,
           debateDataset.conceptMatrixTransposed,
           debateDataset.keytermObjects,
           10
         );
-
+        // openModal에 의해 그려지는가??
         conceptualMapModalRef.current?.openModal(
           `${_.map(extractedKeytermObjects, (o) => o.name)}`,
           engagementGroup
@@ -268,7 +264,7 @@ function ConceptualRecurrencePlot() {
   return (
     <div className="root-div">
       <Header />
-      <Controllers
+      {/* <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
         maxSimilarityScore={
@@ -284,7 +280,7 @@ function ConceptualRecurrencePlot() {
         dataStructureManager={
           dataStructureManager ? dataStructureManager : null
         }
-      ></Controllers>
+      ></Controllers> */}
       <div className="concept-recurrence-plot">
         {/* <img
           className="imgPos"
@@ -301,18 +297,19 @@ function ConceptualRecurrencePlot() {
             </g>
           </svg>
         </svg>
-        <ParticipantTooltip
+        {/* 참가자의 발화스크립트툴팁 */}
+        {/* <ParticipantTooltip
           utteranceObjectForDrawing={mouseoveredUtterance}
           transform={transform}
           visible={tooltipVisible}
           d3Drawer={d3Drawer}
           debateDataset={debateDataset}
-        />
+        /> */}
       </div>
       <TranscriptViewer
         dataStructureMaker={dataStructureManager}
       ></TranscriptViewer>
-      <ConceptualMapModal
+      {/* <ConceptualMapModal
         ref={conceptualMapModalRef}
         participantDict={
           dataStructureManager
@@ -327,7 +324,7 @@ function ConceptualRecurrencePlot() {
             : []
         }
         termType={termTypeOfQuery}
-      ></ConceptualMapModal>
+      ></ConceptualMapModal> */}
     </div>
   );
 }

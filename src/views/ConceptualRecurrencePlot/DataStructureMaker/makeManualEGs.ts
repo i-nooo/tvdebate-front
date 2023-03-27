@@ -90,6 +90,17 @@ export function getBasicIncomeManualBigEGTitles(): string[] {
   ];
 }
 
+export function getInsistenceRefutationEGTitles(): string[] {
+  return [
+    "논쟁심화구긴1",
+    "논쟁심화구긴2",
+    "논쟁심화구긴3",
+    "논쟁심화구긴4",
+    "논쟁심화구긴5",
+    "논쟁심화구긴6",
+  ];
+} // 논쟁 심화 구간 나눠주는 요소도 추가해야 사용자 입장에서 탐색이 더 쉽게 보일듯함.
+
 export function getSatManualSmallEGTitles(): string[] {
   return [];
 }
@@ -116,21 +127,23 @@ export function getMilitaryManualSmallEGTitles(): string[] {
 }
 
 export function getMilitaryManualMiddleEGTitles(): string[] {
-  return [];
+  return [
+    "인구절벽: 중요한 국방 이슈, 현실화된 병력 구조 리모델링",
+    "모병제 도입 찬반 논쟁과 개선안은?",
+  ];
 }
 
 export function getMilitaryManualBigEGTitles(): string[] {
   return [
-    "모병제에 대한 첫 발언",
-    "모병제가 정치적 선거용인지",
-    "인구절벽과 군인 수 문제",
-    "근본적인 보병의 숫자가 필요한 이슈",
-    "모병제가 되면 신분제가 되지 않느냐에 대한 이슈",
-    "시청자 의견: 모병제로 인한 질적 향상",
-    "시청자 의견: 군 간부 인력 확충 이슈",
-    "시청자 의견: 여성 징집 or 모병",
-    "군대 계급의 사다리가 되려면 그에 대한 예산 이슈",
-    "군대문화 개선으로 각자 마무리 발언",
+    "토론 시작 및 모병제: 정치적 선거용?",
+    "인구절벽에 인한 군인 수 감소",
+    "군인 수 문제 해결방안은?",
+    "모병제로 인한 신분제 부활",
+    "모병제로 인한 질적 향상",
+    "군간부 인력 확충 ",
+    "여성 징집과 모병",
+    "계급별 예산 이슈",
+    "군문화 개선안 마무리 발언",
   ];
 }
 

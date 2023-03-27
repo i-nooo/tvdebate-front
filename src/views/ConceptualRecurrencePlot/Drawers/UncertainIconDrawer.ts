@@ -81,6 +81,9 @@ export class UncertainIconDrawer {
       .style("font-size", "345.7846px")
       .text("...");
   }
+  // 사각형 중심점 계산
+  // const centerX = parseFloat(rect.attr("x")) + parseFloat(rect.attr("width")) / 2;
+  // const centerY = parseFloat(rect.attr("y")) + parseFloat(rect.attr("height")) / 2;
 
   public update() {
     if (this._similarityBlock !== null) {

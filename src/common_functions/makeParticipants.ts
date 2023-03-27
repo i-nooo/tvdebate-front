@@ -177,11 +177,16 @@ export function makeParticipants( // 참가자 노드 생성 구간
     });
   } else if (debateName === "모병제" || debateName === "모병제clipped") {
     const colorDictionary: { [index: number]: string } = {
-      0: "#FF0000",
-      1: "#00FF00",
-      2: "#3CB043",
-      3: "#A020F0",
-      4: "#333333",
+      // 0: "#FF0000",
+      // 1: "#00FF00",
+      // 2: "#3CB043",
+      // 3: "#A020F0",
+      // 4: "#333333",
+      1: "rgba(141, 223, 95, 1)", // 박기성
+      2: "rgba(56, 146, 3,1)", // 오세훈
+      0: "rgba(134, 82, 255, 1)", // 이원재
+      3: "rgba(0, 0, 216, 1)", // 이재명
+      4: "rgba(51, 51, 51, 1)", // 사회자
     };
     participants = _.map(names, (name, index) => {
       let team: number;

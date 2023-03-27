@@ -85,7 +85,9 @@ export class SimilarityBlocksDrawer {
       })
       .style("stroke-width", 3)
       .style("stroke", (d) =>
-        this._showEngagementPoint && d.engagementPoint ? "rgb(0, 0, 255)" : null
+        this._showEngagementPoint && d.engagementPoint
+          ? "rgb(97, 64, 65)"
+          : null
       );
 
     similarityRectGSelectionDataBound
@@ -98,6 +100,7 @@ export class SimilarityBlocksDrawer {
       .style("fill", (d) => {
         return d.visible
           ? fillColorOfSimilarityBlock(
+              // 유사도 블록 색칠해주는 구간.
               d,
               this.utteranceObjectsForDrawing,
               this.similarityBlockGroup,
@@ -110,7 +113,9 @@ export class SimilarityBlocksDrawer {
       })
       .style("stroke-width", 3)
       .style("stroke", (d) =>
-        this._showEngagementPoint && d.engagementPoint ? "rgb(0, 0, 255)" : null
+        this._showEngagementPoint && d.engagementPoint
+          ? "rgb(97, 64, 65)"
+          : null
       )
       .on("click", (e, d) => {
         const mouseEvent = (e as unknown) as MouseEvent;
@@ -123,12 +128,12 @@ export class SimilarityBlocksDrawer {
       })
       .append("title")
       .text(
-        (d) =>
-          `findArgument: ${d.refutation},\n주장발화자Index: ${
+        (d, i) =>
+          `findArgument: ${
+            (d.refutation, this.participantDict)
+          },\n주장발화자Index: ${d.columnUtteranceIndex},\n반박발화자Index: ${
             d.rowUtteranceIndex
-          },\n반박발화자Index: ${d.columnUtteranceIndex},\nsimilarityScore: ${
-            d.similarity
-          },\nkeywords: ${_.map(
+          },\nsimilarityScore: ${d.similarity},\nkeywords: ${_.map(
             d.mainKeytermObjects,
             (mainKeytermObject) => `${mainKeytermObject.name}`
           )}`
@@ -149,8 +154,17 @@ export class SimilarityBlocksDrawer {
 
       // Adjust Opacity
       // 주장 반박 구간 색칠
+      // console.log(
+      //   similarityBlock.rowUtteranceIndex,
+      //   similarityBlock.columnUtteranceIndex
+      // );
+      const indexDiff = Math.abs(
+        similarityBlock.columnUtteranceIndex - similarityBlock.rowUtteranceIndex
+      );
       const weightedSimilarity =
-        similarityBlock.weight * similarityBlock.similarity;
+        ((similarityBlock.weight * similarityBlock.similarity) /
+          (indexDiff * indexDiff)) *
+        50;
       if (weightedSimilarity > limitConstant) {
         opacity = 1;
       } else {
@@ -160,7 +174,7 @@ export class SimilarityBlocksDrawer {
       // let color = `rgba(150, 100, 100, 0.25)`;
       // let color = `rgba(79, 198, 66, ${opacity})`;
       // let color = `rgba(247, 191, 100, ${opacity * 1.5})`; // 피라미드 색상
-      let color = `rgba(247, 191, 100, ${opacity})`; // 피라미드 색상
+      let color = `rgba(247, 191, 100, ${opacity / 7})`; // 피라미드 색상
 
       const rowUtteranceObject =
         utteranceObjectsForDrawing[similarityBlock.rowUtteranceIndex];
@@ -187,7 +201,7 @@ export class SimilarityBlocksDrawer {
       // Update Coloring Rebuttal
       if (coloringRebuttal && similarityBlock.refutation) {
         // color = `rgba(198, 66, 66, ${opacity})`;
-        color = `rgba(255, 0, 0, ${opacity})`;
+        color = `rgba(97, 64, 65, ${opacity})`;
       }
 
       return color;

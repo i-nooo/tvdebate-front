@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-/* 오른쪽 기준(rowUtteracne)을 그려주는 구간 */
+/* 왼쪽 기준(columnUtteracne)을 그려주는 구간 */
 import { SimilarityBlock, UtteranceObjectForDrawing } from "../interfaces";
-export class RefutationIconDrawer {
+export class InsistenceIconDrawerTwo {
   private _visible: boolean = false;
   private _similarityBlock: SimilarityBlock | null = null;
 
@@ -37,6 +37,7 @@ export class RefutationIconDrawer {
     private readonly utteranceObjectsForDrawing: UtteranceObjectForDrawing[],
     svgSelection: d3.Selection<SVGGElement, MouseEvent, HTMLElement, any>
   ) {
+    // green 따봉
     this.insistenceIconGSlection = svgSelection
       .append("g")
       .style("visibility", "hidden");
@@ -70,7 +71,7 @@ export class RefutationIconDrawer {
         "M 239.8 183 c -10.6 -10.6 -10.6 -27.9 0 -38.5 s 27.9 -10.6 38.5 0 l 0.8 0.8 l 5.4 5.4 c -7.4 -7.5 -7.4 -19.6 0 -27.1 c 7.5 -7.5 19.6 -7.6 27.2 -0.1 l 11 11 c 31.4 31.5 62.8 62.8 94.3 94.2 c 7.7 7.7 22.7 17.9 24.6 29.4 c 0.6 3.6 -0.2 7.3 -0.4 11 c -0.7 16.1 16.8 27.4 27.2 37.8 l 25.7 25.6 L 374.7 451.8 l -53.6 -53.6 c -1.5 -1.5 -7.5 2.2 -8.9 2.8 c -4.4 2 -7 2.9 -11.7 2.7 c -11.6 -0.5 -23.1 -1.9 -34.6 -3.9 c -20.3 -3.7 -42 -8 -59.9 -0.4 c -9.2 3.9 -16.8 10.9 -22.4 19 c -4 5.7 -7.1 12.1 -12.1 16.9 c -5 4.8 -12.6 7.7 -19.7 4.9 c -4.4 -1.7 -7.9 -5.4 -10.5 -9.4 c -8.3 -12.8 -7.6 -29.1 -1.3 -41.5 c 6.2 -12.3 17.2 -21.2 28.7 -28.8 c 8.8 -5.8 18.5 -12.4 25.8 -20.4 c 9.5 -10.4 14.9 -23.2 8.7 -39.7 L 180 277.3 L 165.7 263 c -10.5 -10.6 -11.2 -28.4 -0.5 -39.1 c 10.5 -10.6 27.7 -10.7 38.4 -0.2 l -4.7 -4.6 c -10.1 -10.5 -10.1 -27.2 0 -37.8 c 10.4 -10.8 27.7 -11.2 38.5 -0.8 L 239.8 183 L 239.8 183 Z"
       )
       .attr("fill", "white");
-
+    // red 따봉
     this.refutationIconGSlection = svgSelection
       .append("g")
       .style("visibility", "hidden");
@@ -107,36 +108,43 @@ export class RefutationIconDrawer {
   }
 
   public update() {
-    if (this._similarityBlock !== null) {
-      const rowUtteranceObject = this.utteranceObjectsForDrawing[
-        this._similarityBlock.rowUtteranceIndex
+    if (this._similarityBlock) {
+      const colUtteranceObject = this.utteranceObjectsForDrawing[
+        this._similarityBlock.columnUtteranceIndex
       ];
+      // const rowUtteranceObject = this.utteranceObjectsForDrawing[
+      //   this._similarityBlock.rowUtteranceIndex
+      // ];
+      // 모병제
       if (
-        rowUtteranceObject.name === "장경태" ||
-        rowUtteranceObject.name === "김종대"
+        colUtteranceObject.name === "장경태" ||
+        colUtteranceObject.name === "김종대"
       ) {
+        this.refutationIconGSlectionTwo.style("visibility", "hidden");
+      } else {
         // Draw Red Icon
         const defaultXPos =
-          rowUtteranceObject.beginningPointOfXY +
-          rowUtteranceObject.width / 2 +
+          colUtteranceObject.beginningPointOfXY +
+          colUtteranceObject.width / 2 +
           7;
-        const defaultYPos = rowUtteranceObject.beginningPointOfXY - 8;
-        const transformProperty = `translate(${defaultXPos}, ${defaultYPos})scale(0.01, 0.01)`;
-        this.insistenceIconGSlectionTwo
+        const defaultYPos = colUtteranceObject.beginningPointOfXY - 8;
+        const transformProperty = `translate(${defaultXPos}, ${defaultYPos}) scale(0.01, 0.01)`;
+        // 바뀌게 될 아이콘 추가하여 넣기.
+        this.refutationIconGSlectionTwo
           .attr("transform", transformProperty)
           .style("visibility", "visible");
-      } else {
-        this.insistenceIconGSlectionTwo.style("visibilty", "hidden");
+        // this.insistenceIconGSlection.style("visibility", "hidden");
       }
+      //.attr("transform", "scale(0.1, -0.1) rotate(-45)");
     } else {
-      this.insistenceIconGSlectionTwo.style("visibilty", "hidden");
+      this.refutationIconGSlectionTwo.style("visibility", "hidden");
     }
   }
 
   public set similarityBlock(similarityBlock: SimilarityBlock | null) {
     this._similarityBlock = similarityBlock;
   }
-
+  // stopPropagation 적용 필요해보임.
   // public set visible(visible: boolean) {
   //   this._visible = visible;
   // }

@@ -9,9 +9,9 @@ import {
   useHistory,
 } from "react-router-dom";
 import "./App.scss";
-
-import Timeline from "./views/Timeline/Timeline";
 import ConceptualRecurrencePlot from "./views/ConceptualRecurrencePlot/ConceptualRecurrencePlot";
+// import ModalBubble from "./views/ConceptualRecurrencePlot/ModalBubble";
+import Timeline from "./views/Timeline/Timeline";
 import Home from "./views/Home/Home";
 import FunctionComponentTemplate from "./views/FunctionComponentTemplate/FunctionComponentTemplate";
 import ClassComponentTemplate from "./views/ClassComponentTemplate/ClassComponentTemplate";
@@ -21,6 +21,7 @@ import DescriptionForManualTopicSegmentation from "./views/TestDescription/TestD
 import VideoSubjectTest from "./views/VideoSubjectTest/VideoSubjectTest";
 import SubjectTestEnd from "./views/SubjectTestEnd/SubjectTestEnd";
 import SampleViewOfTopicSegmentation from "./views/SampleViewOfTopicSegmentation/SampleViewOfTopicSegmentation";
+import ConceptualMapModal from "./views/ConceptualRecurrencePlot/ConceptualMapModal/ConceptualMapModal";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/class-component-template">
+          {/* <Route path="/class-component-template">
             <ClassComponentTemplate />
           </Route>
           <Route path="/function-component-template">
@@ -55,16 +56,14 @@ function App() {
           </Route>
           <Route path="/test-description">
             <DescriptionForManualTopicSegmentation />
-          </Route>
+          </Route> */}
           <Route path="/coocurence_matrix">
             <ConceptualRecurrencePlot></ConceptualRecurrencePlot>
           </Route>
           <Route path="/">
             <Home />
           </Route>
-          <Route path="/sample">
-            <Home />
-          </Route>
+          <Route path="/bubbleChart">{/* <ModalBubble></ModalBubble> */}</Route>
         </Switch>
       </div>
     </Router>

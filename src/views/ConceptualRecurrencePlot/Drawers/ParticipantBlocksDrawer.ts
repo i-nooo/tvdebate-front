@@ -74,45 +74,46 @@ export class ParticipantBlocksDrawer {
         //   const selectedParticipant = (u as unknown) as UtteranceObjectForDrawing;
         //   this.click(mouseEvent, selectedParticipant);
         // })
-        .on("mouseover", (e, u) => {
-          const mouseEvent = (e as unknown) as MouseEvent;
-          mouseEvent.stopPropagation();
-          const utteranceObjectForDrawing = (u as unknown) as UtteranceObjectForDrawing;
+        // .on("mouseover", (e, u) => {
+        //   const mouseEvent = (e as unknown) as MouseEvent;
+        //   mouseEvent.stopPropagation();
+        //   const utteranceObjectForDrawing = (u as unknown) as UtteranceObjectForDrawing;
 
-          // TODO adjust transcript-view
-          if (this._mouseoverListener) {
-            this._mouseoverListener(mouseEvent, utteranceObjectForDrawing);
-          }
-        })
-        .on("mouseout", (e, u) => {
-          if (this._mouseoutListener) {
-            this._mouseoutListener();
-          }
+        //   // TODO adjust transcript-views
+        //   if (this._mouseoverListener) {
+        //     this._mouseoverListener(mouseEvent, utteranceObjectForDrawing);
+        //   }
+        // })
+        // .on("mouseout", (e, u) => {
+        //   if (this._mouseoutListener) {
+        //     this._mouseoutListener();
+        //   }
+        // });
+        // TODO
+        .append("title")
+        .text((d, i) => {
+          const conceptVectorOfUtterance = conceptMatrixTransposed[i];
+          // console.log(conceptVectorOfUtterance);
+          const topValueIndexes = findTopValueIndexes(
+            conceptVectorOfUtterance,
+            8
+          );
+          const mainKeytermObjects = _.map(
+            topValueIndexes,
+            (topValueIndex) => keytermObjects[topValueIndex]
+          );
+
+          const mainKeytermsString = _.reduce(
+            mainKeytermObjects,
+            (result, keytermObject) => {
+              return `${result} ${keytermObject.name}`;
+            },
+            ""
+          );
+          return `keywords:${mainKeytermsString}\n ${d.name}: ${d.utterance}
+          `;
+          //${d.name} : ${d.utterance}
         });
-      // TODO
-      // .append("title")
-      // .text((d, i) => {
-      //   const conceptVectorOfUtterance = conceptMatrixTransposed[i];
-
-      //   const topValueIndexes = findTopValueIndexes(
-      //     conceptVectorOfUtterance,
-      //     3
-      //   );
-      //   const mainKeytermObjects = _.map(
-      //     topValueIndexes,
-      //     (topValueIndex) => keytermObjects[topValueIndex]
-      //   );
-
-      //   const mainKeytermsString = _.reduce(
-      //     mainKeytermObjects,
-      //     (result, keytermObject) => {
-      //       return `${result} ${keytermObject.name}`;
-      //     },
-      //     ""
-      //   );
-
-      //   return `main_keyterms:${mainKeytermsString}\n${d.name} : ${d.utterance}`;
-      // });
     }
   }
 
@@ -128,7 +129,7 @@ export class ParticipantBlocksDrawer {
       this.participantDict[selectedParticipant.name]
     );
 
-    console.log("this.selectedParticipants", this.selectedParticipants);
+    //console.log("this.selectedParticipants", this.selectedParticipants);
 
     if (this.selectedParticipants.length === 1) {
       // remain same participant's similairity_block. remove other participant's similarity_block

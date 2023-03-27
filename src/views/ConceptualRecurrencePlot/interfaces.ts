@@ -4,6 +4,7 @@ import {
 } from "../../interfaces/DebateDataInterface";
 export interface UtteranceObjectForDrawing extends UtteranceObject {
   beginningPointOfXY: number;
+  name: string;
   width: number;
   insistence: boolean;
 }
@@ -16,6 +17,8 @@ export interface SimilarityBlock {
   height: number;
   similarity: number;
   weight: number;
+  rowUtteranceName: string;
+  colUtteranceName: string;
   // stroke: number;
   rowUtteranceIndex: number;
   columnUtteranceIndex: number;

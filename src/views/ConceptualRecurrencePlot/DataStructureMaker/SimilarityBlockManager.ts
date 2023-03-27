@@ -51,6 +51,10 @@ export class SimilarityBlockManager {
           utteranceObjectsForDrawing[utteranceRowIndex];
         const colUtteranceObject =
           utteranceObjectsForDrawing[utteranceColIndex];
+        const rowUtteranceName =
+          utteranceObjectsForDrawing[utteranceRowIndex].name;
+        const colUtteranceName =
+          utteranceObjectsForDrawing[utteranceColIndex].name;
 
         const partsOfSimilarity = _.map(
           rowUtteranceConcept,
@@ -82,6 +86,8 @@ export class SimilarityBlockManager {
           // ),
           weight: 1, // 가중치에 의해 색상의 opacity가 부여
           mainKeytermObjects,
+          rowUtteranceName: rowUtteranceName,
+          colUtteranceName: colUtteranceName,
           rowUtteranceIndex: utteranceRowIndex,
           columnUtteranceIndex: utteranceColIndex,
           other: rowUtteranceObject.name !== colUtteranceObject.name,
@@ -184,7 +190,7 @@ export class SimilarityBlockManager {
         p.utteranceObjectsForDrawing[similarityBlock.rowUtteranceIndex];
       const colUtteranceObject =
         p.utteranceObjectsForDrawing[similarityBlock.columnUtteranceIndex];
-
+      // console.log(rowUtteranceObject.name);
       const refutationScore = _.reduce<SentenceObject, number>( // refutationScore
         rowUtteranceObject.sentenceObjects,
         (reduced, sentenceObject) => {

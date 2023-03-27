@@ -26,7 +26,7 @@ export class TopicGroupsDrawer {
     any
   >;
   private _topicGroups: SimilarityBlock[][][] = [];
-  private _topicGroupTitles: string[] | null = null;
+  private _topicGroupTitles: string[] = [];
   private _showTopicGroupTitle: boolean = true;
   private _showTopicGroup: boolean = true;
   private _guideColor: string = "green";
@@ -72,7 +72,8 @@ export class TopicGroupsDrawer {
     const topicGuideRectGSelection = this.topicGuideRectGSelection
       .selectAll<SVGRectElement, unknown>("rect")
       .data(this._topicGroups)
-      .join("rect");
+      .join("rect")
+      .style("opacity", 0.45);
 
     topicGuideRectGSelection.call(
       setAttributesOfTopicGuides.bind(
@@ -165,22 +166,89 @@ export class TopicGroupsDrawer {
       }
     ) {
       selection
-        .attr("x", (eg) => {
+        .attr("x", (eg, i) => {
+          //@ts-ignore
           const mostLeftTopBlock = eg[0][0];
           const lastHorizontalLine = eg[eg.length - 1];
+          //@ts-ignore
           const mostRightBottomBlock =
             lastHorizontalLine[lastHorizontalLine.length - 1];
-          //   const xPoint =
-          //     (mostRightBottomBlock.beginningPointOfX +
-          //       mostRightBottomBlock.width +
-          //       mostLeftTopBlock.beginningPointOfX) /
-          //     2;
-          //   return xPoint;
-          const xPoint =
-            mostLeftTopBlock.beginningPointOfY +
-            mostRightBottomBlock.beginningPointOfY / 2 +
-            10;
-          return xPoint;
+
+          // 지금 나머지 xPoint들은 적용이 안되고 있는 상태.
+          if (this._topicGroupTitles) {
+            if (this._topicGroupTitles[0]) {
+              //@ts-ignore
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2 +
+                10;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[1]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2 +
+                35;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[2]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2 -
+                0;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[3]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2 -
+                10;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[4]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[5]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[6]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[7]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[8]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else if (this._topicGroupTitles[9]) {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            } else {
+              const xPoint =
+                mostLeftTopBlock.beginningPointOfY +
+                mostRightBottomBlock.beginningPointOfY / 2;
+              // mostRightBottomBlock.beginningPointOfY / 2;
+              return xPoint;
+            }
+          } else return null;
         })
         .attr("y", (eg, i) => {
           const mostLeftTopBlock = eg[0][0];
@@ -188,15 +256,15 @@ export class TopicGroupsDrawer {
           // console.log(arg.topicGroupTitles ? arg.topicGroupTitles : null);
           // const yPoint = mostLeftTopBlock.beginningPointOfY - 5;
           // const yPoint = 30;
-          if (this._guideColor === "#939393") {
-            const yPoint = 60;
+          if (this._guideColor !== "#ff0000") {
+            const yPoint = -160;
             return yPoint;
           } else {
-            const yPoint = 30;
+            const yPoint = -100;
             return yPoint;
           }
           // return yPoint;
-        })
+        }) // draw topic text
         .text((eg, i) => {
           if (arg.showTopicGroupTitle) {
             if (arg.topicGroupTitles) {
@@ -225,7 +293,7 @@ export class TopicGroupsDrawer {
           }
         })
         .attr("text-anchor", "middle")
-        .style("font-size", this._guideColor === "#ff0000" ? "8" : "7.5")
+        .style("font-size", this._guideColor === "#ff0000" ? "6.8" : "7.5")
         .style("font-weight", "bold")
         // .style("fill", () => (arg.showTopicGroup ? "none" : "none"))
         .style("fill", () => (arg.showTopicGroup ? arg.guideColor : "none"))
@@ -256,7 +324,7 @@ export class TopicGroupsDrawer {
             arg.termUtteranceBooleanMatrixTransposed,
             arg.termList
           );
-          return `terms: ${extractedTerms}`;
+          return `terms: ${extractedTerms}`; // terms: ~.
         });
     }
   }

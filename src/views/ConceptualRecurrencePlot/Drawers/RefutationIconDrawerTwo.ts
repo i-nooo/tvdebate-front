@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* 오른쪽 기준(rowUtteracne)을 그려주는 구간 */
 import { SimilarityBlock, UtteranceObjectForDrawing } from "../interfaces";
-export class RefutationIconDrawer {
+export class RefutationIconDrawerTwo {
   private _visible: boolean = false;
   private _similarityBlock: SimilarityBlock | null = null;
 
@@ -115,21 +115,20 @@ export class RefutationIconDrawer {
         rowUtteranceObject.name === "장경태" ||
         rowUtteranceObject.name === "김종대"
       ) {
-        // Draw Red Icon
+        this.refutationIconGSlection.style("visibility", "hidden");
+      } else {
         const defaultXPos =
           rowUtteranceObject.beginningPointOfXY +
           rowUtteranceObject.width / 2 +
           7;
         const defaultYPos = rowUtteranceObject.beginningPointOfXY - 8;
         const transformProperty = `translate(${defaultXPos}, ${defaultYPos})scale(0.01, 0.01)`;
-        this.insistenceIconGSlectionTwo
+        this.refutationIconGSlection
           .attr("transform", transformProperty)
           .style("visibility", "visible");
-      } else {
-        this.insistenceIconGSlectionTwo.style("visibilty", "hidden");
       }
     } else {
-      this.insistenceIconGSlectionTwo.style("visibilty", "hidden");
+      this.refutationIconGSlection.style("visibility", "hidden");
     }
   }
 

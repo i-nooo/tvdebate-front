@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import _ from "lodash";
-import * as math from "mathjs";
 import { SimilarityBlock, UtteranceObjectForDrawing } from "../interfaces";
 
 export class InsistenceMarkersDrawer {
