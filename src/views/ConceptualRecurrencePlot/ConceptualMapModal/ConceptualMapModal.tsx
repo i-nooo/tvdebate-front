@@ -18,6 +18,7 @@ import ConceptualMapControllers from "./ConceptualMapControllers/ConceptualMapCo
 import { ParticipantDict } from "../../../common_functions/makeParticipants";
 import { UtteranceObject } from "../../../interfaces/DebateDataInterface";
 import { TermType } from "../DataImporter";
+import { NodeDatum } from "./GraphDataStructureMaker";
 
 const modalContentWidth: number = 800;
 const modalContentHeight: number = 600;
@@ -81,7 +82,7 @@ function ConceptualMapModal(
     openModal: (modalTitle: string, engagementGroup: SimilarityBlock[][]) => {
       setModalVisible(true);
       setModalTitle(modalTitle);
-      console.log("engagementGroup", engagementGroup);
+      //console.log("engagementGroup", engagementGroup);
       conceptualMapDrawer!.removeDrawing();
 
       const graphDataStructureMaker = new GraphDataStructureMaker(
@@ -99,7 +100,43 @@ function ConceptualMapModal(
         maxOfLinksPerNode,
         showNodeNotHavingLinks
       );
-      console.log("nodeLinkDict", nodeLinkDict);
+      const createNodeDictionary = (
+        nodes: NodeDatum[]
+      ): { [key: string]: number } => {
+        const result: { [key: string]: number } = {};
+
+        nodes.forEach((node) => {
+          result[node.id] = node.count;
+        });
+
+        return result;
+      };
+
+      const sortedNodeDictionary = (nodeDictionary: {
+        [key: string]: number;
+      }): { term: string; count: number }[] => {
+        const nodeArray = Object.entries(nodeDictionary).map(
+          ([term, count]) => {
+            return { term, count };
+          }
+        );
+
+        // 내림차순 정렬
+        const sortedNodeArray = nodeArray.sort((a, b) => b.count - a.count);
+
+        return sortedNodeArray;
+      };
+
+      const nodeDictionary = createNodeDictionary(nodeLinkDict.nodes);
+      const sortedNodeArray = sortedNodeDictionary(nodeDictionary);
+
+      const termFreqKeywrods = sortedNodeArray.slice(0, 15);
+      const emptyArr: string[] = [];
+      termFreqKeywrods.forEach((eg, i) => {
+        emptyArr.push(termFreqKeywrods[i].term);
+      });
+      console.log(emptyArr);
+      // console.log("nodeLinkDict", nodeLinkDict.nodes);
 
       conceptualMapDrawer!.setGraphData(nodeLinkDict);
       conceptualMapDrawer!.updateGraph();

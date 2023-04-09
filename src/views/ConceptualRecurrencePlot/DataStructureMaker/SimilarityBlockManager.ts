@@ -16,14 +16,14 @@ export class SimilarityBlockManager {
   private _similarityBlockGroup: SimilarityBlock[][] = [];
   private _selfConsistencyWeight: number = 1;
   private _otherConsistencyWeight: number = 3;
-  private _refutationWeight: number = 1; // 반박가중치 default 값은 1
-  private _insistenceWeight: number = 1; // 주장가중치
+  private _refutationWeight: number = 0.5; // 반박가중치 default 값은 1
+  private _insistenceWeight: number = 0.5; // 주장가중치
   private _sentenceSentimentStandard: number = 0.25;
-  private _negativeSumStandard: number = 0.1; // negative 가중치
+  private _negativeSumStandard: number = 0.0001; // negative 가중치
   private _positiveSumStandard: number = 0.5;
-  private _colUtteranceLongStandard: number = 100;
+  private _colUtteranceLongStandard: number = 5;
   private _hostWeight: number = 1;
-  private _hostLongStandard: number = 100; // 문자 수
+  private _hostLongStandard: number = 100; // 진행자 문자 수
   private _debaterWeights: number[] = [1, 1, 1, 1];
   private _debaterIndexDict: { [debaterName: string]: number } = {};
 
@@ -174,6 +174,7 @@ export class SimilarityBlockManager {
    * @param p
    * @changed_variable similarityBlock in similarityBlocks & similarityBlockGroup
    */
+  // 반박구간 체크하는 부분
   private applyRefutation(p: {
     utteranceObjectsForDrawing: UtteranceObjectForDrawing[];
     participantDict: ParticipantDict;
@@ -201,8 +202,11 @@ export class SimilarityBlockManager {
         0
       );
 
-      if (refutationScore <= -p.negativeSumStandard) {
-        // console.log("refutationScore", refutationScore);
+      if (
+        refutationScore <= -p.negativeSumStandard ||
+        refutationScore > -p.negativeSumStandard
+      ) {
+        //console.log("refutationScore", refutationScore);
         // console.log("-p.negativeSumStandard", -p.negativeSumStandard);
 
         const rowSimilarityBlocks =
@@ -224,7 +228,7 @@ export class SimilarityBlockManager {
                 ];
               const team1 = p.participantDict[utteranceOjbect1.name].team;
               const team2 = p.participantDict[utteranceOjbect2.name].team;
-              // team1과 team2가 다르고 둘 다 양수
+              // team1과 team2가 다르고 둘 다 양수, team이 음수면 진행자
               if (team1 !== team2 && team1 > 0 && team2 > 0) {
                 const utteranceObjectOfRebuttalTarget =
                   p.utteranceObjectsForDrawing[
@@ -235,8 +239,11 @@ export class SimilarityBlockManager {
                 //   isFilter = true;
                 // }
                 if (
-                  utteranceObjectOfRebuttalTarget.utterance.length >
-                  p.colUtteranceLongStandard
+                  rowSimilarityBlock.similarity >= 0.1 &&
+                  (utteranceObjectOfRebuttalTarget.utterance.length >
+                    p.colUtteranceLongStandard ||
+                    utteranceObjectOfRebuttalTarget.utterance.length <=
+                      p.colUtteranceLongStandard)
                 ) {
                   isFilter = true;
                 }
@@ -248,18 +255,31 @@ export class SimilarityBlockManager {
 
         const team1 = p.participantDict[colUtteranceObject.name].team; // side(i,j)
         const team2 = p.participantDict[rowUtteranceObject.name].team; // side(i,j)
-
+        const condition =
+          (similarityBlock.similarity * similarityBlock.weight) /
+          Math.sqrt(
+            Math.abs(
+              similarityBlock.columnUtteranceIndex -
+                similarityBlock.rowUtteranceIndex
+            )
+          );
         if (
+          //  논쟁의 판단 유무 구간 판단하는 if 문.
           // TODO
-          // conceptSimilarityBlock.similarityScore > 40000 &&
-          colUtteranceObject.utterance.length > p.colUtteranceLongStandard &&
-          filtered.length >= 1 &&
-          similarityBlock.rowUtteranceIndex -
-            similarityBlock.columnUtteranceIndex <
-            20 &&
-          team1 !== team2 &&
-          team1 > 0 &&
-          team2 > 0
+          (team1 !== team2 &&
+            team1 > 0 &&
+            team2 > 0 &&
+            // similarityBlock.similarity > 0.05 &&
+            similarityBlock.rowUtteranceName !== "진행자") ||
+          (similarityBlock.colUtteranceName !== "진행자" &&
+            condition >= 1 &&
+            //colUtteranceObject.utterance.length > p.colUtteranceLongStandard ||
+            filtered.length >= 1 &&
+            // 발화자 간 거리
+            similarityBlock.rowUtteranceIndex -
+              similarityBlock.columnUtteranceIndex <
+              //발화자 간 거리 어느정도 볼 지 설정하는 구간.
+              156)
         ) {
           similarityBlock.refutation = true; // 주장과 반박 구간 결정하는 boolean value
         }

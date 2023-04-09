@@ -53,7 +53,7 @@ export default class DataImporter {
       // const sentenceIndexesForSegmentsOfPeople: number[] = require(`../../data/${debateName}/evaluation_results/merged_by_sentence_base.json`);
       const sentenceIndexesForSegmentsOfPeople: number[] = require(`../../data/${debateName}/evaluation_results/merged_by_close_sentence.json`);
       // const sentenceIndexesForSegmentsOfPeople: number[] = require(`../../data/${debateName}/evaluation_results/junwoo.json`);
-
+      //@ts-ignore
       this._debateDataset = {
         conceptMatrixTransposed,
         keytermObjects,

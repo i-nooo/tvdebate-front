@@ -201,7 +201,7 @@ function ConceptualRecurrencePlot() {
           engagementGroup
         );
       };
-      d3Drawer.manualSmallTGsDrawer.visible = false;
+      d3Drawer.manualSmallTGsDrawer.visible = true;
 
       // Manual Middle Engagement Group Drawer's Settings
       d3Drawer.manualMiddleTGsDrawer.topicGroups = manualMiddleEGs;
@@ -231,7 +231,7 @@ function ConceptualRecurrencePlot() {
           engagementGroup
         );
       };
-      d3Drawer.manualBigTGsDrawer.visible = true;
+      d3Drawer.manualBigTGsDrawer.visible = false;
 
       d3Drawer.manualPeopleTGsDrawer.onTitleClicked = (
         mouseEvent: MouseEvent,
@@ -262,8 +262,9 @@ function ConceptualRecurrencePlot() {
   }, [dataStructureManager, debateDataset]);
 
   return (
-    <div className="root-div">
+    <div className="root-div" style={{ overflow: "hidden" }}>
       <Header />
+      {/* <Legend /> */}
       {/* <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
@@ -281,7 +282,10 @@ function ConceptualRecurrencePlot() {
           dataStructureManager ? dataStructureManager : null
         }
       ></Controllers> */}
-      <div className="concept-recurrence-plot">
+      <div
+        className="concept-recurrence-plot"
+        style={{ marginTop: "35px", overflow: "hidden" }}
+      >
         {/* <img
           className="imgPos"
           // TODO 추후 marginLeft 고치기
@@ -290,12 +294,10 @@ function ConceptualRecurrencePlot() {
           height="67"
           src="https://i.imgur.com/2JQzpJF.jpg"
         ></img> */}
-        <svg className="fullSvg">
-          <svg>
-            <g className="test">
-              <g className="svgG"></g>
-            </g>
-          </svg>
+        <svg className="fullSvg" style={{ overflow: "visible" }}>
+          <g className="test">
+            <g className="svgG"></g>
+          </g>
         </svg>
         {/* 참가자의 발화스크립트툴팁 */}
         {/* <ParticipantTooltip
@@ -309,7 +311,7 @@ function ConceptualRecurrencePlot() {
       <TranscriptViewer
         dataStructureMaker={dataStructureManager}
       ></TranscriptViewer>
-      {/* <ConceptualMapModal
+      <ConceptualMapModal
         ref={conceptualMapModalRef}
         participantDict={
           dataStructureManager
@@ -324,7 +326,7 @@ function ConceptualRecurrencePlot() {
             : []
         }
         termType={termTypeOfQuery}
-      ></ConceptualMapModal> */}
+      ></ConceptualMapModal>
     </div>
   );
 }

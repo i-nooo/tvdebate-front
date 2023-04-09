@@ -78,10 +78,12 @@ export class D3Drawer {
   ) {
     // declare variables
     this.conceptRecurrencePlotDiv = d3.select(".concept-recurrence-plot");
-    this.svgWidth = this.conceptRecurrencePlotDiv.node()!.clientWidth;
-    this.svgHeight = this.conceptRecurrencePlotDiv.node()!.clientHeight;
+    //this.svgWidth = this.conceptRecurrencePlotDiv.node()!.clientWidth;
+    //this.svgHeight = this.conceptRecurrencePlotDiv.node()!.clientHeight;
     // this.svgRotate = this.conceptRecurrencePlotDiv.node()!;
     // const rotate = d3.svg.transform().rotate(-45);
+    this.svgWidth = 2000;
+    this.svgHeight = 800;
     this.svgSelection = this.conceptRecurrencePlotDiv
       .select<SVGSVGElement>("svg")
       .attr("width", this.svgWidth)
@@ -128,22 +130,17 @@ export class D3Drawer {
     );
     this.insistenceIconDrawer = new InsistenceIconDrawer(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
-      debateDataSet.keytermObjects,
       this.svgGSelection
-    ); // 불확실 아이콘 drawer
+    );
     this.insistenceIconDrawerTwo = new InsistenceIconDrawerTwo(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
       this.svgGSelection
-    );
+    ); // 불확실 아이콘 drawer
     this.uncertainIconDrawer = new InsistenceIconDrawer(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
-      debateDataSet.keytermObjects,
       this.svgGSelection
     );
-    // this.uncertainIconDrawer = new UncertainIconDrawer(
-    //   dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
-    //   this.svgGSelection
-    // );
+
     this.similarityBlocksDrawer = new SimilarityBlocksDrawer(
       dataStructureSet.utteranceObjectsForDrawingManager.utteranceObjectsForDrawing,
       dataStructureSet.similarityBlockManager.similarityBlocks,
@@ -180,36 +177,12 @@ export class D3Drawer {
         this.refutationIconDrawerTwo.similarityBlock = d;
         this.insistenceIconDrawer.similarityBlock = d;
       } else if (
-        d.colUtteranceName === "김종대" ||
-        d.colUtteranceName === "장경태"
+        d.rowUtteranceName === "김종대" ||
+        d.rowUtteranceName === "장경태"
       ) {
         this.refutationIconDrawer.similarityBlock = d;
         this.insistenceIconDrawerTwo.similarityBlock = d;
       } else null;
-      //this.uncertainIconDrawer.similarityBlock = d;
-      // if (d.refutation) {
-      //   if (d.refutation) {
-      //     this.refutationIconDrawer.similarityBlock = d;
-      //   } else {
-      //     this.refutationIconDrawerTwo.similarityBlock = d;
-      //   }
-      //   const colUtteranceObject = this.dataStructureSet
-      //     .utteranceObjectsForDrawingManager.utteranceObjectsForDrawing[
-      //     d.columnUtteranceIndex
-      //   ];
-      //   if (
-      //     colUtteranceObject.insistence &&
-      //     (colUtteranceObject.name === "장경태" ||
-      //       colUtteranceObject.name === "김종대")
-      //   ) {
-      //     this.insistenceIconDrawer.similarityBlock = d; // 장경태, 김종대
-      //   } else if (colUtteranceObject.insistence) {
-      //     // unknown insistence
-      //     this.uncertainIconDrawer.similarityBlock = d;
-      //   } else {
-      //     this.insistenceIconDrawerTwo.similarityBlock = d; // 8
-      //   }
-      // }
       this.refutationIconDrawer.update();
       this.refutationIconDrawerTwo.update();
       this.insistenceIconDrawer.update();
@@ -232,21 +205,24 @@ export class D3Drawer {
       dataStructureSet,
       termType
     );
-    this.manualSmallTGsDrawer.color = "#424242";
+    // this.manualSmallTGsDrawer.color = "#0000ff";
+    this.manualSmallTGsDrawer.color = "#ff0000";
     this.manualMiddleTGsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,
       dataStructureSet,
       termType
     );
-    this.manualMiddleTGsDrawer.color = "#1d1d1d";
+    //this.manualMiddleTGsDrawer.color = "#ff0001";
+    this.manualMiddleTGsDrawer.color = "#ff0001";
     this.manualBigTGsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,
       dataStructureSet,
       termType
     );
-    this.manualBigTGsDrawer.color = "#ff0000";
+    // this.manualBigTGsDrawer.color = "#ff0000";
+    this.manualBigTGsDrawer.color = "#026b02";
     this.manualPeopleTGsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,

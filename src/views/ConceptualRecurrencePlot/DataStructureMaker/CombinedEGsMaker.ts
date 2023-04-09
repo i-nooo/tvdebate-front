@@ -122,6 +122,7 @@ export default class CombinedEGsMaker {
           semanticConsistenciesOfEachTop.push(0);
         }
       });
+      //console.log(topicGroupsCandidatesOfEachTop);
 
       // find topicGroup from topicGroupsCandidatesOfEachTop
       if (semanticConsistenciesOfEachTop.length !== 0) {

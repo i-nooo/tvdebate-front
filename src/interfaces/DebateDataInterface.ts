@@ -33,6 +33,7 @@ export interface StopwordDict {
 }
 
 export interface DebateDataSet {
+  participantDict: number[][];
   utteranceObjects: UtteranceObject[];
   conceptMatrixTransposed: number[][];
   similarityMatrix: number[][];

@@ -69,12 +69,26 @@ export class TopicGroupsDrawer {
   }
 
   public update() {
+    const excludedIndex = [1, 3, 5];
+    const excludedIndexTwo = [1, 3, 5];
+    // 주제별로 보고 싶다면 this._guideColor로 필터링 적용해도 될듯함.
+    // filter 후 데이터 제공.
+    const filteredData = this._topicGroups.filter(
+      (group, index) => !excludedIndex.includes(index)
+    );
+    const secFilteredData = this._topicGroups.filter(
+      (group, index) => !excludedIndexTwo.includes(index)
+    );
+    //console.log(filteredData);
+    //console.log(this._guideColor);
     const topicGuideRectGSelection = this.topicGuideRectGSelection
       .selectAll<SVGRectElement, unknown>("rect")
-      .data(this._topicGroups)
+      //.data(this._topicGroups)
+      // 색상 조금만 변경해서 이런식으로 조건주면 될듯함.
+      .data(this._guideColor === "#ff0000" ? filteredData : secFilteredData)
       .join("rect")
+      //.style("visibility", (eg) => ( ? "visible" : "none"))
       .style("opacity", 0.45);
-
     topicGuideRectGSelection.call(
       setAttributesOfTopicGuides.bind(
         this,
@@ -117,7 +131,7 @@ export class TopicGroupsDrawer {
       selection
         .attr("x", (eg) => eg[0][0].beginningPointOfX)
         .attr("y", (eg) => eg[0][0].beginningPointOfY)
-        .style("visibility", "visible")
+        .style("visibility", (eg) => (showEngagementGroup ? "visible" : "none"))
         .attr("width", (eg) => {
           const mostLeftTopBlock = eg[0][0];
           const lastHorizontalLine = eg[eg.length - 1];
@@ -140,7 +154,8 @@ export class TopicGroupsDrawer {
             mostLeftTopBlock.beginningPointOfY;
           return height;
         })
-        .style("fill", "none")
+        .style("fill", this._guideColor === "#ff0000" ? "none" : "none")
+        // .style("opacity", 0.05)
         .style("stroke-width", 1)
         .style("stroke", () => (showEngagementGroup ? guideColor : "none"));
       // .style("stroke", () => (showEngagementGroup ? "none" : "none"));
@@ -173,81 +188,123 @@ export class TopicGroupsDrawer {
           //@ts-ignore
           const mostRightBottomBlock =
             lastHorizontalLine[lastHorizontalLine.length - 1];
-
-          // 지금 나머지 xPoint들은 적용이 안되고 있는 상태.
+          // 지금 나머지 xPoint들은 적용이 안되고 있는 상태.(수정완료)
           if (this._topicGroupTitles) {
-            if (this._topicGroupTitles[0]) {
-              //@ts-ignore
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2 +
-                10;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[1]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2 +
-                35;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[2]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2 -
-                0;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[3]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2 -
-                10;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[4]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[5]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[6]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[7]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[8]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else if (this._topicGroupTitles[9]) {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
-            } else {
-              const xPoint =
-                mostLeftTopBlock.beginningPointOfY +
-                mostRightBottomBlock.beginningPointOfY / 2;
-              // mostRightBottomBlock.beginningPointOfY / 2;
-              return xPoint;
+            let xPoint = 0;
+            let xPoints = [];
+            for (let i = 0; i < this._topicGroupTitles.length; i++) {
+              if (this._topicGroupTitles[i]) {
+                if (this._guideColor === "#ff0000") {
+                  switch (i) {
+                    case 0:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 +
+                        25;
+                      break;
+                    case 1:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 +
+                        20000;
+                      break;
+                    case 2:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 +
+                        15; // 그냥 멀리 버려버리기.
+                      break;
+                    case 3:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        20000;
+                      break;
+                    case 4:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 +
+                        3;
+                      break;
+                    case 5:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        20000;
+                      break;
+                    case 6:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        25;
+                      break;
+                    case 7:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        0;
+                      break;
+                    case 8:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        55;
+                      break;
+                    default:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 +
+                        0;
+                    // break;
+                  }
+                  xPoints[i] = xPoint;
+                } else {
+                  // #ff0001 pos
+                  switch (i) {
+                    // middleTopicGroup
+                    case 0:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 +
+                        15;
+                      break;
+                    case 1:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 +
+                        20000;
+                      break;
+                    case 2:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        3;
+                      break;
+                    case 3:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        20000;
+                      break;
+                    case 4:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        15;
+                      break;
+                    case 5:
+                      xPoint =
+                        mostLeftTopBlock.beginningPointOfY +
+                        mostRightBottomBlock.beginningPointOfY / 2 -
+                        20000;
+                      break;
+                  }
+                  xPoints[i] = xPoint;
+                }
+              }
             }
+            //console.log(xPoints[i]);
+            return xPoints[i];
           } else return null;
         })
         .attr("y", (eg, i) => {
@@ -257,10 +314,10 @@ export class TopicGroupsDrawer {
           // const yPoint = mostLeftTopBlock.beginningPointOfY - 5;
           // const yPoint = 30;
           if (this._guideColor !== "#ff0000") {
-            const yPoint = -160;
+            const yPoint = -150; // Middle Engagement Group
             return yPoint;
           } else {
-            const yPoint = -100;
+            const yPoint = -130; // Small Engagement Group
             return yPoint;
           }
           // return yPoint;
@@ -269,7 +326,7 @@ export class TopicGroupsDrawer {
           if (arg.showTopicGroupTitle) {
             if (arg.topicGroupTitles) {
               // console.log(arg.topicGroupTitles[0][0]);
-              // console.log(eg[0]);
+              //console.log(arg.topicGroupTitles);
               return arg.topicGroupTitles[i];
             } else {
               // const extractedKeytermObjects = extractKeytermsFromEngagementGroup(
