@@ -52,6 +52,9 @@ export default class UtteranceObjectsForDrawingManager {
           beginningPointOfXY: beginningPointOfXY,
           width,
           insistence,
+          mainKeytermsString: "",
+          conceptVector: [],
+          keyword: [],
         };
         beginningPointOfXY += newUtteranceObject.width;
         return newUtteranceObject;
@@ -78,7 +81,7 @@ export default class UtteranceObjectsForDrawingManager {
       0
     );
     const insistence: boolean =
-      insistenceScore >= p.positiveSumStandard &&
+      insistenceScore >= p.positiveSumStandard ||
       p.utteranceObject.utterance.length > p.columnLongStandard
         ? true
         : false;
@@ -141,7 +144,7 @@ export function makeUtteranceObjectsForDrawing(
   let beginningPointOfXY: number = 0;
   const widthResizingConstant: number = 2.6;
   // TODO
-  const _columnLongStandard: number = 200;
+  const _columnLongStandard: number = 50;
   const _positiveSumStandard: number = 0.5;
   const _sentenceSentimentStandard: number = 0.25;
 
@@ -162,9 +165,10 @@ export function makeUtteranceObjectsForDrawing(
         0
       );
       const insistence: boolean =
-        insistenceScore >= _positiveSumStandard &&
-        utteranceObject.utterance.length > _columnLongStandard
-          ? true
+        insistenceScore >= _positiveSumStandard
+          ? // &&
+            // utteranceObject.utterance.length > _columnLongStandard
+            true
           : false;
 
       const newUtteranceObject: UtteranceObjectForDrawing = {
@@ -172,6 +176,9 @@ export function makeUtteranceObjectsForDrawing(
         beginningPointOfXY: beginningPointOfXY,
         width,
         insistence,
+        mainKeytermsString: "",
+        conceptVector: [],
+        keyword: [],
       };
       beginningPointOfXY += newUtteranceObject.width;
       return newUtteranceObject;

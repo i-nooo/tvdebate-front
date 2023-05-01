@@ -3,10 +3,13 @@ import {
   UtteranceObject,
 } from "../../interfaces/DebateDataInterface";
 export interface UtteranceObjectForDrawing extends UtteranceObject {
+  mainKeytermsString: string;
+  conceptVector: number[];
   beginningPointOfXY: number;
   name: string;
   width: number;
   insistence: boolean;
+  keyword: KeytermObject[];
 }
 
 export interface SimilarityBlock {

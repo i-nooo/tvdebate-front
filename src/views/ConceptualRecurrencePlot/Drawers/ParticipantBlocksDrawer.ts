@@ -68,28 +68,6 @@ export class ParticipantBlocksDrawer {
         .attr("width", (d) => d.width) // 노드 두께
         .attr("height", (d) => d.width) // 노드 높이
         .style("fill", (d) => participantDict[d.name].color)
-        // .on("click", (e, u) => {
-        //   const mouseEvent = (e as unknown) as MouseEvent;
-        //   mouseEvent.stopPropagation();
-        //   const selectedParticipant = (u as unknown) as UtteranceObjectForDrawing;
-        //   this.click(mouseEvent, selectedParticipant);
-        // })
-        // .on("mouseover", (e, u) => {
-        //   const mouseEvent = (e as unknown) as MouseEvent;
-        //   mouseEvent.stopPropagation();
-        //   const utteranceObjectForDrawing = (u as unknown) as UtteranceObjectForDrawing;
-
-        //   // TODO adjust transcript-views
-        //   if (this._mouseoverListener) {
-        //     this._mouseoverListener(mouseEvent, utteranceObjectForDrawing);
-        //   }
-        // })
-        // .on("mouseout", (e, u) => {
-        //   if (this._mouseoutListener) {
-        //     this._mouseoutListener();
-        //   }
-        // });
-        // TODO
         .append("title")
         .text((d, i) => {
           const conceptVectorOfUtterance = conceptMatrixTransposed[i];
@@ -102,7 +80,7 @@ export class ParticipantBlocksDrawer {
             topValueIndexes,
             (topValueIndex) => keytermObjects[topValueIndex]
           );
-
+          // console.log(topValueIndexes);
           const mainKeytermsString = _.reduce(
             mainKeytermObjects,
             (result, keytermObject) => {

@@ -17,6 +17,7 @@ import {
   getBasicIncomeManualMiddleEGTitles,
   getBasicIncomeManualBigEGTitles,
   getSatManualBigEGTitles,
+  getMilitaryManualSmallEGTitles,
   getMilitaryManualMiddleEGTitles,
   getMilitaryManualBigEGTitles,
 } from "./makeManualEGs";
@@ -112,7 +113,7 @@ export class DataStructureManager {
     let manualSmallEGs: SimilarityBlock[][][] = [];
     let manualMiddleEGs: SimilarityBlock[][][] = [];
     let manualBigEGs: SimilarityBlock[][][] = [];
-    // let manualSmallEGTitles: string[] = [];
+    let manualSmallEGTitles: string[] = [];
     let manualMiddleEGTitles: string[] = [];
     let manualBigEGTitles: string[] = [];
     if (debateName === "기본소득") {
@@ -197,18 +198,56 @@ export class DataStructureManager {
       ]);
       manualBigEGTitles = getSatManualBigEGTitles();
     } else if (debateName === "모병제") {
-      manualMiddleEGs = makeManualTGs(conceptSimilarityMatrix, [14, 57, 175]);
-      manualBigEGs = makeManualTGs(conceptSimilarityMatrix, [
+      //TODO 효지형 사진 올려준거처럼 인덱싱 부여.
+      // 논쟁 Rect가 이루어져야 하는 구간들 List.
+      // 0-18,
+      // 15-37,
+      // 24-58,
+      // 56-79,
+      // 73-106,
+      // 94-126,
+      // 146-183,
+      // 위에 바꾼 list들
+      // 1) 0,18,24,58,73,106,146,183
+      // 2) 15,37,56,79,94,126
+      manualSmallEGs = makeManualTGs(conceptSimilarityMatrix, [
+        // 기존 그룹
+        // 0,
+        // 56,
+        // 113,
+        // //130,
+        // 146,
         0,
-        14,
-        36,
-        57,
-        78,
-        93,
-        108,
-        138,
-        175,
+        18,
+        24, // 18-24 없애기
+        58,
+        73, // 58-73 없애기
+        106,
+        146, // 106-146 없애기
       ]);
+      manualMiddleEGs = makeManualTGs(conceptSimilarityMatrix, [
+        // 기존 topicGroup
+        // 14, 57, 175
+        15,
+        37,
+        56, // 37-56 없애기
+        79,
+        94, // 79-94 없애기
+        126,
+      ]);
+      manualBigEGs = makeManualTGs(conceptSimilarityMatrix, [
+        // 기존 topicGroup
+        // 0,
+        // 14,
+        // 36,
+        // 57,
+        // 78,
+        // 93,
+        // 108,
+        // 138,
+        // 175,
+      ]);
+      manualSmallEGTitles = getMilitaryManualSmallEGTitles();
       manualMiddleEGTitles = getMilitaryManualMiddleEGTitles();
       manualBigEGTitles = getMilitaryManualBigEGTitles();
     } else if (debateName === "sample") {
@@ -231,7 +270,7 @@ export class DataStructureManager {
       manualSmallEGs,
       manualMiddleEGs,
       manualBigEGs,
-      // manualSmallEGTitles,
+      manualSmallEGTitles,
       manualMiddleEGTitles,
       manualBigEGTitles,
     };

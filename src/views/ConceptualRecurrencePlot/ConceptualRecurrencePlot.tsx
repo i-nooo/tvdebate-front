@@ -201,7 +201,7 @@ function ConceptualRecurrencePlot() {
           engagementGroup
         );
       };
-      d3Drawer.manualSmallTGsDrawer.visible = false;
+      d3Drawer.manualSmallTGsDrawer.visible = true;
 
       // Manual Middle Engagement Group Drawer's Settings
       d3Drawer.manualMiddleTGsDrawer.topicGroups = manualMiddleEGs;
@@ -231,7 +231,7 @@ function ConceptualRecurrencePlot() {
           engagementGroup
         );
       };
-      d3Drawer.manualBigTGsDrawer.visible = true;
+      d3Drawer.manualBigTGsDrawer.visible = false;
 
       d3Drawer.manualPeopleTGsDrawer.onTitleClicked = (
         mouseEvent: MouseEvent,
@@ -264,6 +264,7 @@ function ConceptualRecurrencePlot() {
   return (
     <div className="root-div" style={{ overflow: "hidden" }}>
       <Header />
+      {/* <Legend /> */}
       {/* <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
@@ -311,7 +312,7 @@ function ConceptualRecurrencePlot() {
       <TranscriptViewer
         dataStructureMaker={dataStructureManager}
       ></TranscriptViewer>
-      {/* <ConceptualMapModal
+      <ConceptualMapModal
         ref={conceptualMapModalRef}
         participantDict={
           dataStructureManager
@@ -326,7 +327,7 @@ function ConceptualRecurrencePlot() {
             : []
         }
         termType={termTypeOfQuery}
-      ></ConceptualMapModal> */}
+      ></ConceptualMapModal>
     </div>
   );
 }
