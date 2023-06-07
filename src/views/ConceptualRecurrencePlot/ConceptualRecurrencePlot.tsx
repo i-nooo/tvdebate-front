@@ -26,8 +26,11 @@ import { CHANGE_STANDARD_SIMILARITY_SCORE } from "../../redux/actionTypes";
 import CombinedEGsMaker from "./DataStructureMaker/CombinedEGsMaker";
 import { extractKeytermsFromEngagementGroup } from "./DataStructureMaker/extractTermsFromEngagementGroup";
 import ParticipantTooltip from "../../components/ParticipantTooltip/ParticipantTooltip";
+import SimilarityTooltip from "../../components/SimilarityTooltip/SimilarityTooltip";
 import Header from "./../Header/Header";
+import HeaderTwo from "./../Header/HeaderTwo";
 import style from "./rootStyle.module.scss";
+import { Bubble } from "./Bubble";
 
 function ConceptualRecurrencePlot() {
   const query = new URLSearchParams(useLocation().search);
@@ -66,6 +69,10 @@ function ConceptualRecurrencePlot() {
     mouseoveredUtterance,
     setMouseoveredUtterance,
   ] = useState<UtteranceObjectForDrawing | null>(null);
+  const [
+    mouseoveredSimilarity,
+    setMouseoveredSimilarity,
+  ] = useState<SimilarityBlock | null>(null);
   const [transform, setTransform] = useState<d3.ZoomTransform | null>(null);
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
 
@@ -150,22 +157,18 @@ function ConceptualRecurrencePlot() {
         mouseEvent,
         utteranceObjectForDrawing
       ) => {
-        // console.log("mouseEvent", tooltipDatum);
-        // setTooltipDatum({
-        //   utteranceObjectForDrawing,
-        //   transform: tooltipDatum.transform,
-        //   visible: true,
-        // });
-
         setMouseoveredUtterance(utteranceObjectForDrawing);
         setTooltipVisible(true);
       };
-      d3Drawer.participantBlocksDrawer.mouseoutLisener = () => {
-        // setTooltipDatum({
-        //   ...tooltipDatum,
-        //   visible: false,
-        // });
+      d3Drawer.participantBlocksDrawer.mouseoutLisener = () => {};
+      d3Drawer.similarityBlocksDrawer.mouseoverListener = (
+        mouseEvent,
+        similarityBlock
+      ) => {
+        setMouseoveredSimilarity(similarityBlock);
+        setTooltipVisible(true);
       };
+      d3Drawer.similarityBlocksDrawer.mouseoutLisener = () => {};
 
       // Engagement Group Drawer's Settings
       d3Drawer.topicGroupsDrawer.topicGroups = topicGroups;
@@ -247,7 +250,6 @@ function ConceptualRecurrencePlot() {
       d3Drawer.centerConceptualRecurrentPlot();
       d3Drawer.participantBlocksDrawer.update();
       d3Drawer.insistenceMarkersDrawer.update();
-      // similarityBlocksDrawer 그리는 곳
       d3Drawer!.similarityBlocksDrawer.standardHighPointOfSimilarityScore = standardSimilarityScore;
       d3Drawer.similarityBlocksDrawer.update();
       d3Drawer.topicGroupsDrawer.update();
@@ -264,49 +266,40 @@ function ConceptualRecurrencePlot() {
   return (
     <div className="root-div" style={{ overflow: "hidden" }}>
       <Header />
-      {/* <Legend /> */}
-      {/* <Controllers
-        d3Drawer={d3Drawer}
-        combinedEGsMaker={combinedEGsMaker}
-        maxSimilarityScore={
-          dataStructureManager
-            ? dataStructureManager.dataStructureSet.maxSimilarityScore
-            : 0
-        }
-        debateDataset={debateDataset}
-        evaluationDataSet={evaluationDataSet}
-        dataStructureSet={
-          dataStructureManager ? dataStructureManager.dataStructureSet : null
-        }
-        dataStructureManager={
-          dataStructureManager ? dataStructureManager : null
-        }
-      ></Controllers> */}
-      <div
-        className="concept-recurrence-plot"
-        style={{ marginTop: "35px", overflow: "hidden" }}
-      >
-        {/* <img
-          className="imgPos"
-          // TODO 추후 marginLeft 고치기
-          style={{ marginTop: "35px", position: "fixed", marginLeft: "-340px" }}
-          width="200"
-          height="67"
-          src="https://i.imgur.com/2JQzpJF.jpg"
-        ></img> */}
-        <svg className="fullSvg" style={{ overflow: "visible" }}>
-          <g className="test">
-            <g className="svgG"></g>
-          </g>
-        </svg>
-        {/* 참가자의 발화스크립트툴팁 */}
-        {/* <ParticipantTooltip
-          utteranceObjectForDrawing={mouseoveredUtterance}
-          transform={transform}
-          visible={tooltipVisible}
-          d3Drawer={d3Drawer}
-          debateDataset={debateDataset}
-        /> */}
+      <HeaderTwo />
+      <div className="vis-area">
+        <div className="bubble">
+          <Bubble />
+        </div>
+        <div
+          className="concept-recurrence-plot"
+          style={{ marginTop: "15px", overflow: "hidden" }}
+        >
+          <div
+            style={{
+              position: "fixed",
+              overflow: "hidden",
+              //float: "left",
+              //marginLeft: "-62vw",
+              zIndex: "1000",
+              fontWeight: "550",
+              backgroundColor: "white",
+              marginTop: "0px",
+              fontSize: "14px",
+              height: "25px",
+              textAlign: "left",
+              marginLeft: "15px",
+            }}
+          >
+            Co-Occurrenece Matrix for Exploration Argumentation
+          </div>
+
+          <svg className="fullSvg" style={{ overflow: "visible" }}>
+            <g className="test">
+              <g className="svgG"></g>
+            </g>
+          </svg>
+        </div>
       </div>
       <TranscriptViewer
         dataStructureMaker={dataStructureManager}
@@ -332,3 +325,23 @@ function ConceptualRecurrencePlot() {
 }
 
 export default ConceptualRecurrencePlot;
+
+{
+  /* <ParticipantTooltip
+          utteranceObjectForDrawing={mouseoveredUtterance}
+          transform={transform}
+          open={tooltipVisible}
+          d3Drawer={d3Drawer}
+          debateDataset={debateDataset}
+        /> */
+}
+{
+  /* <SimilarityTooltip
+          utteranceObjectForDrawing={mouseoveredUtterance}
+          similarityBlock={mouseoveredSimilarity}
+          transform={transform}
+          open={tooltipVisible}
+          d3Drawer={d3Drawer}
+          debateDataset={debateDataset}
+        /> */
+}

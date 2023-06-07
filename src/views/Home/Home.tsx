@@ -19,7 +19,7 @@ function Home(props: ComponentProps) {
 
   return (
     <div className={styles.home}>
-      <div className={styles.serviceTitle}>MDVis</div>
+      <div className={styles.serviceTitle}>MetaDebateVis</div>
       {/* <Checkbox
         className={styles.checkbox}
         defaultChecked
@@ -36,7 +36,7 @@ function Home(props: ComponentProps) {
       </Checkbox> */}
 
       <div className={styles.links}>
-        <Button
+        {/* <Button
           className={styles.button}
           href={`/coocurence_matrix?debate_name=기본소득&term_type=${termType}`}
         >
@@ -47,7 +47,7 @@ function Home(props: ComponentProps) {
           href={`/coocurence_matrix?debate_name=정시확대&term_type=${termType}`}
         >
           정시 확대
-        </Button>
+        </Button> */}
         {/* <Button
           className={styles.button}
           href={`/coocurence_matrix?debate_name=sample&term_type=${termType}`}
@@ -62,12 +62,12 @@ function Home(props: ComponentProps) {
         >
           모병제
         </Button>
-        <Button
+        {/* <Button
           className={styles.button}
           href={`/coocurence_matrix?debate_name=기본소득&term_type=${termType}`}
         >
           Bubble Chart
-        </Button>
+        </Button> */}
       </div>
 
       <div className={styles.links}>

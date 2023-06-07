@@ -191,7 +191,7 @@ export class TopicGroupsDrawer {
           // 지금 나머지 xPoint들은 적용이 안되고 있는 상태.(수정완료)
           if (this._topicGroupTitles) {
             let xPoint = 0;
-            let xPoints = [];
+            const xPoints = [];
             for (let i = 0; i < this._topicGroupTitles.length; i++) {
               if (this._topicGroupTitles[i]) {
                 if (this._guideColor === "#ff0000") {

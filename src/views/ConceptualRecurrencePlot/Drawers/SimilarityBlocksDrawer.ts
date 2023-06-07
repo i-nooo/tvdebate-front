@@ -5,7 +5,6 @@ import { ParticipantDict } from "../../../common_functions/makeParticipants";
 import { SentenceObject } from "../../../interfaces/DebateDataInterface";
 import { UtteranceObjectForDrawing } from "../interfaces";
 import { SimilarityBlock } from "../interfaces";
-import { Tooltip } from "antd";
 import * as fs from "fs";
 
 export type ColoringSelfSimilarities =
@@ -30,6 +29,13 @@ export class SimilarityBlocksDrawer {
   private _clickListener:
     | ((e: MouseEvent, d: SimilarityBlock) => void)
     | null = null;
+  private _mouseoverListener:
+    | null
+    | ((
+        mouseEvent: MouseEvent,
+        similarityBlock: SimilarityBlock
+      ) => void) = null;
+  private _mouseoutListener: null | (() => void) = null;
 
   public constructor(
     private readonly utteranceObjectsForDrawing: UtteranceObjectForDrawing[],
@@ -84,7 +90,9 @@ export class SimilarityBlocksDrawer {
           ? "rgb(97, 64, 65)"
           : null
       );
-
+    console.log(
+      similarityRectGSelectionDataBound.node()?.getBoundingClientRect()
+    );
     similarityRectGSelectionDataBound
       .enter()
       .append("rect")
@@ -114,9 +122,9 @@ export class SimilarityBlocksDrawer {
       )
       .on("click", (e, d) => {
         const mouseEvent = (e as unknown) as MouseEvent;
+        console.log("similarity block clicked");
         mouseEvent.stopPropagation();
         const similarityBlock = (d as unknown) as SimilarityBlock;
-
         if (this._clickListener) {
           this._clickListener(mouseEvent, similarityBlock);
         }
@@ -126,9 +134,9 @@ export class SimilarityBlocksDrawer {
         (d, i) =>
           `findArgument: ${
             d.refutation ? d.refutation : "none"
-          },\n주장발화자Index: ${d.columnUtteranceIndex},\n반박발화자Index: ${
+          },\n선행발화자 Index: ${d.columnUtteranceIndex},\n후행발화자 Index: ${
             d.rowUtteranceIndex
-          },\nsimilarityScore: ${
+          },\nargumentScore: ${
             ((d.similarity * d.weight) /
               // Math.abs(d.columnUtteranceIndex - d.rowUtteranceIndex)) *
               Math.sqrt(
@@ -136,13 +144,27 @@ export class SimilarityBlocksDrawer {
               )) *
             1
             // d.similarity * d.weight
-          },\nkeywords: ${_.map(
-            d.mainKeytermObjects,
-            (mainKeytermObject) => `${mainKeytermObject.name}`
+          }
           )}`
-      );
+      )
+      .on("mouseover", (e, u) => {
+        const mouseEvent = (e as unknown) as MouseEvent;
+        mouseEvent.stopPropagation();
+        const similarityBlock = (u as unknown) as SimilarityBlock;
 
-    similarityRectGSelectionDataBound.exit().remove();
+        //TODO adjust insist, refutation-view
+        if (this._mouseoverListener) {
+          this._mouseoverListener(mouseEvent, similarityBlock);
+        }
+      })
+      .on("mouseout", (e, u) => {
+        const mouseEvent = (e as unknown) as MouseEvent;
+        if (this._mouseoutListener) {
+          this._mouseoutListener();
+        }
+      });
+
+    //similarityRectGSelectionDataBound.exit().remove();
 
     function fillColorOfSimilarityBlock(
       similarityBlock: SimilarityBlock,
@@ -270,63 +292,6 @@ export class SimilarityBlocksDrawer {
           "#fcdec3",
         ];
 
-        // const finalColorss = [
-        //   "#400000",
-        //   "#430402",
-        //   "#470804",
-        //   "#4a0d06",
-        //   "#4e1208",
-        //   "#52160a",
-        //   "#551a0c",
-        //   "#591e0d",
-        //   "#5d220e",
-        //   "#60260f",
-        //   "#642a10",
-        //   "#682d11",
-        //   "#6c3112",
-        //   "#703513",
-        //   "#733914",
-        //   "#773d15",
-        //   "#7b4117",
-        //   "#7f4518",
-        //   "#834819",
-        //   "#874c1b",
-        //   "#8b501c",
-        //   "#8f541e",
-        //   "#935820",
-        //   "#975c22",
-        //   "#9b6024",
-        //   "#9f6426",
-        //   "#a36829",
-        //   "#a76c2b",
-        //   "#ab702e",
-        //   "#af7431",
-        //   "#b37834",
-        //   "#b77c38",
-        //   "#ba803b",
-        //   "#be843f",
-        //   "#c28943",
-        //   "#c68d47",
-        //   "#ca914c",
-        //   "#ce9550",
-        //   "#d29a56",
-        //   "#d59e5b",
-        //   "#d9a261",
-        //   "#dca767",
-        //   "#e0ab6d",
-        //   "#e3af73",
-        //   "#e6b47a",
-        //   "#e9b881",
-        //   "#ecbd88",
-        //   "#efc290",
-        //   "#f2c698",
-        //   "#f4cba0",
-        //   "#f6d0a9",
-        //   "#f8d4b1",
-        //   "#fad9ba",
-        //   "#fcdec3",
-        // ];
-
         let selectedColor;
 
         // 수정된 코드
@@ -449,146 +414,6 @@ export class SimilarityBlocksDrawer {
         } else if (opacity >= 0.002281) {
           selectedColor = finalColors[23];
         } else selectedColor = finalColors[24];
-
-        // if (opacity > adjustedOpacityValues[0]) {
-        //   selectedColor = finalColors[0];
-        // } else if (opacity >= adjustedOpacityValues[1]) {
-        //   selectedColor = finalColors[1];
-        // } else if (opacity >= adjustedOpacityValues[2]) {
-        //   selectedColor = finalColors[2];
-        // } else if (opacity >= adjustedOpacityValues[3]) {
-        //   selectedColor = finalColors[3];
-        // } else if (opacity >= adjustedOpacityValues[4]) {
-        //   selectedColor = finalColors[4];
-        // } else if (opacity >= adjustedOpacityValues[5]) {
-        //   selectedColor = finalColors[5];
-        // } else if (opacity >= adjustedOpacityValues[6]) {
-        //   selectedColor = finalColors[6];
-        // } else if (opacity >= adjustedOpacityValues[7]) {
-        //   selectedColor = finalColors[7];
-        // } else if (opacity >= adjustedOpacityValues[8]) {
-        //   selectedColor = finalColors[8];
-        // } else if (opacity >= adjustedOpacityValues[9]) {
-        //   selectedColor = finalColors[9];
-        // } else if (opacity >= adjustedOpacityValues[10]) {
-        //   selectedColor = finalColors[10];
-        // } else if (opacity >= adjustedOpacityValues[11]) {
-        //   selectedColor = finalColors[11];
-        // } else if (opacity >= adjustedOpacityValues[12]) {
-        //   selectedColor = finalColors[12];
-        // } else if (opacity >= adjustedOpacityValues[13]) {
-        //   selectedColor = finalColors[13];
-        // } else if (opacity >= adjustedOpacityValues[14]) {
-        //   selectedColor = finalColors[14];
-        // } else if (opacity >= adjustedOpacityValues[15]) {
-        //   selectedColor = finalColors[15];
-        // } else if (opacity >= adjustedOpacityValues[16]) {
-        //   selectedColor = finalColors[16];
-        // } else if (opacity >= adjustedOpacityValues[17]) {
-        //   selectedColor = finalColors[17];
-        // } else if (opacity >= adjustedOpacityValues[18]) {
-        //   selectedColor = finalColors[18];
-        // } else if (opacity >= adjustedOpacityValues[19]) {
-        //   selectedColor = finalColors[19];
-        // } else if (opacity >= adjustedOpacityValues[20]) {
-        //   selectedColor = finalColors[20];
-        // } else if (opacity >= adjustedOpacityValues[21]) {
-        //   selectedColor = finalColors[21];
-        // } else if (opacity >= adjustedOpacityValues[22]) {
-        //   selectedColor = finalColors[22];
-        // } else if (opacity >= adjustedOpacityValues[23]) {
-        //   selectedColor = finalColors[23];
-        // } else if (opacity >= adjustedOpacityValues[24]) {
-        //   selectedColor = finalColors[24];
-        // } else if (opacity >= adjustedOpacityValues[25]) {
-        //   selectedColor = finalColors[25];
-        // } else if (opacity >= adjustedOpacityValues[26]) {
-        //   selectedColor = finalColors[26];
-        // } else if (opacity >= adjustedOpacityValues[27]) {
-        //   selectedColor = finalColors[27];
-        // } else if (opacity >= adjustedOpacityValues[28]) {
-        //   selectedColor = finalColors[28];
-        // } else if (opacity >= adjustedOpacityValues[29]) {
-        //   selectedColor = finalColors[29];
-        // } else if (opacity >= adjustedOpacityValues[30]) {
-        //   selectedColor = finalColors[30];
-        // } else if (opacity >= adjustedOpacityValues[31]) {
-        //   selectedColor = finalColors[31];
-        // } else if (opacity >= adjustedOpacityValues[32]) {
-        //   selectedColor = finalColors[32];
-        // } else if (opacity >= adjustedOpacityValues[33]) {
-        //   selectedColor = finalColors[33];
-        // } else if (opacity >= adjustedOpacityValues[34]) {
-        //   selectedColor = finalColors[34];
-        // } else if (opacity >= adjustedOpacityValues[35]) {
-        //   selectedColor = finalColors[35];
-        // } else if (opacity >= adjustedOpacityValues[36]) {
-        //   selectedColor = finalColors[36];
-        // } else if (opacity >= adjustedOpacityValues[37]) {
-        //   selectedColor = finalColors[37];
-        // } else if (opacity >= adjustedOpacityValues[38]) {
-        //   selectedColor = finalColors[38];
-        // } else if (opacity >= adjustedOpacityValues[39]) {
-        //   selectedColor = finalColors[39];
-        // } else if (opacity >= adjustedOpacityValues[40]) {
-        //   selectedColor = finalColors[40];
-        // } else if (opacity >= adjustedOpacityValues[41]) {
-        //   selectedColor = finalColors[41];
-        // } else if (opacity >= adjustedOpacityValues[42]) {
-        //   selectedColor = finalColors[42];
-        // } else if (opacity >= adjustedOpacityValues[43]) {
-        //   selectedColor = finalColors[43];
-        // } else if (opacity >= adjustedOpacityValues[44]) {
-        //   selectedColor = finalColors[44];
-        // } else if (opacity >= adjustedOpacityValues[45]) {
-        //   selectedColor = finalColors[45];
-        // } else if (opacity >= adjustedOpacityValues[46]) {
-        //   selectedColor = finalColors[46];
-        // } else if (opacity >= adjustedOpacityValues[47]) {
-        //   selectedColor = finalColors[47];
-        // } else if (opacity >= adjustedOpacityValues[48]) {
-        //   selectedColor = finalColors[48];
-        // } else if (opacity >= adjustedOpacityValues[49]) {
-        //   selectedColor = finalColors[49];
-        // } else if (opacity >= adjustedOpacityValues[50]) {
-        //   selectedColor = finalColors[50];
-        // } else if (opacity >= adjustedOpacityValues[51]) {
-        //   selectedColor = finalColors[51];
-        // } else if (opacity >= adjustedOpacityValues[52]) {
-        //   selectedColor = finalColors[52];
-        // } else if (opacity >= adjustedOpacityValues[53]) {
-        //   selectedColor = finalColors[53];
-        // } else {
-        //   selectedColor = finalColors[54];
-        // }
-
-        // for (let index = 0; index < adjustedOpacityValues.length; index++) {
-        //   if (opacity >= adjustedOpacityValues[index]) {
-        //     selectedColor = finalColors[index];
-        //     break;
-        //   }
-        // }
-
-        // if (!selectedColor) {
-        //   selectedColor = finalColors[adjustedOpacityValues.length];
-        // }
-
-        // const opacityStep = 0.018;
-
-        // for (let i = 0; i <= 54; i++) {
-        //   if (adjustedOpacity >= adjustedOpacityValues[i]) {
-        //     if (
-        //       similarityBlock.rowUtteranceIndex -
-        //         similarityBlock.columnUtteranceIndex <
-        //       10
-        //     ) {
-        //       finalOpacity = 1 - i * opacityStep;
-        //     } else {
-        //       finalOpacity = 0.75 - i * opacityStep;
-        //     }
-        //     break;
-        //   }
-        // }
 
         if (adjustedOpacity >= adjustedOpacityValues[0]) {
           if (
@@ -871,8 +696,21 @@ export class SimilarityBlocksDrawer {
   }
 
   public set clickListener(
-    mouseoverListener: (e: MouseEvent, d: SimilarityBlock) => void
+    clickListener: (e: MouseEvent, d: SimilarityBlock) => void
   ) {
-    this._clickListener = mouseoverListener;
+    this._clickListener = clickListener;
+  }
+
+  public set mouseoverListener(
+    mouseoverListener: (
+      mouseEvent: MouseEvent,
+      similarityBlock: SimilarityBlock
+    ) => void
+  ) {
+    this._mouseoverListener = mouseoverListener;
+  }
+
+  public set mouseoutLisener(mouseoutListener: () => void) {
+    this._mouseoutListener = mouseoutListener;
   }
 }

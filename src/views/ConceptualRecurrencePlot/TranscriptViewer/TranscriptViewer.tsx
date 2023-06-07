@@ -26,7 +26,8 @@ function TranscriptViewer(props: ComponentProps) {
                       .participantDict[utteranceObject.name].color,
                   }}
                 >
-                  [ {utteranceObject.name} ]
+                  [ {utteranceObject.name} ] / {index} /
+                  {utteranceObject.sentenceObjects[0].time!}
                 </div>
                 <div>{utteranceObject.utterance}</div>
                 {/* {getSentenceSpans(utteranceObject)} */}

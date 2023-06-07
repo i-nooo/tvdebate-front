@@ -3,9 +3,11 @@
 /* right red icon*/
 import { SimilarityBlock, UtteranceObjectForDrawing } from "../interfaces";
 import { SentenceObject } from "../../../interfaces/DebateDataInterface";
+import { wrapText } from "./D3Drawer";
 export class RefutationIconDrawerTwo {
   private _visible: boolean = false;
   private _similarityBlock: SimilarityBlock | null = null;
+  private _participantBlock: UtteranceObjectForDrawing | null = null;
 
   private readonly refutationIconGSlection!: d3.Selection<
     SVGGElement,
@@ -23,9 +25,17 @@ export class RefutationIconDrawerTwo {
       .style("visibility", "hidden");
     this.refutationIconGSlection
       .append("circle")
+      .data(this.utteranceObjectsForDrawing)
       .attr("cx", 309.8)
       .attr("cy", 309.8)
-      .attr("r", 309.8)
+      .attr(
+        "r",
+        (d) =>
+          309.8 *
+          (Math.cbrt(d.findDisagreeScale) *
+            Math.cbrt(d.findDisagreeScale) *
+            0.6 || 1)
+      )
       .attr("fill", "#ED2933");
     this.refutationIconGSlection
       .append("path")
@@ -37,6 +47,23 @@ export class RefutationIconDrawerTwo {
   }
 
   public update() {
+    if (this._participantBlock) {
+      // Change this block to compare the participant's name instead of the similarityBlock
+      if (
+        this._participantBlock.name === "장경태" ||
+        this._participantBlock.name === "김종대"
+      ) {
+        this.refutationIconGSlection.style("visibility", "hidden");
+        this.refutationIconGSlection.selectAll("text").remove();
+      } else {
+        // Draw Red Icon
+        // Rest of the code as before...
+      }
+    } else {
+      this.refutationIconGSlection.style("visibility", "hidden");
+      this.refutationIconGSlection.selectAll("text").remove();
+    }
+    //
     if (this._similarityBlock !== null) {
       const rowUtteranceObject = this.utteranceObjectsForDrawing[
         this._similarityBlock.rowUtteranceIndex
@@ -50,7 +77,7 @@ export class RefutationIconDrawerTwo {
       } else {
         const iconXOffset = 7; // 원하는 고정된 X 오프셋 값을 설정합니다.
         const iconYOffset = -8; // 원하는 고정된 Y 오프셋 값을 설정합니다.
-
+        const rotationAngle = 45;
         const defaultXPos =
           rowUtteranceObject.beginningPointOfXY +
           rowUtteranceObject.width / 2 +
@@ -101,13 +128,26 @@ export class RefutationIconDrawerTwo {
                 .append("text")
                 .attr("font-size", "300px")
                 .attr("font-weight", "bold")
+                .attr("text-anchor", "middle")
                 .attr(
                   "transform",
-                  `rotate(45, ${textXPos}, ${textYPos}) scale(1, -1)`
+                  `rotate(${rotationAngle}, ${textXPos}, ${textYPos}) scale(1, -1)`
                 )
-                .attr("x", textXPos - 225)
-                .attr("y", textYPos + 400 * index + 360) // 텍스트 줄 간격을 조정하세요.
-                .text(`${keyword.term}(${keyword.count})`);
+                .attr(
+                  "x",
+                  //@ts-ignore
+                  this.refutationIconGSlection.node().getBoundingClientRect()
+                    .x - 0
+                )
+                .attr(
+                  "y",
+                  //@ts-ignore
+                  this.refutationIconGSlection.node().getBoundingClientRect()
+                    .y +
+                    380 * index +
+                    380
+                )
+                .text(`· ${keyword.term}`);
             });
           })
           .style("visibility", "visible");
@@ -122,7 +162,9 @@ export class RefutationIconDrawerTwo {
     this._similarityBlock = similarityBlock;
   }
 
-  // public set visible(visible: boolean) {
-  //   this._visible = visible;
-  // }
+  public set participantBlock(
+    participantBlock: UtteranceObjectForDrawing | null
+  ) {
+    this._participantBlock = participantBlock;
+  }
 }
