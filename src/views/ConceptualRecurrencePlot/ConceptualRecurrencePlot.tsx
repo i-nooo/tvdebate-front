@@ -300,6 +300,51 @@ function ConceptualRecurrencePlot() {
             </g>
           </svg>
         </div>
+=======
+      {/* <Legend /> */}
+      {/* <Controllers
+        d3Drawer={d3Drawer}
+        combinedEGsMaker={combinedEGsMaker}
+        maxSimilarityScore={
+          dataStructureManager
+            ? dataStructureManager.dataStructureSet.maxSimilarityScore
+            : 0
+        }
+        debateDataset={debateDataset}
+        evaluationDataSet={evaluationDataSet}
+        dataStructureSet={
+          dataStructureManager ? dataStructureManager.dataStructureSet : null
+        }
+        dataStructureManager={
+          dataStructureManager ? dataStructureManager : null
+        }
+      ></Controllers> */}
+      <div
+        className="concept-recurrence-plot"
+        style={{ marginTop: "35px", overflow: "hidden" }}
+      >
+        {/* <img
+          className="imgPos"
+          // TODO 추후 marginLeft 고치기
+          style={{ marginTop: "35px", position: "fixed", marginLeft: "-340px" }}
+          width="200"
+          height="67"
+          src="https://i.imgur.com/2JQzpJF.jpg"
+        ></img> */}
+        <svg className="fullSvg" style={{ overflow: "visible" }}>
+          <g className="test">
+            <g className="svgG"></g>
+          </g>
+        </svg>
+
+        {/* 참가자의 발화스크립트툴팁 */}
+        {/* <ParticipantTooltip
+          utteranceObjectForDrawing={mouseoveredUtterance}
+          transform={transform}
+          visible={tooltipVisible}
+          d3Drawer={d3Drawer}
+          debateDataset={debateDataset}
+        /> */}
       </div>
       <TranscriptViewer
         dataStructureMaker={dataStructureManager}
