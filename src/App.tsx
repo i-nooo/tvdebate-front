@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -14,16 +13,9 @@ import Home from "./views/Home/Home";
 function App() {
   return (
     <Router>
-      <div>
-        <Switch>
-          <Route path="/coocurence_matrix">
-            <ConceptualRecurrencePlot></ConceptualRecurrencePlot>
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
+      <Route path="/">
+        <ConceptualRecurrencePlot></ConceptualRecurrencePlot>
+      </Route>
     </Router>
   );
 }

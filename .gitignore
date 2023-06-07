@@ -28,3 +28,4 @@ yarn-error.log*
 # /src/accessKeyDict.json
 debug.log
 .firebase
+.vercel

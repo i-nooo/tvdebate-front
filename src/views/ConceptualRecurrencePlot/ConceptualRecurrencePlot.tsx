@@ -32,7 +32,7 @@ import HeaderTwo from "./../Header/HeaderTwo";
 import style from "./rootStyle.module.scss";
 import { Bubble } from "./Bubble";
 
-function ConceptualRecurrencePlot() {
+export default function ConceptualRecurrencePlot() {
   const query = new URLSearchParams(useLocation().search);
   const debateNameOfQuery = query.get("debate_name") as DebateName;
   const termTypeOfQuery = query.get("term_type") as TermType;
@@ -300,9 +300,9 @@ function ConceptualRecurrencePlot() {
             </g>
           </svg>
         </div>
-=======
-      {/* <Legend /> */}
-      {/* <Controllers
+        =======
+        {/* <Legend /> */}
+        {/* <Controllers
         d3Drawer={d3Drawer}
         combinedEGsMaker={combinedEGsMaker}
         maxSimilarityScore={
@@ -319,11 +319,11 @@ function ConceptualRecurrencePlot() {
           dataStructureManager ? dataStructureManager : null
         }
       ></Controllers> */}
-      <div
-        className="concept-recurrence-plot"
-        style={{ marginTop: "35px", overflow: "hidden" }}
-      >
-        {/* <img
+        <div
+          className="concept-recurrence-plot"
+          style={{ marginTop: "35px", overflow: "hidden" }}
+        >
+          {/* <img
           className="imgPos"
           // TODO 추후 marginLeft 고치기
           style={{ marginTop: "35px", position: "fixed", marginLeft: "-340px" }}
@@ -331,45 +331,44 @@ function ConceptualRecurrencePlot() {
           height="67"
           src="https://i.imgur.com/2JQzpJF.jpg"
         ></img> */}
-        <svg className="fullSvg" style={{ overflow: "visible" }}>
-          <g className="test">
-            <g className="svgG"></g>
-          </g>
-        </svg>
+          <svg className="fullSvg" style={{ overflow: "visible" }}>
+            <g className="test">
+              <g className="svgG"></g>
+            </g>
+          </svg>
 
-        {/* 참가자의 발화스크립트툴팁 */}
-        {/* <ParticipantTooltip
+          {/* 참가자의 발화스크립트툴팁 */}
+          {/* <ParticipantTooltip
           utteranceObjectForDrawing={mouseoveredUtterance}
           transform={transform}
           visible={tooltipVisible}
           d3Drawer={d3Drawer}
           debateDataset={debateDataset}
         /> */}
+        </div>
+        <TranscriptViewer
+          dataStructureMaker={dataStructureManager}
+        ></TranscriptViewer>
+        <ConceptualMapModal
+          ref={conceptualMapModalRef}
+          participantDict={
+            dataStructureManager
+              ? dataStructureManager.dataStructureSet.participantDict
+              : {}
+          }
+          utteranceObjects={debateDataset ? debateDataset.utteranceObjects : []}
+          termList={debateDataset ? debateDataset.termList : []}
+          termUtteranceBooleanMatrixTransposed={
+            debateDataset
+              ? debateDataset.termUtteranceBooleanMatrixTransposed
+              : []
+          }
+          termType={termTypeOfQuery}
+        ></ConceptualMapModal>
       </div>
-      <TranscriptViewer
-        dataStructureMaker={dataStructureManager}
-      ></TranscriptViewer>
-      <ConceptualMapModal
-        ref={conceptualMapModalRef}
-        participantDict={
-          dataStructureManager
-            ? dataStructureManager.dataStructureSet.participantDict
-            : {}
-        }
-        utteranceObjects={debateDataset ? debateDataset.utteranceObjects : []}
-        termList={debateDataset ? debateDataset.termList : []}
-        termUtteranceBooleanMatrixTransposed={
-          debateDataset
-            ? debateDataset.termUtteranceBooleanMatrixTransposed
-            : []
-        }
-        termType={termTypeOfQuery}
-      ></ConceptualMapModal>
     </div>
   );
 }
-
-export default ConceptualRecurrencePlot;
 
 {
   /* <ParticipantTooltip
