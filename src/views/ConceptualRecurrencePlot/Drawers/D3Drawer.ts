@@ -1,8 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { UncertainIconDrawer } from "./UncertainIconDrawer";
 import { TermType } from "./../DataImporter";
 import { DataStructureSet } from "../DataStructureMaker/DataStructureManager";
 import { DebateDataSet } from "./../../../interfaces/DebateDataInterface";
-/* eslint-disable no-unused-vars */
 import { SimilarityBlocksDrawer } from "./SimilarityBlocksDrawer"; // 유사도 노드
 import { ParticipantBlocksDrawer } from "./ParticipantBlocksDrawer"; // 참가자 노드
 import { UtteranceObjectForDrawing, SimilarityBlock } from "../interfaces";
@@ -37,11 +37,7 @@ export class D3Drawer {
     HTMLElement,
     any
   >;
-  // 접근 제한자 public, private, protected
-  // public: 어디에서나 접근할 수 있으며 생략 가능한 default 값
-  // private: 해당 클래스의 인스턴스에서만 접근 가능
-  // protected: 해당 클래스 혹은 서브클래스의 인스턴스에서만 접근이 가능
-  // this는 자신이 속한 객체 또는 자신이 생성할 인스턴스를 가리키는 자기 참조 변수(self-reference variable)
+
   public readonly participantBlocksDrawer: ParticipantBlocksDrawer;
   public readonly insistenceMarkersDrawer: InsistenceMarkersDrawer;
   public readonly refutationIconDrawer: RefutationIconDrawer;
@@ -64,25 +60,14 @@ export class D3Drawer {
   private _zoomListener: ((transform: d3.ZoomTransform) => void) | null = null;
 
   public constructor(
-    // private readonly utteranceObjectsForDrawing: UtteranceObjectForDrawing[],
-    // conceptSimilarityBlocks: SimilarityBlock[],
-    // conceptSimilarityGroup: SimilarityBlock[][],
-    // participantDict: ParticipantDict,
-    // conceptMatrixTransposed: number[][],
-    // keytermObjects: KeytermObject[],
-    // termList: string[],
-    // termUtteranceBooleanMatrixTransposed: number[][]
     private readonly debateDataSet: DebateDataSet,
     private readonly dataStructureSet: DataStructureSet,
     private readonly termType: TermType
   ) {
     // declare variables
     this.conceptRecurrencePlotDiv = d3.select(".concept-recurrence-plot");
-    //this.svgWidth = this.conceptRecurrencePlotDiv.node()!.clientWidth;
-    //this.svgHeight = this.conceptRecurrencePlotDiv.node()!.clientHeight;
-    // this.svgRotate = this.conceptRecurrencePlotDiv.node()!;
-    // const rotate = d3.svg.transform().rotate(-45);
-    this.svgWidth = 2000;
+
+    this.svgWidth = 1130;
     this.svgHeight = 800;
     this.svgSelection = this.conceptRecurrencePlotDiv
       .select<SVGSVGElement>("svg")
@@ -90,12 +75,10 @@ export class D3Drawer {
       .attr("height", this.svgHeight)
       // 전체 svg 영역
       .attr("transform", "scale(1, -1) rotate(-45)")
-      // .attr("transform", "rotate(45)")
-      // 임시로 45도 돌려놓음 현재
-      // zoom event 일어나는 곳
       .call(
         d3
           .zoom<SVGSVGElement, D3ZoomEvent<SVGSVGElement, any>>()
+          .scaleExtent([0.8, 2.5]) // 예를 들어 최소 0.5배 축소부터 최대 2배 확대까지만 허용하도록 설정
           .on("zoom", (event) => {
             //@ts-ignore
             this.svgGSelection.attr("transform", () => event.transform);
@@ -159,8 +142,7 @@ export class D3Drawer {
       this.insistenceIconDrawer.similarityBlock = null;
       this.insistenceIconDrawerTwo.similarityBlock = null; // 7
       this.uncertainIconDrawer.similarityBlock = null;
-      // 논쟁 판단하는 조건문
-      // col: left, row: right
+
       if (d.colUtteranceName === "이준석" || d.colUtteranceName === "박휘락") {
         this.insistenceIconDrawerTwo.similarityBlock = d;
         this.refutationIconDrawer.similarityBlock = d;
@@ -190,9 +172,62 @@ export class D3Drawer {
       this.uncertainIconDrawer.update();
     };
 
-    this.participantBlocksDrawer.clickListener = () => {
-      this.similarityBlocksDrawer.update();
+    this.similarityBlocksDrawer.mouseoverListener = (
+      e: MouseEvent,
+      d: SimilarityBlock
+    ) => {
+      if (d.colUtteranceName === "이준석" || d.colUtteranceName === "박휘락") {
+        this.insistenceIconDrawerTwo.similarityBlock = d;
+        this.refutationIconDrawer.similarityBlock = d;
+      } else if (
+        d.colUtteranceName === "김종대" ||
+        d.colUtteranceName === "장경태"
+      ) {
+        this.insistenceIconDrawer.similarityBlock = d;
+        this.refutationIconDrawerTwo.similarityBlock = d;
+      } else if (
+        d.rowUtteranceName === "이준석" ||
+        d.rowUtteranceName === "박휘락"
+      ) {
+        this.refutationIconDrawerTwo.similarityBlock = d;
+        this.insistenceIconDrawer.similarityBlock = d;
+      } else if (
+        d.rowUtteranceName === "김종대" ||
+        d.rowUtteranceName === "장경태"
+      ) {
+        this.refutationIconDrawer.similarityBlock = d;
+        this.insistenceIconDrawerTwo.similarityBlock = d;
+      } else null;
+      this.refutationIconDrawer.update();
+      this.refutationIconDrawerTwo.update();
+      this.insistenceIconDrawer.update();
+      this.insistenceIconDrawerTwo.update();
+      this.uncertainIconDrawer.update();
     };
+
+    this.participantBlocksDrawer.clickListener = (
+      e: MouseEvent,
+      d: UtteranceObjectForDrawing
+    ) => {
+      // Log the selected participant block
+
+      // d.name이 이준석이면 this.insistenceIconDrawerTwo,
+
+      // Go through each icon drawer and set the participant block if the names match
+      const iconDrawers = [
+        this.insistenceIconDrawer, // 박휘락,
+        this.insistenceIconDrawerTwo, // 이준석,
+        this.refutationIconDrawer, // 박휘락,
+        this.refutationIconDrawerTwo, // 이준석,
+      ];
+      for (const iconDrawer of iconDrawers) {
+        if (iconDrawer.participantBlock?.name === d.name) {
+          iconDrawer.participantBlock = d;
+          iconDrawer.update();
+        }
+      }
+    };
+
     this.topicGroupsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,
@@ -206,7 +241,7 @@ export class D3Drawer {
       termType
     );
     // this.manualSmallTGsDrawer.color = "#0000ff";
-    this.manualSmallTGsDrawer.color = "#ff0000";
+    this.manualSmallTGsDrawer.color = "#ff0000"; // blue
     this.manualMiddleTGsDrawer = new TopicGroupsDrawer(
       this.svgGSelection,
       debateDataSet,
@@ -237,10 +272,7 @@ export class D3Drawer {
       termType
     );
     this.lcsegEGsDrawer.color = "#cc9900"; // yellow color
-    // 논쟁 구간 클릭 시 발생하는 이벤트
     this.svgSelection.on("click", (event) => {
-      // console.log("svg clicked", event);
-      // show all similarityBlocks
       _.forEach(
         dataStructureSet.similarityBlockManager.similarityBlocks,
         (similarityBlock) => {
@@ -248,7 +280,7 @@ export class D3Drawer {
         }
       );
       this.similarityBlocksDrawer.update();
-      this.participantBlocksDrawer.emptySelectedParticipants();
+      this.participantBlocksDrawer.update();
       this.insistenceIconDrawer.similarityBlock = null;
       this.insistenceIconDrawer.update();
       this.refutationIconDrawer.similarityBlock = null;
@@ -275,7 +307,7 @@ export class D3Drawer {
       const adjustedWidth = (this.svgWidth - minusWidth) / 2;
 
       const adjustedHeight = (this.svgHeight - minusWidth) / 2;
-
+      console.log(adjustedWidth, adjustedHeight);
       this.svgGSelection.attr(
         "transform",
         `translate(${adjustedWidth}, ${adjustedHeight})`
@@ -293,4 +325,47 @@ export class D3Drawer {
   public set zoomListener(zoomListener: (transform: d3.ZoomTransform) => void) {
     this._zoomListener = zoomListener;
   }
+}
+
+export function wrapText(text: any, width: number) {
+  text.each(function () {
+    //@ts-ignore
+    const text = d3.select(this),
+      words = text.text().split(/\s+/).reverse(),
+      lineHeight = 1.1, // ems
+      x = text.attr("x"), // get the x position
+      y = text.attr("y"), // get the y position
+      dyVal = text.attr("dy");
+
+    let dy = parseFloat(dyVal); // Change const to let
+
+    if (isNaN(dy)) dy = 0; // Add this line
+
+    let line: string[] = [],
+      lineNumber = 0,
+      tspan = text
+        .text(null)
+        .append("tspan")
+        .attr("x", x) // add the x position
+        .attr("y", y) // add the y position
+        .attr("dy", dy + "em"),
+      word: string | null | undefined = undefined;
+
+    while ((word = words.pop())) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      //@ts-ignore
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text
+          .append("tspan")
+          .attr("x", x) // add the x position
+          .attr("y", y) // add the y position
+          .attr("dy", ++lineNumber * lineHeight + dy + "em")
+          .text(word);
+      }
+    }
+  });
 }

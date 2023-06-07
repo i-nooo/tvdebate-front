@@ -1,16 +1,13 @@
 .transcriptViewer {
-  // width: 100%;
-  // height: 100%;
+  border-left: 1px solid black;
   margin-top: 35px;
   position: relative;
   min-width: 250px;
   width: 330px;
   font-size: 12px;
-  // border-left: solid 1px #aaa;
-  // white-space: nowrap;
   word-break: break-all;
-  height: 100%;
+  height: calc(100vh - 55px);
+  max-height: calc(100vh - 55px);
   overflow-y: auto;
   padding: 8px;
-  // border: 1px solid gray;
 }

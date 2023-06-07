@@ -14,7 +14,16 @@ export class ParticipantBlocksDrawer {
     any
   >;
   private selectedParticipants: Participant[] = [];
-  private _clickListener: null | (() => void) = null;
+  private _clickListener:
+    | null
+    | ((
+        mouseEvent: MouseEvent,
+        utteranceObjectForDrawing: UtteranceObjectForDrawing
+      ) => void) = null;
+
+  private _selectedParticipantClickListener:
+    | null
+    | ((selectedParticipant: Participant) => void) = null;
   private _mouseoverListener:
     | null
     | ((
@@ -50,6 +59,17 @@ export class ParticipantBlocksDrawer {
       )
     );
 
+    // participantRectGSlectionDataBound.on("click", (e, d) => {
+    //   const mouseEvent = (e as unknown) as MouseEvent;
+    //   console.log("participant block clicked"); // 나옴
+    //   mouseEvent.stopPropagation();
+    //   const utteranceObjectForDrawing = (d as unknown) as UtteranceObjectForDrawing;
+
+    //   if (this._clickListener) {
+    //     this._clickListener(mouseEvent, utteranceObjectForDrawing);
+    //   }
+    // });
+
     function setAttributes(
       this: ParticipantBlocksDrawer,
       selection: d3.Selection<
@@ -68,29 +88,43 @@ export class ParticipantBlocksDrawer {
         .attr("width", (d) => d.width) // 노드 두께
         .attr("height", (d) => d.width) // 노드 높이
         .style("fill", (d) => participantDict[d.name].color)
-        .append("title")
-        .text((d, i) => {
-          const conceptVectorOfUtterance = conceptMatrixTransposed[i];
-          // console.log(conceptVectorOfUtterance);
-          const topValueIndexes = findTopValueIndexes(
-            conceptVectorOfUtterance,
-            8
-          );
-          const mainKeytermObjects = _.map(
-            topValueIndexes,
-            (topValueIndex) => keytermObjects[topValueIndex]
-          );
-          // console.log(topValueIndexes);
-          const mainKeytermsString = _.reduce(
-            mainKeytermObjects,
-            (result, keytermObject) => {
-              return `${result} ${keytermObject.name}`;
-            },
-            ""
-          );
-          return `keywords:${mainKeytermsString}\n ${d.name}: ${d.utterance}
-          `;
-          //${d.name} : ${d.utterance}
+        //.append("title")
+        // .text((d, i) => {
+        //   const conceptVectorOfUtterance = conceptMatrixTransposed[i];
+        //   // console.log(conceptVectorOfUtterance);
+        //   const topValueIndexes = findTopValueIndexes(
+        //     conceptVectorOfUtterance,
+        //     8 // 최대 보여줄 키워드 수.
+        //   );
+        //   const mainKeytermObjects = _.map(
+        //     topValueIndexes,
+        //     (topValueIndex) => keytermObjects[topValueIndex]
+        //   );
+        //   // console.log(topValueIndexes);
+        //   const mainKeytermsString = _.reduce(
+        //     mainKeytermObjects,
+        //     (result, keytermObject) => {
+        //       return `${result} ${keytermObject.name}`;
+        //     },
+        //     ""
+        //   );
+        //   return `keywords:${mainKeytermsString}\n ${d.name}: ${d.utterance}
+        //   `;
+        // })
+        .on("mouseover", (e, u) => {
+          const mouseEvent = (e as unknown) as MouseEvent;
+          mouseEvent.stopPropagation();
+          const utteranceObjectForDrawing = (u as unknown) as UtteranceObjectForDrawing;
+
+          // TODO adjust transcript-view
+          if (this._mouseoverListener) {
+            this._mouseoverListener(mouseEvent, utteranceObjectForDrawing);
+          }
+        })
+        .on("mouseout", (e, u) => {
+          if (this._mouseoutListener) {
+            this._mouseoutListener();
+          }
         });
     }
   }
@@ -155,18 +189,15 @@ export class ParticipantBlocksDrawer {
         }
       });
     }
-
-    // drawSimilarityBlocks
-    if (this._clickListener) {
-      this._clickListener();
-    }
   }
 
   public emptySelectedParticipants() {
     this.selectedParticipants = [];
   }
 
-  public set clickListener(clickListener: () => void) {
+  public set clickListener(
+    clickListener: (e: MouseEvent, d: UtteranceObjectForDrawing) => void
+  ) {
     this._clickListener = clickListener;
   }
 

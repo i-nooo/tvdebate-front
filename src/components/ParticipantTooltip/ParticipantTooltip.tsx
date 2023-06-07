@@ -18,19 +18,20 @@ export interface SvgTooltipRef {}
 
 interface ComponentProps {
   utteranceObjectForDrawing: UtteranceObjectForDrawing | null;
-  // mouseoveredUtteranceIndex: number;
+  //mouseoveredUtteranceIndex: number;
   transform: d3.ZoomTransform | null;
-  visible: boolean;
+  open: boolean;
   d3Drawer: D3Drawer | null;
   debateDataset: DebateDataSet | null;
 }
 
 function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
-  const [visible, setVisible] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
-    setVisible(props.visible);
-  }, [props.visible]);
-
+    setOpen(props.open);
+  }, [props.open]);
+  //console.log(props.utteranceObjectForDrawing);
+  //console.log(props.transform?.x, props.transform?.y);
   return (
     <div
       style={{
@@ -38,7 +39,7 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
         left: 0,
         top: 0,
         transform: props.transform
-          ? `translate(${props.transform.x}px, ${props.transform.y}px) scale(${props.transform.k})`
+          ? `translate(${props.transform.x}px, ${props.transform.y}px) scale(${props.transform.k} rotate(-45))`
           : "",
       }}
     >
@@ -76,7 +77,7 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
                 ""
               );
             }
-            console.log(mainKeytermsString);
+            //console.log(mainKeytermsString);
             // return `${props.utteranceObjectForDrawing.name}`;
             return `${props.utteranceObjectForDrawing.name}:  [${mainKeytermsString} ]`;
           } else {
@@ -89,8 +90,8 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
             : ""
         }
         // trigger="click"
-        visible={visible}
-        onVisibleChange={handleVisibleChange}
+        open={open}
+        onOpenChange={handleVisibleChange}
         overlayClassName={styles.popover}
       >
         <div
@@ -102,14 +103,14 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
             height: getWidth(props.utteranceObjectForDrawing),
             // backgroundColor: "yellow",
           }}
-          onClick={(mouseEvent) => {
-            if (props.d3Drawer && props.utteranceObjectForDrawing) {
-              props.d3Drawer.participantBlocksDrawer.click(
-                mouseEvent,
-                props.utteranceObjectForDrawing
-              );
-            }
-          }}
+          // onClick={(mouseEvent) => {
+          //   if (props.d3Drawer && props.utteranceObjectForDrawing) {
+          //     props.d3Drawer.participantBlocksDrawer.click(
+          //       mouseEvent,
+          //       props.utteranceObjectForDrawing
+          //     );
+          //   }
+          // }}
         ></div>
       </Popover>
     </div>
@@ -135,8 +136,8 @@ function ParticipantTooltip(props: ComponentProps, ref: Ref<SvgTooltipRef>) {
     return width;
   }
 
-  function handleVisibleChange(visible: boolean) {
-    setVisible(visible);
+  function handleVisibleChange(open: boolean) {
+    setOpen(open);
   }
 }
 
