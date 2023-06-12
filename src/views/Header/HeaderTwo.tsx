@@ -22,7 +22,7 @@ const topicColors = [
   { color: "#ff0000", label: "논쟁구간" },
 ];
 
-const LegendItem: React.FC<LegendProps> = ({ color, label, svgPath }) => {
+const LegendItem: React.FC<LegendProps> = ({ color, label }) => {
   const isOutlineOnly = label === "논쟁구간";
 
   const transform = isOutlineOnly

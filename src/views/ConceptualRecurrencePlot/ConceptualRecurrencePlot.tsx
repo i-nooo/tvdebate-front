@@ -34,13 +34,15 @@ import { Bubble } from "./Bubble";
 
 export default function ConceptualRecurrencePlot() {
   const query = new URLSearchParams(useLocation().search);
-  const debateNameOfQuery = query.get("debate_name") as DebateName;
+  // const debateNameOfQuery = query.get("debate_name") as DebateName;
   // const termTypeOfQuery = query.get("term_type") as TermType;
-  const termTypeOfQuery = "compound_term" as TermType;
+  const debateNameOfQuery = `모병제` as DebateName;
+  const termTypeOfQuery = `compound_term` as TermType;
 
   const [debateDataset, setDebateDataset] = useState<DebateDataSet | null>(
     null
   );
+
   const [
     dataStructureManager,
     setDataStructureManager,

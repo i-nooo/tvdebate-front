@@ -20,7 +20,6 @@ export type DebateName =
   | "집값"
   | "정년연장";
 
-/* eslint-disable no-unused-vars */
 export default class DataImporter {
   private _debateDataset: DebateDataSet | null = null;
   private _evaluationDataSet: EvaluationDataSet | null = null;
